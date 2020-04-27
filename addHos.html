@@ -229,6 +229,7 @@
 			layui.use('layer', function() {
 				layer = layui.layer;
 			});
+
 			var customerId = GetQueryString('id')
 			if (GetQueryString('id')) {
 				hosDetail(GetQueryString('id'))
@@ -238,7 +239,6 @@
 				$('.showIs').css('display','block')
 			}
 $('.showTips').on('mouseleave',function(){
-	console.log(12321)
 	setTimeout(function(){
 		$('.showTips').css('display', 'none')
 		$('.showTips  div').html('')
@@ -286,7 +286,6 @@ $('.showTips').on('mouseleave',function(){
 											}
 										
 										}
-										console.log($('.contentThis').html())
 										layer.open({
 										  type: 1, 
 										  content: $('.thiscontent').html()//这里content是一个普通的String
@@ -356,7 +355,6 @@ $('.showTips').on('mouseleave',function(){
 					if (level == 4) {
 						var param = '&tel=' + $(this).val()
 					}
-					console.log('11111='+paiBanCustomerWorkerId)
 					if(paiBanCustomerWorkerId==''||paiBanCustomerWorkerId==null||paiBanCustomerWorkerId==undefined){
 						var _this=$(this)
 						var show = "show('" + _this.val() + "')"
@@ -369,7 +367,6 @@ $('.showTips').on('mouseleave',function(){
 								if (res.code == 0) {
 									paiBanCustomerWorkerId=res.data.customerWorkerId
 									_this.parent().parent().attr('relId',paiBanCustomerWorkerId)
-										console.log('11111='+paiBanCustomerWorkerId)
 									$.ajax({
 										url: '/my-customer/update-customer',
 										type: 'post',
@@ -377,7 +374,6 @@ $('.showTips').on('mouseleave',function(){
 										async: false,
 										success: function(res) {
 											if(res.code==0){
-												console.log(level)
 												if(level==0){
 													_this.parent().html('<div class="line-1" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
 												}else{
@@ -395,7 +391,6 @@ $('.showTips').on('mouseleave',function(){
 						})
 					}else{
 						var customerWorkerId = $(this).parent().parent().attr('relid')
-							console.log(customerWorkerId)
 							var show = "show('" + $(this).val() + "')"
 							var _this = $(this)
 							$.ajax({
@@ -405,7 +400,6 @@ $('.showTips').on('mouseleave',function(){
 								async: false,
 								success: function(res) {	
 									if(res.code==0){
-										console.log(12312312,_this)
 										if(level==0){
 											_this.parent().html('<div class="line-1" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
 										}else{
@@ -427,7 +421,6 @@ $('.showTips').on('mouseleave',function(){
 				showhidden()
 			})
 			$('table').on('blur', 'tr .modifyThis', function() {
-				console.log($(this).attr('level'))
 				var level = $(this).attr('level')
 				if (level == 0) {
 					var param = '&name=' + $(this).val()
@@ -445,7 +438,6 @@ $('.showTips').on('mouseleave',function(){
 					var param = '&tel=' + $(this).val()
 				}
 				var customerWorkerId = $(this).parent().parent().attr('relid')
-				console.log(customerWorkerId)
 				var show = "show('" + $(this).val() + "')"
 				var _this = $(this)
 				$.ajax({

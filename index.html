@@ -14,13 +14,15 @@
     <link rel="stylesheet" href="css/all.css"/>
     <link rel="stylesheet" href="css/saleindex.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
+	
     <!--<link rel="stylesheet" href="css/all.css"/>-->
     <!-- <script src="js/jquery-1.11.3.js"></script> -->
 	<script src="page/jquery-1.11.1.min.js"></script>
-	 <link rel="stylesheet" href="page/paging.css">
-    <script src="js/rem.js"></script>
-    <script src="js/image-file-visible.js"></script>
-	
+	<link rel="stylesheet" href="page/paging.css">
+	<script src="js/rem.js"></script>
+	<script src="js/image-file-visible.js"></script>
+	<script src="layui/layui.js"></script>
+	<link rel="stylesheet" href="layui/css/layui.css">
 </head>
 	<body>
 		<div class="mainbox">
@@ -75,16 +77,26 @@
 			
 		</div>
 		<script>
+			var layer;
+			layui.use('layer', function() {
+				layer = layui.layer;
+			});
+			console.log(layer)
+			// layer.open(132)
 			$.ajax({
 			    url:'/login-refresh',
 			    type:'POST',
 			    async:false,
 			    success: function(res) {
 			        if (res.code == 0) {
+					
 						$('.peoname').html(res.data.userName)
 			   //         window.location.href='index.html'
 			        } else {
-			           alert(res.codeMsg)
+						alert('请登录')
+					   setTimeout(function(){
+						   location.href='login.html'
+					   },1000)
 			        }
 			    }
 			})
