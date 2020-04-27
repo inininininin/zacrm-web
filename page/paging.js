@@ -53,7 +53,7 @@ document.onkeydown = function (e) {
                 ulDom +
                 '</ul></div>' +
                 '<button class="turnPage" id="nextPage" style="width: 32px">  </button>' +
-                    '<span class="tiaoshu lf">10条/页</span>'+
+                    '<span class="tiaoshu lf">20条/页</span>'+
                 //'<button type="button" id="lastPage" class="last-page">尾页</button>' +
                 jumpDom
                 //'<p class="total-pages">共&nbsp;' +

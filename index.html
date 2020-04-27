@@ -81,7 +81,6 @@
 			layui.use('layer', function() {
 				layer = layui.layer;
 			});
-			console.log(layer)
 			// layer.open(132)
 			$.ajax({
 			    url:'/login-refresh',
@@ -140,7 +139,6 @@
 			            callback: function(page) { // 回调函数
 			                // memberList1(1,page);
 							var nature=$('.nature').val()
-							console.log(nature)
 							lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 			            }
 			        })
@@ -179,7 +177,6 @@
 				 	success:function(res){
 				 		if(res.code==0){
 				 			totalNum=Math.ceil(res.data.itemCount/ps)
-				 			console.log(totalNum)
 							$('.shuju').html('( 共'+res.data.itemCount+'条数据 )')
 				 		}
 				 	}
@@ -241,7 +238,6 @@
 				              callback: function(page) { // 回调函数
 				                  // memberList1(1,page);
 				  				var nature=$('.nature').val()
-				  				console.log(nature)
 				  				lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 				              }
 				          })
@@ -252,7 +248,6 @@
 			 // 省市区三级联动
 			 // TODO 后期待优化
 			 $.getJSON("js/area.json", function(res) {
-			 	console.log(res)
 			 	provinceList = res
 			 	// $('.province').html('<option value="">-请选择-</option>')
 			 	$.each(res, function(i, field) {
@@ -288,7 +283,6 @@
 			 	            callback: function(page) { // 回调函数
 			 	                // memberList1(1,page);
 			 					var nature=$('.nature').val()
-			 					console.log(nature)
 			 					lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 			 	            }
 			 	        })
@@ -317,7 +311,6 @@
 				            callback: function(page) { // 回调函数
 				                // memberList1(1,page);
 								var nature=$('.nature').val()
-								console.log(nature)
 								lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 				            }
 				        })
@@ -346,7 +339,6 @@
 				             callback: function(page) { // 回调函数
 				                 // memberList1(1,page);
 				 				var nature=$('.nature').val()
-				 				console.log(nature)
 				 				lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 				             }
 				         })

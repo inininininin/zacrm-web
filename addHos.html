@@ -33,7 +33,6 @@
 				type: 'get',
 				async: false,
 				success: function(res) {
-					console.log(res)
 					provinceList = res
 					$.each(res, function(i, field) {
 						$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
@@ -41,7 +40,6 @@
 				}
 			})
 			// $.getJSON("js/area.json", function(res) {
-			// 	console.log(res)
 			// 	provinceList = res
 			// 	// $('.province').html('<option value="">-请选择-</option>')
 			// 	$.each(res, function(i, field) {
@@ -51,13 +49,11 @@
 			// 	});
 			// });
 			$('.province').change(function() {
-				console.log($('.province option:selected').text(), $('.province option:selected').val(), $(this).val())
 				provinceText = $(this).val();
 				$.each(provinceList, function(i, item) {
 					if (provinceText == item.value) {
 						cityItem = i;
 						// return cityItem
-						console.log(cityItem)
 					}
 				});
 				cityList = provinceList[cityItem]
@@ -74,12 +70,9 @@
 					if (cityText == item.value) {
 						townItem = i;
 						// return cityItem
-						console.log(townItem)
 					}
 				});
-				console.log(cityList)
 				townList = cityList.children[townItem]
-				console.log(townList)
 				$('.town').html('<option value="">-请选择-</option>')
 				$.each(townList.children, function(i, item) {
 					// addEle(city,item.name)
@@ -95,7 +88,7 @@
 				<h2>医院基本信息</h2> <a class="addHos" href="javascript:;">提交信息</a><a style="display: none;" class="modifyHos" href="javascript:;">修改信息</a>
 				<div class="selectOption">
 					<text>医院名称：</text><input class="hosname" type="text" placeholder="请输入医院名称" />
-					<text>固定电话：</text><input class="hostel" type="text" placeholder="请输入医院固话" />
+					<text>固定电话：</text><input class="hostel" type="number" placeholder="请输入医院固话" />
 					<text>医院地址：</text>
 					<select class="address province">
 						<option value="">-请选择-</option>
@@ -303,13 +296,11 @@ $('.showTips').on('mouseleave',function(){
 				// 	val=''
 				// }
 				// $('.showTips').html(val).css('display', 'block')	
-				// 			console.log($(this).offset())
 			}
 			$('tbody').on('mouseover','tr td',function(){
 				//  levelLs=$(this).parent().index()
 				//  customerWorkerIdLs=$(this).parent().attr('relId')
 				 
-				// console.log(customerWorkerIdLs)
 				// clearTimeout(timerMove)
 				// if($(this).children().html()!=''&&$(this).children().html()!=null&&$(this).children().html()!=undefined){
 				// 	$('.showTips  div').html($(this).children().html())
@@ -754,9 +745,7 @@ $('.showTips').on('mouseleave',function(){
 												// return cityItem
 											}
 										});
-										console.log(cityList)
 										townList = cityList.children[townItem]
-										console.log(townList)
 										$('.town').html('<option value="">-请选择-</option>')
 										$.each(townList.children, function(i, item) {
 											// addEle(city,item.name)
@@ -786,7 +775,6 @@ $('.showTips').on('mouseleave',function(){
 							if (res.data.itemList && res.data.itemList.length > 0) {
 								$('.tbody').html('')
 								for (var i in res.data.itemList) {
-									console.log(paiBanCustomerWorkerId)
 									if(res.data.itemList[i].customerWorkerId!=paiBanCustomerWorkerId){
 										var show1 = "show('" + res.data.itemList[i].phone + "')"
 										var show2 = "show('" + res.data.itemList[i].verifyWay + "')"
@@ -914,7 +902,6 @@ $('.showTips').on('mouseleave',function(){
 		</script>
 		<script>
 			// $.getJSON("js/area.json", function(res) {
-			// 	console.log(res)
 			// 	provinceList = res
 			// 	// $('.province').html('<option value="">-请选择-</option>')
 			// 	$.each(res, function(i, field) {
@@ -928,7 +915,6 @@ $('.showTips').on('mouseleave',function(){
 				type: 'get',
 				async: false,
 				success: function(res) {
-					console.log(res)
 					provinceList = res
 					// $('.province').html('<option value="">-请选择-</option>')
 					$.each(res, function(i, field) {
@@ -939,13 +925,11 @@ $('.showTips').on('mouseleave',function(){
 				}
 			})
 			$('.province').change(function() {
-				console.log($('.province option:selected').text(), $('.province option:selected').val(), $(this).val())
 				provinceText = $(this).val();
 				$.each(provinceList, function(i, item) {
 					if (provinceText == item.value) {
 						cityItem = i;
 						// return cityItem
-						console.log(cityItem)
 					}
 				});
 				cityList = provinceList[cityItem]
@@ -962,12 +946,9 @@ $('.showTips').on('mouseleave',function(){
 					if (cityText == item.value) {
 						townItem = i;
 						// return cityItem
-						console.log(townItem)
 					}
 				});
-				console.log(cityList)
 				townList = cityList.children[townItem]
-				console.log(townList)
 				$('.town').html('<option value="">-请选择-</option>')
 				$.each(townList.children, function(i, item) {
 					// addEle(city,item.name)

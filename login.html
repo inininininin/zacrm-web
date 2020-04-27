@@ -137,7 +137,6 @@
 		var phone=$('.names').val()
 		var oldPassword=$('.passwords').val()
 		var newPassword=$('.passwords1').val()
-		console.log(phone)
 		$.ajax({
 			url:'/alter-password-by-phone-old-password',
 			type:'post',
@@ -150,6 +149,8 @@
 			success:function(res){
 				if(res.code==0){
 					window.location.reload()
+				}else{
+					layer.msg(res.codeMsg)
 				}
 			}
 		})
@@ -179,18 +180,19 @@
 									
 						           window.location.href='index.html'
 						        } else {
-						           alert(res.codeMsg)
+						           layer.msg(res.codeMsg)
 						        }
 						    }
 						})
-					}
+					}else{
+					layer.msg(res.codeMsg)
+				}
 				}
 			})
 		}
 	
         // var phone=$('.phone input').val();
         // var password=$('.pwd input').val();
-        // console.log(phone,password)
         // $.ajax({
         //     url:'/c/2/useraction/login',
         //     type:'POST',
