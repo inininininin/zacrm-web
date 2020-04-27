@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<!-- 让 Bootstrap 兼容 IE 兼容模型 -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- 让 Bootstrap 兼容 国产浏览器的高速模型 -->
+		<meta name="renderer" content="webkit">
+		<!-- 实现响应式的设置 -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes" />
+		<title>忠安客户漏斗管理系统</title>
+		<link rel="stylesheet" href="css/all.css" />
+		<!-- <link rel="stylesheet" href="css/saleindex.css"/> -->
+		<link rel="stylesheet" href="css/addhos.css" />
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<!--<link rel="stylesheet" href="css/all.css"/>-->
+		<script src="js/public.js"></script>
+		<script src="page/jquery-1.11.1.min.js"></script>
+		<link rel="stylesheet" href="page/paging.css">
+		<script src="js/rem.js"></script>
+		<script src="js/image-file-visible.js"></script>
+		<script src="layui/layui.js"></script>
+		<script>
+			
+			var provinceList, cityList, townList, cityItem, townItem
+			// 省市区三级联动
+			// TODO 后期待优化
+			$.ajax({
+				url: 'js/area.json',
+				type: 'get',
+				async: false,
+				success: function(res) {
+					console.log(res)
+					provinceList = res
+					$.each(res, function(i, field) {
+						$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
+					});
+				}
+			})
+			// $.getJSON("js/area.json", function(res) {
+			// 	console.log(res)
+			// 	provinceList = res
+			// 	// $('.province').html('<option value="">-请选择-</option>')
+			// 	$.each(res, function(i, field) {
+			
+			// 		$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
+			// 		// $("span").append(field.name + "," + field.goods);
+			// 	});
+			// });
+			$('.province').change(function() {
+				console.log($('.province option:selected').text(), $('.province option:selected').val(), $(this).val())
+				provinceText = $(this).val();
+				$.each(provinceList, function(i, item) {
+					if (provinceText == item.value) {
+						cityItem = i;
+						// return cityItem
+						console.log(cityItem)
+					}
+				});
+				cityList = provinceList[cityItem]
+				$('.city').html('<option value="">-请选择-</option>')
+				$('.town').html('<option value="">-请选择-</option>')
+				$.each(cityList.children, function(i, item) {
+					// addele(city,item.name)
+					$('.city').append('<option value="' + item.value + '">' + item.label + '</option>')
+				})
+			})
+			$('.city').change(function() {
+				cityText = $(this).val();
+				$.each(cityList.children, function(i, item) {
+					if (cityText == item.value) {
+						townItem = i;
+						// return cityItem
+						console.log(townItem)
+					}
+				});
+				console.log(cityList)
+				townList = cityList.children[townItem]
+				console.log(townList)
+				$('.town').html('<option value="">-请选择-</option>')
+				$.each(townList.children, function(i, item) {
+					// addEle(city,item.name)
+					$('.town').append('<option value="' + item.value + '">' + item.label + '</option>')
+				})
+			})
+		</script>
+	</head>
+	<body>
+		<div class="thiscontent" style="display: none;"><div class="contentThis"></div></div>
+		<div class="mainbox">
+			<div class="topselect">
+				<h2>医院基本信息</h2> <a class="addHos" href="javascript:;">提交信息</a><a style="display: none;" class="modifyHos" href="javascript:;">修改信息</a>
+				<div class="selectOption">
+					<text>医院名称：</text><input class="hosname" type="text" placeholder="请输入医院名称" />
+					<text>固定电话：</text><input class="hostel" type="text" placeholder="请输入医院固话" />
+					<text>医院地址：</text>
+					<select class="address province">
+						<option value="">-请选择-</option>
+					</select>
+					<select class="address city">
+						<option value="">-请选择-</option>
+					</select>
+					<select class="address town">
+						<option value="">-请选择-</option>
+					</select>
+					<text>医院性质：</text>
+					<select class="hosnature">
+						<option value="1">民营医院</option>
+						<option value="2" selected="">公立医院</option>
+					</select>
+
+					<div class="hosIntroBox">
+						<text>医院简介</text>
+						<textarea class="hosIntro" rows="3" cols="20"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="showIs" style="display: none;">
+				<div class=" addPeople">
+					<h2>相关人员</h2>
+				</div>
+				<div class=" tableBoxLf">
+					<table cellpadding="0" cellspacing="0">
+						<thead>
+							<tr>
+								<th>拍板人</th>
+								<th>职务</th>
+								<th>手机号码</th>
+								<th>如何确认</th>
+								<th>固话</th>
+							</tr>
+						</thead>
+						<tbody class="tbodyPaiban">
+							<tr class="paibanren">
+								<td class="enterHos">
+									<div class="line-1 nameLink"></div>
+								</td>
+								<td>
+									<div class="line-1 lookHis"></div>
+								</td>
+								<td>
+									<div class="line-1 lookHis" onmouseover="show('')" onmouseleave="showhidden()"></div>
+								</td>
+								<td>
+									<div class="line-1 lookHis" onmouseover="show('')" onmouseleave="showhidden()"></div>
+								</td>
+								<td>
+									<div class="line-1 lookHis" onmouseover="show('')" onmouseleave="showhidden()"></div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table cellpadding="0" cellspacing="0" style="margin-top: 40px;">
+						<thead>
+							<tr>
+								<th>关联人</th>
+								<th>职务</th>
+								<th>手机号码</th>
+								<th>如何确认</th>
+								<th>固话</th>
+							</tr>
+						</thead>
+						<tbody class="tbody">
+							
+						</tbody>
+					</table>
+					<div class="addNewRel">新增<i style="margin-left: 5px;" class="layui-icon">&#xe608;</i></div>
+					<div class="supplyNewRel" style="display: none;">完成<i style="margin-left: 5px;" class="layui-icon">&#x1005;</i></div>
+				</div>
+				<div class="tableBoxRt">
+				
+					<div><span class="lookAllTrack" style="float: left;">所有跟踪记录</span>
+						<h2 class="trackName">医院所有跟踪记录</h2>
+					</div>
+					<div class="trackDetail muti">
+						<!-- <ul>
+							<li><span>感兴趣</span><span>2020-4-20 15：23</span></li>
+							<li>这个医院的人都很热情，很感兴趣。这个医院的人都很热情，很感兴趣。这个医院的人都很热情，很感兴趣。这个医院的人都很热情，很感兴趣。这个医院的人都很热情，很感兴趣。</li>
+						</ul>
+						<ul>
+							<li><span>感兴趣</span><span>2020-4-20 15：23</span></li>
+							<li>这个医院的人都很热情，很感兴趣。这个医院的人都很热情，很感兴趣。。</li>
+						</ul>
+						<ul>
+							<li><span>感兴趣</span><span>2020-4-20 15：23</span></li>
+							<li>这个医院的人都很热情，很感兴趣。这的人都很热情，很感兴趣。这个医院的人都很热情，很感兴趣。</li>
+						</ul>
+						<ul>
+							<li><span>感兴趣</span><span>2020-4-20 15：23</span></li>
+							<li>这个医院的人都很热情，很感兴趣。这的人都很热情，很感兴趣。这个医院的人都很热情，很感兴趣。</li>
+						</ul>
+						<ul>
+							<li><span>感兴趣</span><span>2020-4-20 15：23</span></li>
+							<li>这个医院的人都很热情，很感兴趣。这的人都很热情，很感兴趣。这个医院的人都很热情，很感兴趣。</li>
+						</ul> -->
+					</div>
+					<textarea class="talkShow" rows="" cols="" placeholder="请输入追踪记录"></textarea>
+					<div class="selectQuick">
+						<div><label><input type="checkbox" class="quickIs" name="quick" value="1">加急</label></div>
+						<div><label><input type="radio" name="interst" value="1">暂不感兴趣</label>
+							<label><input type="radio" name="interst" value="2">初步感兴趣</label>
+							<label><input type="radio" name="interst" value="3">非常感兴趣</label>
+							<label><input type="radio" name="interst" value="4">近期可考察</label>
+							<label><input type="radio" name="interst" value="5">线上可签单</label></div>
+					</div>
+					<div class="sendTrack">发送<i style="margin-left: 5px;" class="layui-icon">&#xe609;</i> </div>
+				
+				</div>
+				<div style="clear: both;"></div>
+				
+				
+			</div>
+
+			<div class="showTips" style="display: none;"></div>
+		</div>
+
+		<!-- <script src="js/area.json"></script> -->
+		<script>
+			// (".addHos").attr({"disabled":"disabled"})
+			var paiBanCustomerWorkerId=''//拍板人ID
+			var layer;
+			layui.use('layer', function() {
+				layer = layui.layer;
+			});
+			var customerId = GetQueryString('id')
+			if (GetQueryString('id')) {
+				hosDetail(GetQueryString('id'))
+				relList(GetQueryString('id'))
+				$('.addHos').css('display','none')
+				$('.modifyHos').css('display','inline-block')
+				$('.showIs').css('display','block')
+			}
+
+			function show(val) {
+				if(val==null||val==''||val==undefined){
+					val=''
+				}
+				$('.showTips').html(val).css('display', 'block')
+			}
+
+			function showhidden() {
+				$('.showTips').html('').css('display', 'none')
+			}
+			// 修改相关人员信息
+			var modifyVal = ''
+			var time=''
+			
+		// 111111111111111
+			
+			$('.tbodyPaiban').on('dblclick', 'tr td', function() {
+				 clearTimeout(time)
+				
+				// $(this).html('<input type="text"  class="modifyThis" onchange="modifyOver('+$(this).parent().attr("relId")+',this)" value="'+$(this).children().html()+'"/>')
+				$(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThisPaiban"  value="' + $(this).children().html() + '"/>')
+				$('.modifyThisPaiban').focus()
+				showhidden()
+			})
+				$('table').on('blur', 'tr .modifyThisPaiban', function() {
+					var level = $(this).attr('level')
+					if (level == 0) {
+						var param = '&name=' + $(this).val()
+					}
+					if (level == 1) {
+						var param = '&post=' + $(this).val()
+					}
+					if (level == 2) {
+						var param = '&phone=' + $(this).val()
+					}
+					if (level == 3) {
+						var param = '&verifyWay=' + $(this).val()
+					}
+					if (level == 4) {
+						var param = '&tel=' + $(this).val()
+					}
+					console.log('11111='+paiBanCustomerWorkerId)
+					if(paiBanCustomerWorkerId==''||paiBanCustomerWorkerId==null||paiBanCustomerWorkerId==undefined){
+						var _this=$(this)
+						var show = "show('" + _this.val() + "')"
+						$.ajax({
+							url: '/my-customer-worker/create-customer-worker',
+							type: 'post',
+							data: 'customerId=' + customerId+param,
+							async: false,
+							success: function(res) {
+								if (res.code == 0) {
+									paiBanCustomerWorkerId=res.data.customerWorkerId
+									_this.parent().parent().attr('relId',paiBanCustomerWorkerId)
+										console.log('11111='+paiBanCustomerWorkerId)
+									$.ajax({
+										url: '/my-customer/update-customer',
+										type: 'post',
+										data: 'customerId=' + customerId+'&paiBanCustomerWorkerId='+paiBanCustomerWorkerId,
+										async: false,
+										success: function(res) {
+											if(res.code==0){
+												console.log(level)
+												if(level==0){
+													_this.parent().html('<div class="line-1" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
+												}else{
+													_this.parent().html('<div class="line-1 lookHis" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
+												}
+											}else{
+												layer.msg(res.codeMsg)
+											}
+										}
+									})
+								}else{
+												layer.msg(res.codeMsg)
+											}
+							}
+						})
+					}else{
+						var customerWorkerId = $(this).parent().parent().attr('relid')
+							console.log(customerWorkerId)
+							var show = "show('" + $(this).val() + "')"
+							var _this = $(this)
+							$.ajax({
+								url: '/my-customer-worker/update-customer-worker' ,
+								type: 'post',
+								data: 'customerWorkerId=' + customerWorkerId+param,
+								async: false,
+								success: function(res) {	
+									if(res.code==0){
+										console.log(12312312,_this)
+										if(level==0){
+											_this.parent().html('<div class="line-1" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
+										}else{
+											_this.parent().html('<div class="line-1 lookHis" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
+										}										
+									}else{
+										layer.msg(res.codeMsg)
+									}
+								},
+							})
+					}
+					
+				})
+			$('.tbody').on('dblclick', 'tr td', function() {
+				 clearTimeout(time)
+				// $(this).html('<input type="text"  class="modifyThis" onchange="modifyOver('+$(this).parent().attr("relId")+',this)" value="'+$(this).children().html()+'"/>')
+				$(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThis"  value="' + $(this).children().html() + '"/>')
+				$('.modifyThis').focus()
+				showhidden()
+			})
+			$('table').on('blur', 'tr .modifyThis', function() {
+				console.log($(this).attr('level'))
+				var level = $(this).attr('level')
+				if (level == 0) {
+					var param = '&name=' + $(this).val()
+				}
+				if (level == 1) {
+					var param = '&post=' + $(this).val()
+				}
+				if (level == 2) {
+					var param = '&phone=' + $(this).val()
+				}
+				if (level == 3) {
+					var param = '&verifyWay=' + $(this).val()
+				}
+				if (level == 4) {
+					var param = '&tel=' + $(this).val()
+				}
+				var customerWorkerId = $(this).parent().parent().attr('relid')
+				console.log(customerWorkerId)
+				var show = "show('" + $(this).val() + "')"
+				var _this = $(this)
+				$.ajax({
+					url: '/my-customer-worker/update-customer-worker' ,
+					type: 'post',
+					data: 'customerWorkerId=' + customerWorkerId+param,
+					async: false,
+					success: function(res) {
+						if(level==0){
+							_this.parent().html('<div class="line-1" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
+						}else{
+							_this.parent().html('<div class="line-1 lookHis" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
+						}
+						
+					},
+				})
+			})
+			$('.trackDetail').scrollTop($('.trackDetail')[0].scrollHeight);
+			// for(var i=0;i<6;i++){
+			// 	$('.tbody').append('<tr><td class="enterHos"><a href="javascript:;">丁洁</a></td><td>科室副主任</td><td>15265742542</td><td>和院长有关系</td><td>025-65485412</td></tr>')
+			// }
+			// 新增相关人员
+			$('.addNewRel').click(function() {
+				$('.tbody').append('<tr>' +
+					'<td class="enterHos"><input type="text"/></td>' +
+					'<td><input type="text"/></td>' +
+					'<td><input type="tel"/></td>' +
+					'<td><input type="text"/></td>' +
+					'<td><input type="tel"/></td></tr>')
+				$(this).css('display', 'none')
+				$('.supplyNewRel').css('display', 'block')
+			})
+			// 提交相关人员
+
+			// TODO 新增相关人员
+
+			$('.supplyNewRel').click(function() {
+				var name = $('.tbody').find(':input:eq(0)').val()
+				var post = $('.tbody').find(':input:eq(1)').val()
+				var phone = $('.tbody').find(':input:eq(2)').val()
+				var verifyWay = $('.tbody').find(':input:eq(3)').val()
+				var tel = $('.tbody').find(':input:eq(4)').val()
+				var paiBan = ''
+				var _this = $(this)
+				if (name == '' ) {
+					layer.msg('请将相关人员姓名')
+				} else {
+					if (customerId == '' || customerId == null || customerId == undefined) {
+						layer.msg('请先点击医院提交信息按钮')
+					} else {
+						$.ajax({
+							url: '/my-customer-worker/create-customer-worker',
+							type: 'post',
+							data: 'name=' + name + '&tel=' + tel + '&post=' + post + '&paiBan=' + paiBan + '&verifyWay=' + verifyWay +
+								'&phone=' + phone + '&customerId=' + customerId,
+							async: false,
+							success: function(res) {
+								if (res.code == 0) {
+									// layer.msg('添加成功')
+									// window.history.refresh()
+									var show1 = "show('" + phone + "')"
+									var show2 = "show('" + verifyWay + "')"
+									var show3 = "show('" + tel + "')"
+									$('.tbody').children("tr:last-child").remove()
+									$('.tbody').append('<tr relId="'+res.data.customerWorkerId+'"><td class="enterHos"><div class="line-1">' + name + '</div></td>' +
+										'<td><div class="line-1 lookHis">' + post + '</div></td>' +
+										'<td><div class="line-1 lookHis" onmouseover="' + show1 + '" onmouseleave="showhidden()">' + phone +
+										'</div></td>' +
+										'<td><div class="line-1 lookHis" onmouseover="' + show2 + '" onmouseleave="showhidden()">' + verifyWay +
+										'</div></td>' +
+										'<td><div class="line-1 lookHis"onmouseover="' + show3 + '" onmouseleave="showhidden()">' + tel +
+										'</div></td></tr>')
+									_this.css('display', 'none')
+									$('.addNewRel').css('display', 'block')
+								}
+							}
+						})
+					}
+
+				}
+
+
+
+			})
+
+
+			// 查看某人对应追踪
+			var customerWorkerIdZz=''
+			$('tbody').on('click','tr .enterHos',function(){
+				customerWorkerIdZz=$(this).parent().attr('relId')
+				$('.trackName').html($(this).children().html()+'跟踪信息')
+				trackrelList(customerId,customerWorkerIdZz,1)
+			})
+			// 提交追踪
+			$('.sendTrack').click(function() {
+				var interst = $("input[name='interst']:checked").val();
+									if(interst==1){
+										var interstName='暂不感兴趣'
+									}else if(interst==2){
+										var interstName='初步感兴趣'
+									}else if(interst==3){
+										var interstName='非常感兴趣'
+									}else if(interst==4){
+										var interstName='近期可考察'
+									}else if(interst==5){
+										var interstName='线上可签单'
+									}
+				var nowtime = Date.parse(new Date())
+				var content = $('.talkShow').val()
+				var quickIs = $('.quickIs').val()
+				if(customerWorkerIdZz==''||customerWorkerIdZz==null||customerWorkerIdZz==undefined){
+					layer.msg('请选择追踪人员')
+				}else if(interst==''||interst==null||interst==undefined){
+					layer.msg('请选择感兴趣程度')
+				}else{
+					$.ajax({
+						url: '/my-customer/update-customer',
+						type: 'post',
+						data: 'customerId=' + customerId+'&urgent='+quickIs,
+						async: false,
+						success: function(res) {
+							if(res.code==0){customerWorkerIdZz=''}else{layer.msg(res.codeMsg)}
+						}
+					})
+					
+					$.ajax({
+						url: '/my-customer-worker-trace/create-customer-worker-trace',
+						type: 'post',
+						data: 'customerWorkerId=' + customerWorkerIdZz + '&content=' + content + '&level=' + interst,
+						async: false,
+						success: function(res) {
+							if (res.code == 0) {
+								$('.trackDetail').append('<ul>' +
+									'<li><span>' + interstName + '</span><span>' + changeDateFormat(nowtime) + '</span></li>' +
+									'<li>' + content + '</li>' +
+									'</ul>')
+									$('.trackDetail').scrollTop($('.trackDetail')[0].scrollHeight);
+								$('.talkShow').val('')
+								$('.quickIs').attr("checked", false)
+								$("input[name='interst']").removeAttr("checked");
+								
+							}else{
+								layer.msg(res.codeMsg)
+							}
+						}
+					})
+				}
+			})
+
+			// 修改医院
+			
+			$('.modifyHos').click(function() {
+				modifyNewHos()
+			})
+			function modifyNewHos(){
+				var name = $('.hosname').val()
+				var tel = $('.hostel').val()
+				var nature = $('.hosnature  option:selected').val()
+				var hosIntro = $('.hosIntro').val()
+				var area1Id = $('.province option:selected').val()
+				var area1Name = $('.province option:selected').text()
+				var area2Id = $('.city option:selected').val()
+				var area2Name = $('.city option:selected').text()
+				var area3Id = $('.town option:selected').val()
+				var area3Name = $('.town option:selected').text()
+				if (area1Id == '' || area2Id == '' || area3Id == '') {
+					layer.msg('请选择医院所在地区')
+				} else if (nature == '') {
+					layer.msg('请选择医院性质')
+				} else if (name == '' || tel == '') {
+					layer.msg('请填写医院名和固话')
+				} else {
+					$.ajax({
+						url: '/my-customer/update-customer',
+						type: 'post',
+						data: 'name=' + name + '&tel=' + tel + '&nature=' + nature + '&area1Id=' + area1Id + '&area2Id=' + area2Id +
+							'&area3Id=' + area3Id + '&area1Name=' + area1Name + '&area2Name=' + area2Name + '&area3Name=' + area3Name +
+							'&brief=' + hosIntro+'&customerId='+customerId,
+						async: false,
+						success: function(res) {
+							if (res.code == 0) {
+								layer.msg('操作成功')
+								// window.history.refresh()
+							}
+						}
+					})
+				}
+			}
+			// TODO 新增医院
+			// /my-customer/create-customer
+			$('.addHos').click(function() {
+				addNewHos()
+			})
+			function addNewHos(){
+				var name = $('.hosname').val()
+				var tel = $('.hostel').val()
+				var nature = $('.hosnature  option:selected').val()
+				var hosIntro = $('.hosIntro').val()
+				var area1Id = $('.province option:selected').val()
+				var area1Name = $('.province option:selected').text()
+				var area2Id = $('.city option:selected').val()
+				var area2Name = $('.city option:selected').text()
+				var area3Id = $('.town option:selected').val()
+				var area3Name = $('.town option:selected').text()
+				if (name == ''){
+					layer.msg('请填写医院名')
+				// }
+				// if (area1Id == '' || area2Id == '' || area3Id == '') {
+				// 	layer.msg('请选择医院所在地区')
+				// } else if (nature == '') {
+				// 	layer.msg('请选择医院性质')
+				// } else if (name == '' || tel == '') {
+				// 	layer.msg('请填写医院名和固话')
+				} else {
+					$.ajax({
+						url: '/my-customer/create-customer',
+						type: 'post',
+						data: 'name=' + name + '&tel=' + tel + '&nature=' + nature + '&area1Id=' + area1Id + '&area2Id=' + area2Id +
+							'&area3Id=' + area3Id + '&area1Name=' + area1Name + '&area2Name=' + area2Name + '&area3Name=' + area3Name +
+							'&brief=' + hosIntro,
+						async: false,
+						success: function(res) {
+							if (res.code == 0) {
+								layer.msg('操作成功')
+								location.href='addHos.html?id='+res.data.customerId
+								customerId=res.data.customerId
+								// window.history.refresh()
+							}else{
+								layer.msg(res.codeMsg)
+							}
+						}
+					})
+				}
+			}
+
+			// TODO 新增追踪记录
+			// TODO 查询追踪记录
+			// TODO 修改相关人员信息
+
+			// 新增医院方法
+			// function addHos(){
+			// 	$.ajax({
+			// 		url:'/my-customer/create-customer',
+			// 		type:'post',
+			// 		data:'name='+name+'&tel='+tel+'&nature='+nature+'&area1Id='+area1Id+'&area2Id='+area2Id+'&area3Id='+area3Id+'&area1Name='+area1Name+'&area2Name='+area2Name+'&area3Name='+area3Name+'&hosIntro='+hosIntro,
+			// 		async:false,
+			// 		success:function(res){
+			// 			if(res.code==0){
+			// 				layer.msg('添加成功')
+			// 				window.history.refresh()
+			// 			}
+			// 		}
+			// 	}) 
+			// }
+
+
+			// 医院详情列表
+			function hosDetail(customerId) {
+				$.ajax({
+					url: '/my-customer/customer',
+					type: 'GET',
+					data: 'customerId=' + customerId,
+					async: false,
+					success: function(res) {
+						if (res.code == 0) {
+							$('.hosname').val(res.data.name)
+							$('.hosIntro').val(res.data.brief)
+							$('.hostel').val(res.data.tel)
+							$('.hosnature').val(res.data.nature)
+							paiBanCustomerWorkerId=res.data.paiBanCustomerWorkerId
+							$('.paibanren').attr('relId',res.data.paiBanCustomerWorkerId||'')
+							if(res.data.paiBanCustomerWorkerName){
+								$('.paibanren').children().eq(0).children().html(res.data.paiBanCustomerWorkerName)
+									$('.tbodyPaiban tr').attr('relId',res.data.paiBanCustomerWorkerId)
+							}
+							if(res.data.paiBanCustomerWorkerPost){
+								$('.paibanren').children().eq(1).children().html(res.data.paiBanCustomerWorkerPost)
+							}
+							if(res.data.paiBanCustomerWorkerPhone){
+								$('.paibanren').children().eq(2).children().html(res.data.paiBanCustomerWorkerPhone)
+							}
+							if(res.data.paiBanCustomerWorkerVerifyWay){
+								$('.paibanren').children().eq(3).children().html(res.data.paiBanCustomerWorkerVerifyWay)
+							}
+							if(res.data.paiBanCustomerWorkerTel){
+								$('.paibanren').children().eq(4).children().html(res.data.paiBanCustomerWorkerTel)
+							}
+// TODO 后期待优化
+							if (res.data.area1Id) {
+								setTimeout(function(){
+									$('.province').val(res.data.area1Id)
+								},200)
+								provinceText = res.data.area1Id;
+								$.each(provinceList, function(i, item) {
+									if (provinceText == item.value) {
+										cityItem = i;
+										// return cityItem
+									}
+								});
+								cityList = provinceList[cityItem]
+								$('.city').html('<option value="">-请选择-</option>')
+								$('.town').html('<option value="">-请选择-</option>')
+								$.each(cityList.children, function(i, item) {
+									// addele(city,item.name)
+									$('.city').append('<option value="' + item.value + '">' + item.label + '</option>')
+									if (res.data.area2Id) {
+										$('.city').val(res.data.area2Id)
+										cityText = res.data.area2Id;
+										$.each(cityList.children, function(i, item) {
+											if (cityText == item.value) {
+												townItem = i;
+												// return cityItem
+											}
+										});
+										console.log(cityList)
+										townList = cityList.children[townItem]
+										console.log(townList)
+										$('.town').html('<option value="">-请选择-</option>')
+										$.each(townList.children, function(i, item) {
+											// addEle(city,item.name)
+											$('.town').append('<option value="' + item.value + '">' + item.label + '</option>')
+											$('.town').val(res.data.area3Id)
+										})
+									}
+
+								})
+
+							}
+							
+						}
+					}
+				})
+			}
+			// 相关人员列表
+			function relList(customerId) {
+				$.ajax({
+					url: '/my-customer-worker/customer-worker-list',
+					type: 'GET',
+					data: 'customerId=' + customerId,
+					async: false,
+					success: function(res) {
+						if (res.code == 0) {
+
+							if (res.data.itemList && res.data.itemList.length > 0) {
+								$('.tbody').html('')
+								for (var i in res.data.itemList) {
+									console.log(paiBanCustomerWorkerId)
+									if(res.data.itemList[i].customerWorkerId!=paiBanCustomerWorkerId){
+										var show1 = "show('" + res.data.itemList[i].phone + "')"
+										var show2 = "show('" + res.data.itemList[i].verifyWay + "')"
+										var show3 = "show('" + res.data.itemList[i].tel + "')"
+										$('.tbody').append('<tr relId="'+res.data.itemList[i].customerWorkerId+'"><td class="enterHos"><div class="line-1">' + (res.data.itemList[i].name || "") + '</div></td>' +
+											'<td><div class="line-1 lookHis">' + (res.data.itemList[i].post || "") + '</div></td>' +
+											'<td><div class="line-1 lookHis" onmouseover="' + show1 + '" onmouseleave="showhidden()">' + (res.data.itemList[i].phone ||"") +
+											'</div></td>' +
+											'<td><div class="line-1 lookHis" onmouseover="' + show2 + '" onmouseleave="showhidden()">' + (res.data.itemList[i].verifyWay ||"") +
+											'</div></td>' +
+											'<td><div class="line-1 lookHis"onmouseover="' + show3 + '" onmouseleave="showhidden()">' + (res.data.itemList[i].tel||"") +
+											'</div></td></tr>')
+									}
+																
+								}
+							}
+						}
+					}
+				})
+			}
+			// 跟踪记录列表
+			function trackrelList(customerId,customerWorkerId,pn) {
+				$.ajax({
+					url: '/my-customer-worker-trace/customer-worker-trace-list',
+					type: 'GET',
+					data: 'customerId=' + customerId+'&customerWorkerId='+customerWorkerId+'&pn='+pn+'&ps=15',
+					async: true,
+					success: function(res) {
+						if (res.code == 0) {
+							var interst=''
+							if (res.data.itemList && res.data.itemList.length > 0) {
+								if(pn=1){
+										$('.trackDetail').html('')
+								}
+								
+								for (var i in res.data.itemList) {
+									if(res.data.itemList[i].level==1){
+										interst='暂不感兴趣'
+									}else if(res.data.itemList[i].level==2){
+										interst='初步感兴趣'
+									}else if(res.data.itemList[i].level==3){
+										interst='非常感兴趣'
+									}else if(res.data.itemList[i].level==4){
+										interst='近期可考察'
+									}else if(res.data.itemList[i].level==5){
+										interst='线上可签单'
+									}
+									$('.trackDetail').append('<ul>' +
+										'<li><span>' + interst + '</span><span>' + changeDateFormat(res.data.itemList[i].createTime) + '</span></li>' +
+										'<li>' + res.data.itemList[i].content + '</li>' +
+										'</ul>')
+										$('.trackDetail').scrollTop($('.trackDetail')[0].scrollHeight);						
+								}
+							}
+						}
+					}
+				})
+			}
+			trackrelList(customerId,'',1)
+			// 跟踪记录
+			$('.lookAllTrack').click(function(){
+				$('.trackName').html('医院所有跟踪信息')
+				trackrelList(customerId,'',1)
+			})
+			
+			
+			
+			// 查看相关人员信息修改历史
+			// $('tbody').on('click','tr .lookHis',function(){
+			// 	var level=$(this).parent().index()
+			// 	console.log($(this).parent().index())
+			// 	var customerWorkerId=$(this).parent().parent().attr('relId')
+			// 	clearTimeout(time);
+			// 	//执行延时
+			// 	time = setTimeout(function(){
+			// 		$.ajax({
+			// 							url: '/my-customer-worker-snapshot-list',
+			// 							type: 'GET',
+			// 							data: 'customerWorkerId=' + customerWorkerId,
+			// 							async: true,
+			// 							success: function(res) {
+			// 								if (res.code == 0) {
+			// 									$('.contentThis').html('')
+												
+			// 									// var content='<div class="thiscontent">111</div>'
+			// 									for(var i in res.data.itemList){
+			// 										if (level == 0) {
+														
+			// 											$('.contentThis').append('<div>'+(res.data.itemList[i].name||"")+'<span>（更新时间：'+changeDateFormat(res.data.itemList[i].updateTime)+'）</span></div>')
+			// 										}
+			// 										if (level == 1) {
+			// 											$('.contentThis').append('<div>'+(res.data.itemList[i].post||"")+'<span>（更新时间：'+changeDateFormat(res.data.itemList[i].updateTime)+'）</span></div>')
+			// 										}
+			// 										if (level == 2) {
+			// 											$('.contentThis').append('<div>'+(res.data.itemList[i].phone||"")+'<span>（更新时间：'+changeDateFormat(res.data.itemList[i].updateTime)+'）</span></div>')
+			// 										}
+			// 										if (level == 3) {
+			// 											$('.contentThis').append('<div>'+(res.data.itemList[i].verifyWay||"")+'<span>（更新时间：'+changeDateFormat(res.data.itemList[i].updateTime)+'）</span></div>')
+			// 										}
+			// 										if (level == 4) {
+			// 											$('.contentThis').append('<div>'+(res.data.itemList[i].tel||"")+'<span>（更新时间：'+changeDateFormat(res.data.itemList[i].updateTime)+'）</span></div>')
+			// 										}
+												
+			// 									}
+			// 									console.log($('.contentThis').html())
+			// 									layer.open({
+			// 									  type: 1, 
+			// 									  content: $('.thiscontent').html()//这里content是一个普通的String
+			// 									});
+			// 								}
+			// 							}
+			// 						})
+			// 	    //do function在此处写单击事件要执行的代码
+			// 	},300);
+				
+			// })
+			
+			
+
+		</script>
+
+		<script>
+			// 时间转换
+			function getDateDiff(dateTimeStamp) {
+				var result;
+				var minute = 1000 * 60;
+				var hour = minute * 60;
+				var day = hour * 24;
+				var halfamonth = day * 15;
+				var month = day * 30;
+				var now = new Date().getTime();
+				var diffValue = now - dateTimeStamp;
+				if (diffValue < 0) {
+					return;
+				}
+				var monthC = diffValue / month;
+				var weekC = diffValue / (7 * day);
+				var dayC = diffValue / day;
+				var hourC = diffValue / hour;
+				var minC = diffValue / minute;
+				if (monthC >= 1) {
+					if (monthC <= 12)
+						result = "" + parseInt(monthC) + "月前";
+					else {
+						result = "" + parseInt(monthC / 12) + "年前";
+					}
+				} else if (weekC >= 1) {
+					result = "" + parseInt(weekC) + "周前";
+				} else if (dayC >= 1) {
+					result = "" + parseInt(dayC) + "天前";
+				} else if (hourC >= 1) {
+					result = "" + parseInt(hourC) + "小时前";
+				} else if (minC >= 1) {
+					result = "" + parseInt(minC) + "分钟前";
+				} else {
+					result = "刚刚";
+				}
+				return result;
+			};
+
+			function changeDateFormat(cellval) {
+				var dateVal = cellval + "";
+				if (cellval != null) {
+					var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+					var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+					var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+					var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+					var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+					var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+					return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
+				}
+			}
+		</script>
+		<script>
+			// $.getJSON("js/area.json", function(res) {
+			// 	console.log(res)
+			// 	provinceList = res
+			// 	// $('.province').html('<option value="">-请选择-</option>')
+			// 	$.each(res, function(i, field) {
+			
+			// 		$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
+			// 		// $("span").append(field.name + "," + field.goods);
+			// 	});
+			// });
+			$.ajax({
+				url: 'js/area.json',
+				type: 'get',
+				async: false,
+				success: function(res) {
+					console.log(res)
+					provinceList = res
+					// $('.province').html('<option value="">-请选择-</option>')
+					$.each(res, function(i, field) {
+								
+						$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
+						// $("span").append(field.name + "," + field.goods);
+					});
+				}
+			})
+			$('.province').change(function() {
+				console.log($('.province option:selected').text(), $('.province option:selected').val(), $(this).val())
+				provinceText = $(this).val();
+				$.each(provinceList, function(i, item) {
+					if (provinceText == item.value) {
+						cityItem = i;
+						// return cityItem
+						console.log(cityItem)
+					}
+				});
+				cityList = provinceList[cityItem]
+				$('.city').html('<option value="">-请选择-</option>')
+				$('.town').html('<option value="">-请选择-</option>')
+				$.each(cityList.children, function(i, item) {
+					// addele(city,item.name)
+					$('.city').append('<option value="' + item.value + '">' + item.label + '</option>')
+				})
+			})
+			$('.city').change(function() {
+				cityText = $(this).val();
+				$.each(cityList.children, function(i, item) {
+					if (cityText == item.value) {
+						townItem = i;
+						// return cityItem
+						console.log(townItem)
+					}
+				});
+				console.log(cityList)
+				townList = cityList.children[townItem]
+				console.log(townList)
+				$('.town').html('<option value="">-请选择-</option>')
+				$.each(townList.children, function(i, item) {
+					// addEle(city,item.name)
+					$('.town').append('<option value="' + item.value + '">' + item.label + '</option>')
+				})
+			})
+		</script>
+	</body>
+</html>
