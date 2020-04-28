@@ -145,7 +145,7 @@
 						oldPassword: oldPassword,
 						newPassword: newPassword,
 					},
-					async: false,
+					async: true,
 					success: function(res) {
 						if (res.code == 0) {
 							window.location.reload()
@@ -169,13 +169,13 @@
 							name: name,
 							password: password
 						},
-						async: false,
+						async: true,
 						success: function(res) {
 							if (res.code == 0) {
 								$.ajax({
 									url: '/login-refresh',
 									type: 'POST',
-									async: false,
+									async: true,
 									success: function(res) {
 										if (res.code == 0) {
 

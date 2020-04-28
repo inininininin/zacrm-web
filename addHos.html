@@ -85,10 +85,12 @@
 		<div class="thiscontent" style="display: none;"><div class="contentThis"></div></div>
 		<div class="mainbox">
 			<div class="topselect">
-				<h2>医院基本信息</h2> <a class="addHos" href="javascript:;">提交信息</a><a style="display: none;" class="modifyHos" href="javascript:;">修改信息</a>
+
+				<h2>医院基本信息</h2> <button class="addHos" href="javascript:;">提交信息</button><button style="display: none;" class="modifyHos" href="javascript:;">修改信息</button>
 				<div class="selectOption">
 					<text>医院名称：</text><input class="hosname" type="text" placeholder="请输入医院名称" />
-					<text>固定电话：</text><input class="hostel" type="number" placeholder="请输入医院固话" />
+					 <!-- onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" -->
+					<text>固定电话：</text><input class="hostel" placeholder="请输入医院固话" />
 					<text>医院地址：</text>
 					<select class="address province">
 						<option value="">-请选择-</option>
@@ -320,7 +322,6 @@ $('.showTips').on('mouseleave',function(){
 			var time=''
 			
 		// 111111111111111
-			
 			$('.tbodyPaiban').on('dblclick', 'tr td', function() {
 				 clearTimeout(time)
 				
@@ -520,7 +521,7 @@ $('.showTips').on('mouseleave',function(){
 			$('tbody').on('click','tr .enterHos',function(){
 				$('.tableBoxLf').find('.enterHos').parent().css('background','#fff')
 				// $(this).parent().parent().parent().parent().find('.enterHos').parent().css('background','#fff')
-				$(this).parent().css('background','rgba(229,229,229,0.5)')
+				$(this).parent().css('background','rgba(229,229,229,0.2)')
 				customerWorkerIdZz=$(this).parent().attr('relId')
 				$('.trackName').html($(this).children().html()+'跟踪信息')
 				trackrelList(customerId,customerWorkerIdZz,1)
@@ -586,6 +587,7 @@ $('.showTips').on('mouseleave',function(){
 			// 修改医院
 			
 			$('.modifyHos').click(function() {
+				$('.modifyHos').attr('disabled',"true");
 				modifyNewHos()
 			})
 			function modifyNewHos(){
@@ -617,6 +619,7 @@ $('.showTips').on('mouseleave',function(){
 						success: function(res) {
 							if (res.code == 0) {
 								layer.msg('操作成功')
+								$('.modifyHos').attr('disabled',"false");
 								// window.history.refresh()
 							}
 						}
@@ -626,6 +629,8 @@ $('.showTips').on('mouseleave',function(){
 			// TODO 新增医院
 			// /my-customer/create-customer
 			$('.addHos').click(function() {
+				$('.addHos').attr('disabled',"true");
+				
 				addNewHos()
 			})
 			function addNewHos(){
@@ -659,8 +664,10 @@ $('.showTips').on('mouseleave',function(){
 						success: function(res) {
 							if (res.code == 0) {
 								layer.msg('操作成功')
+								debugger
 								location.href='addHos.html?id='+res.data.customerId
 								customerId=res.data.customerId
+								$('.addHos').attr('disabled',"false");
 								// window.history.refresh()
 							}else{
 								layer.msg(res.codeMsg)
@@ -722,11 +729,27 @@ $('.showTips').on('mouseleave',function(){
 							if(res.data.paiBanCustomerWorkerTel){
 								$('.paibanren').children().eq(4).children().html(res.data.paiBanCustomerWorkerTel)
 							}
+							// debugger
 // TODO 后期待优化
+							$.ajax({
+								url: 'js/area.json',
+								type: 'get',
+								async: false,
+								success: function(res) {
+									provinceList = res
+									// $('.province').html('<option value="">-请选择-</option>')
+									$.each(res, function(i, field) {
+												
+										$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
+										// $("span").append(field.name + "," + field.goods);
+									});
+								}
+							})
 							if (res.data.area1Id) {
-								setTimeout(function(){
-									$('.province').val(res.data.area1Id)
-								},200)
+								$('.province').val(res.data.area1Id)
+								// setTimeout(function(){
+								// 	$('.province').val(res.data.area1Id)
+								// },200)
 								provinceText = res.data.area1Id;
 								$.each(provinceList, function(i, item) {
 									if (provinceText == item.value) {
@@ -903,20 +926,7 @@ $('.showTips').on('mouseleave',function(){
 			// 		// $("span").append(field.name + "," + field.goods);
 			// 	});
 			// });
-			$.ajax({
-				url: 'js/area.json',
-				type: 'get',
-				async: true,
-				success: function(res) {
-					provinceList = res
-					// $('.province').html('<option value="">-请选择-</option>')
-					$.each(res, function(i, field) {
-								
-						$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
-						// $("span").append(field.name + "," + field.goods);
-					});
-				}
-			})
+			
 			$('.province').change(function() {
 				provinceText = $(this).val();
 				$.each(provinceList, function(i, item) {

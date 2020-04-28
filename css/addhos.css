@@ -79,7 +79,9 @@
 }
 .hosIntroBox textarea{
 	box-sizing: border-box;
-	width: 1010px;
+	    width: 45%;
+	    min-width: 540px;
+	/* width: 1010px; */
 	height: 100px;
 	/* overflow-y: scroll; */
 	overflow:auto;
@@ -87,7 +89,7 @@
 	font-size: 16px;
 	line-height: 30px;
 	padding: 0 15px;
-	/* resize: none; */
+	resize: none;
 }
 
 .selectOption text{
@@ -164,6 +166,7 @@
 	box-sizing: border-box;
 	border: 1px solid #e5e5e5;
 	float: left;
+	margin-top: -185px;
 }
 .tableBoxRt >div:nth-child(1){
 	width: 100%;

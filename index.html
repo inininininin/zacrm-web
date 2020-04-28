@@ -1,440 +1,466 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <!-- 让 Bootstrap 兼容 IE 兼容模型 -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- 让 Bootstrap 兼容 国产浏览器的高速模型 -->
-    <meta name="renderer" content="webkit">
-    <!-- 实现响应式的设置 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes"/>
-    <title>忠安客户漏斗管理系统</title>
-    <link rel="stylesheet" href="css/all.css"/>
-    <link rel="stylesheet" href="css/saleindex.css"/>
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-	
-    <!--<link rel="stylesheet" href="css/all.css"/>-->
-    <!-- <script src="js/jquery-1.11.3.js"></script> -->
-	<script src="page/jquery-1.11.1.min.js"></script>
-	<link rel="stylesheet" href="page/paging.css">
-	<script src="js/rem.js"></script>
-	<script src="js/image-file-visible.js"></script>
-	<script src="layui/layui.js"></script>
-	<link rel="stylesheet" href="layui/css/layui.css">
-</head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<!-- 让 Bootstrap 兼容 IE 兼容模型 -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- 让 Bootstrap 兼容 国产浏览器的高速模型 -->
+		<meta name="renderer" content="webkit">
+		<!-- 实现响应式的设置 -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes" />
+		<title>忠安客户漏斗管理系统</title>
+		<link rel="stylesheet" href="css/all.css" />
+		<link rel="stylesheet" href="css/saleindex.css" />
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+
+		<!--<link rel="stylesheet" href="css/all.css"/>-->
+		<!-- <script src="js/jquery-1.11.3.js"></script> -->
+		<script src="page/jquery-1.11.1.min.js"></script>
+		<link rel="stylesheet" href="page/paging.css">
+		<script src="js/rem.js"></script>
+		<script src="js/image-file-visible.js"></script>
+		<script src="layui/layui.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+	</head>
 	<body>
 		<div class="mainbox">
 			<div class="topselect">
-				<a href="login.html" style="display: block;width: 100%;line-height: 30px;text-align: right;">退出登录</a>
+
 				<div style="width: 100%;height: 80px;">
-					<h2 class="peoname"></h2><span class="shuju" style="margin: 0 10px;"></span> <a class="addHos" href="addHos.html" target="_Blank">新增医院</a> <a class="lookBefore" href="historyDetail.html" target="_Blank">查看昨日工作记录</a>
-					</div>
-					<div class="selectOption" style="width: 100%;height: 80px;">
-						<input type="text" class="keyword" placeholder="请输入关键字"/> <button class="searchThis">搜索</button>
-						<select class="urgentLevel">
-							<option value="">全部</option>
-							<option value="0">加急客户</option>
-							<option value="1">暂不感兴趣</option>
-							<option value="2">初步感兴趣</option>
-							<option value="3">非常感兴趣</option>
-							<option value="4">近期可考察</option>
-							<option value="5">线上可签单</option>
-						</select>
-						<select class="address province">
-							<option value="">-请选择省份-</option>
-						</select>
-						<select class="address city">
-							<option value="">-请选择市区-</option>
-						</select>
-						<!-- <select class="address town">
+					<h2 class="peoname"></h2><span class="shuju" style="margin: 0 10px;"></span> <a class="addHos" href="addHos.html"
+					 target="_blank">新增医院</a> 
+					 <a href="login.html" style="float: right;line-height: 80px;margin-left: 20px;">退出登录</a>
+					 <a class="lookBefore" href="historyDetail.html" target="_blank">查看昨日工作记录</a>
+				</div>
+				<div class="selectOption" style="width: 100%;height: 80px;">
+					<input type="text" class="keyword" placeholder="请输入关键字" /> <button class="searchThis">搜索</button>
+					<select class="urgentLevel">
+						<option value="">全部</option>
+						<option value="0">加急客户</option>
+						<option value="1">暂不感兴趣</option>
+						<option value="2">初步感兴趣</option>
+						<option value="3">非常感兴趣</option>
+						<option value="4">近期可考察</option>
+						<option value="5">线上可签单</option>
+					</select>
+					<select class="address province">
+						<option value="">-请选择省份-</option>
+					</select>
+					<select class="address city">
+						<option value="">-请选择市区-</option>
+					</select>
+					<!-- <select class="address town">
 							<option value="">-请选择-</option>
 						</select> -->
-						<select class="nature">
-							<option value="" selected>全部</option>
-							<option value="1">民营医院</option>
-							<option value="2">公立医院</option>
-						</select>
-						<a  class="refresh" href="javascript:;">搜索全部医院</a>
-						<span class="lastHis">上次浏览记录</span>
-					
+					<select class="nature">
+						<option value="" selected>全部</option>
+						<option value="1">民营医院</option>
+						<option value="2">公立医院</option>
+					</select>
+					<a class="refresh" href="javascript:;">搜索全部医院</a>
+					<span class="lastHis">上次浏览记录</span>
+
 				</div>
 			</div>
-		
+
 			<div class="tableBox">
 				<table>
 					<thead>
 						<tr>
-							<th>医院名称</th><th>拍板人</th><th>固定电话</th><th>拍板人验证</th><th>近期跟踪时间</th>
-							
+							<th>医院名称</th>
+							<th>拍板人</th>
+							<th>固定电话</th>
+							<th>拍板人验证</th>
+							<th>近期跟踪时间</th>
+
 						</tr>
 					</thead>
 					<tbody class="tbody">
-						
+
 					</tbody>
 				</table>
-				<div class="box rt" id="box" ></div>
-				
+				<div class="box rt" id="box"></div>
+
 				<script src="page/paging.js"></script>
 			</div>
-			
+
 		</div>
 		<script>
-			var kw ='',level='',nature='',area1Id='',area2Id='',area3Id='',ps=20,urgent='',pn=1,totalNum=''
+			var kw = '',
+				level = '',
+				nature = '',
+				area1Id = '',
+				area2Id = '',
+				area3Id = '',
+				ps = 15,
+				urgent = '',
+				pn = 1,
+				totalNum = ''
 			// 跳转上次最后一条数据
-			$('.lastHis').click(function(){
+			$('.lastHis').click(function() {
 				$.ajax({
-					url:'/cache/get',
-					type:'get',
-					data:'name='+$('.peoname').html(),
-					async:true,
-					success:function(res){
-						if(res.code==0){
-								console.log(JSON.parse(res.data.value))
-								var data=JSON.parse(res.data.value)
-								kw=data.kw
-								level=data.level
-								nature=data.nature
-								area1Id=data.area1Id
-								area2Id=data.area2Id
-								urgent=data.urgent
-								pn=data.page
-								totalNum=data.totalNum
-								$('.keyword').val(kw)
-								$('.urgentLevel').val(level||urgent)
-								$('.nature').val(nature)
-								$('.province').val(area1Id)
-								$('.city').val(area2Id)
-								console.log(data.page)
-								// $('.keyword').val(kw)
-								$('#box').paging({
-								            initPageNo: pn, // 初始页码
-								            totalPages: totalNum, //总页数
+					url: '/cache/get',
+					type: 'get',
+					data: 'name=' + $('.peoname').html(),
+					async: true,
+					success: function(res) {
+						if (res.code == 0) {
+							console.log(JSON.parse(res.data.value))
+							var data = JSON.parse(res.data.value)
+							kw = data.kw
+							level = data.level
+							nature = data.nature
+							area1Id = data.area1Id
+							area2Id = data.area2Id
+							urgent = data.urgent
+							pn = data.page
+							totalNum = data.totalNum
+							$('.keyword').val(kw)
+							$('.urgentLevel').val(level || urgent)
+							$('.nature').val(nature)
+							$('.province').val(area1Id)
+							$('.city').val(area2Id)
+							console.log(data.page)
+							// $('.keyword').val(kw)
+							$('#box').paging({
+								initPageNo: pn, // 初始页码
+								totalPages: totalNum, //总页数
 								//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
-								            slideSpeed: 600, // 缓动速度。单位毫秒
-								            jump: true, //是否支持跳转
-								            callback: function(page) { // 回调函数
-								                // memberList1(1,page);
-												var nature=$('.nature').val()
-												pn=page
-												console.log(pn)
-												lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
-								            }
-								        })
-								
+								slideSpeed: 600, // 缓动速度。单位毫秒
+								jump: true, //是否支持跳转
+								callback: function(page) { // 回调函数
+									// memberList1(1,page);
+									var nature = $('.nature').val()
+									pn = page
+									console.log(pn)
+									lastPage(page, ps, kw, nature, area1Id, area2Id, area3Id, urgent, level)
+								}
+							})
+
 						}
 					}
-				}) 
+				})
 			})
-			
-			
+
+
 			var layer;
 			layui.use('layer', function() {
 				layer = layui.layer;
 			});
 			// layer.open(132)
 			$.ajax({
-			    url:'/login-refresh',
-			    type:'POST',
-			    async:true,
-			    success: function(res) {
-			        if (res.code == 0) {
-					
+				url: '/login-refresh',
+				type: 'POST',
+				async: true,
+				success: function(res) {
+					if (res.code == 0) {
+
 						$('.peoname').html(res.data.nickname)
-			   //         window.location.href='index.html'
-			        } else {
+						//         window.location.href='index.html'
+					} else {
 						alert('请登录')
-					   setTimeout(function(){
-						   location.href='login.html'
-					   },1000)
-			        }
-			    }
+						setTimeout(function() {
+							location.href = 'login.html'
+						}, 1000)
+					}
+				}
 			})
-			
+
 			// var totalNum=''
-			
+
 			lastPageNo()
 			$('#box').paging({
-			            initPageNo: 1, // 初始页码
-			            totalPages: totalNum, //总页数
-			//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
-			            slideSpeed: 600, // 缓动速度。单位毫秒
-			            jump: true, //是否支持跳转
-			            callback: function(page) { // 回调函数
-			                // memberList1(1,page);
-							var nature=$('.nature').val()
-							pn=page
-							lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
-			            }
-			        })
-			
-			$('table').on('click','tr .enterHos',function(){
-				$(this).parent().css('background','rgba(229,229,229,0.5)')
-				var  param={'page':pn,'level':level,'nature':nature,'kw':kw,'area1Id':area1Id,'area2Id':area2Id,'urgent':urgent,'totalNum':totalNum}
+				initPageNo: 1, // 初始页码
+				totalPages: totalNum, //总页数
+				//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+				slideSpeed: 600, // 缓动速度。单位毫秒
+				jump: true, //是否支持跳转
+				callback: function(page) { // 回调函数
+					// memberList1(1,page);
+					var nature = $('.nature').val()
+					pn = page
+					lastPage(page, ps, kw, nature, area1Id, area2Id, area3Id, urgent, level)
+				}
+			})
+
+			$('table').on('click', 'tr .enterHos', function() {
+				$(this).parent().css('background', 'rgba(229,229,229,0.2)')
+				var param = {
+					'page': pn,
+					'level': level,
+					'nature': nature,
+					'kw': kw,
+					'area1Id': area1Id,
+					'area2Id': area2Id,
+					'urgent': urgent,
+					'totalNum': totalNum
+				}
 				$.ajax({
-					url:'/cache/set',
-					type:'post',
-					data:'name='+$('.peoname').html()+'&value='+JSON.stringify(param),
-					async:true,
-					success:function(res){
-						if(res.code==0){
-						
+					url: '/cache/set',
+					type: 'post',
+					data: 'name=' + $('.peoname').html() + '&value=' + JSON.stringify(param),
+					async: true,
+					success: function(res) {
+						if (res.code == 0) {
+
 						}
 					}
-				}) 
-				
+				})
+
 			})
-		
+
 			//点击进入详情页
-			 // $('body').on('click','tbody .enterHos',function(){
-				//  // self.location.href='login.html'
-				//   window.location.href='login.html'
-				// // window.open ("login.html", "", "height=100, width=100,top=0, left=0,toolbar=no,menubar=no, scrollbars=no, resizable=no, location=n o,status=no")
-			 // })
-			 
-			 function lastPage(pn,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level){
+			// $('body').on('click','tbody .enterHos',function(){
+			//  // self.location.href='login.html'
+			//   window.location.href='login.html'
+			// // window.open ("login.html", "", "height=100, width=100,top=0, left=0,toolbar=no,menubar=no, scrollbars=no, resizable=no, location=n o,status=no")
+			// })
+
+			function lastPage(pn, ps, kw, nature, area1Id, area2Id, area3Id, urgent, level) {
 				$.ajax({
-					url:'/my-customer/customer-list',
-					type:'GET',
-					data:'kw='+kw+'&level='+level+'&pn='+pn+'&ps='+ps+'&nature='+nature+'&area1Id='+area1Id+'&area2Id='+area2Id+'&area3Id='+area3Id+'&urgent='+urgent,
-					async:true,
-					success:function(res){
-						if(res.code==0){
-								$('.tbody').html('')
-							if(res.data.itemList&&res.data.itemList.length>0){
-							
-								for(var i  in res.data.itemList){
-									$('.tbody').append('<tr><td class="enterHos"><a href="addHos.html?id='+res.data.itemList[i].customerId+'" target="_Blank">'+(res.data.itemList[i].name||"")+'</a></td><td>'+(res.data.itemList[i].paiBanCustomerWorkerName||"")+'</td><td>'+(res.data.itemList[i].tel||"")+'</td><td>'+(res.data.itemList[i].paiBanCustomerWorkerVerifyWay||"")+'</td><td>'+getDateDiff(res.data.itemList[i].updateTime)+'</td></tr>')									
+					url: '/my-customer/customer-list',
+					type: 'GET',
+					data: 'kw=' + kw + '&level=' + level + '&pn=' + pn + '&ps=' + ps + '&nature=' + nature + '&area1Id=' + area1Id +
+						'&area2Id=' + area2Id + '&area3Id=' + area3Id + '&urgent=' + urgent,
+					async: true,
+					success: function(res) {
+						if (res.code == 0) {
+							$('.tbody').html('')
+							if (res.data.itemList && res.data.itemList.length > 0) {
+
+								for (var i in res.data.itemList) {
+									$('.tbody').append('<tr><td class="enterHos"><a href="addHos.html?id=' + res.data.itemList[i].customerId +
+										'" target="_blank">' + (res.data.itemList[i].name || "") + '</a></td><td>' + (res.data.itemList[i].paiBanCustomerWorkerName ||
+											"") + '</td><td>' + (res.data.itemList[i].tel || "") + '</td><td>' + (res.data.itemList[i].paiBanCustomerWorkerVerifyWay ||
+											"") + '</td><td>' + getDateDiff(res.data.itemList[i].updateTime) + '</td></tr>')
 								}
 							}
 						}
 					}
-				}) 
-			 }
-			 function lastPageNo(){
-				 $.ajax({
-				 	url:'/my-customer/customer-list-sum',
-				 	type:'GET',
-				 	data:'kw='+kw+'&level='+level+'&nature='+nature+'&area1Id='+area1Id+'&area2Id='+area2Id+'&area3Id='+area3Id+'&urgent='+urgent,
-				 	async:true,
-				 	success:function(res){
-				 		if(res.code==0){
-				 			totalNum=Math.ceil(res.data.itemCount/ps)
-							$('.shuju').html('( 共'+res.data.itemCount+'条数据 )')
-				 		}
-				 	}
-				 }) 
-			 }
-			 
-			 // 搜索
-			 $('.searchThis').click(function(){
-				 kw=$('.keyword').val()
-				 lastPageNo()
-				 // lastPage(1,ps,kw,nature,area1Id,area2Id,area3Id)
-				 $('#box').paging({
-				             initPageNo: 1, // 初始页码
-				             totalPages: totalNum, //总页数
-				 //                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
-				             slideSpeed: 600, // 缓动速度。单位毫秒
-				             jump: true, //是否支持跳转
-				             callback: function(page) { // 回调函数
-							 pn=page
-				 				lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
-				             }
-				         })
-			 })
-			 $('.urgentLevel').change(function(){
-				 if($(this).val()==''){
-					 urgent=''
-					 level=''
-				 }else if($(this).val()==0){
-					 urgent=1
-					 level=''
-				 }else{
-					 urgent=''
-					 level=$(this).val()
-				 }
-				 
-				  lastPageNo()
-				  // lastPage(1,ps,kw,nature,area1Id,area2Id,area3Id)
-				  $('#box').paging({
-				              initPageNo: 1, // 初始页码
-				              totalPages: totalNum, //总页数
-				  //                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
-				              slideSpeed: 600, // 缓动速度。单位毫秒
-				              jump: true, //是否支持跳转
-				              callback: function(page) { // 回调函数
-							  pn=page
-				  				lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
-				              }
-				          })
-			  })
-			 
-			  $('.nature').change(function(){
-				  nature=$(this).val()
-				  lastPageNo()
-				  // lastPage(1,ps,kw,nature,area1Id,area2Id,area3Id)
-				  $('#box').paging({
-				              initPageNo: 1, // 初始页码
-				              totalPages: totalNum, //总页数
-				  //                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
-				              slideSpeed: 600, // 缓动速度。单位毫秒
-				              jump: true, //是否支持跳转
-				              callback: function(page) { // 回调函数
-				                  // memberList1(1,page);
-				  				var nature=$('.nature').val()
-								pn=page
-				  				lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
-				              }
-				          })
-			  })
-			 
-			 
-			 var provinceList, cityList, townList, cityItem, townItem
-			 // 省市区三级联动
-			 // TODO 后期待优化
-			 $.getJSON("js/area.json", function(res) {
-			 	provinceList = res
-			 	// $('.province').html('<option value="">-请选择-</option>')
-			 	$.each(res, function(i, field) {
-			 
-			 		$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
-			 		// $("span").append(field.name + "," + field.goods);
-			 	});
-			 });
-			 		
-			 $('.province').change(function() {
-			 	provinceText = $(this).val();
-			 	$.each(provinceList, function(i, item) {
-			 		if (provinceText == item.value) {
-			 			cityItem = i;
-			 		}
-			 	});
-			 	cityList = provinceList[cityItem]
-			 	$('.city').html('<option value="">-请选择-</option>')
-			 	$('.town').html('<option value="">-请选择-</option>')
-			 	$.each(cityList.children, function(i, item) {
-			 		$('.city').append('<option value="' + item.value + '">' + item.label + '</option>')
-			 	})
-			 	area1Id=$(this).val()
-				area2Id=''
-			 	lastPageNo()
-			 	// lastPage(1,ps,kw,nature,area1Id,area2Id,area3Id)
-			 	$('#box').paging({
-			 	            initPageNo: 1, // 初始页码
-			 	            totalPages: totalNum, //总页数
-			 	//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
-			 	            slideSpeed: 600, // 缓动速度。单位毫秒
-			 	            jump: true, //是否支持跳转
-			 	            callback: function(page) { // 回调函数
-			 	                // memberList1(1,page);
-			 					var nature=$('.nature').val()
-								pn=page
-			 					lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
-			 	            }
-			 	        })
-			 })
-			 $('.city').change(function() {
-			 	cityText = $(this).val();
-			 	$.each(cityList.children, function(i, item) {
-			 		if (cityText == item.value) {
-			 			townItem = i;
-			 		}
-			 	});
-			 	townList = cityList.children[townItem]
-			 	$('.town').html('<option value="">-请选择-</option>')
-			 	$.each(townList.children, function(i, item) {
-			 		$('.town').append('<option value="' + item.value + '">' + item.label + '</option>')
-			 	})
-				area2Id=$(this).val()
+				})
+			}
+
+			function lastPageNo() {
+				$.ajax({
+					url: '/my-customer/customer-list-sum',
+					type: 'GET',
+					data: 'kw=' + kw + '&level=' + level + '&nature=' + nature + '&area1Id=' + area1Id + '&area2Id=' + area2Id +
+						'&area3Id=' + area3Id + '&urgent=' + urgent,
+					async: false,
+					success: function(res) {
+						if (res.code == 0) {
+							totalNum = Math.ceil(res.data.itemCount / ps)
+							$('.shuju').html('( 共' + res.data.itemCount + '条数据 )')
+						}
+					}
+				})
+			}
+
+			// 搜索
+			$('.searchThis').click(function() {
+				kw = $('.keyword').val()
 				lastPageNo()
 				// lastPage(1,ps,kw,nature,area1Id,area2Id,area3Id)
 				$('#box').paging({
-				            initPageNo: 1, // 初始页码
-				            totalPages: totalNum, //总页数
-				//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
-				            slideSpeed: 600, // 缓动速度。单位毫秒
-				            jump: true, //是否支持跳转
-				            callback: function(page) { // 回调函数
-				                // memberList1(1,page);
-								var nature=$('.nature').val()
-								pn=page
-								lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
-				            }
-				        })
-			 })
-			 // 清空全部搜索条件
-			 $('.refresh').click(function(){
-				 $('.keyword').val('')
-				  $('.province').val('')
-				    $('.city').val('')
-					$('.nature').val('')
-					$('.urgentLevel').val('')
-				 kw=''
-				 nature=''
-				 area1Id=''
-				 area2Id=''
-				 urgent=''
-				 level=''
-				 lastPageNo()
-				 // lastPage(1,ps,kw,nature,area1Id,area2Id,area3Id)
-				 $('#box').paging({
-				             initPageNo: 1, // 初始页码
-				             totalPages: totalNum, //总页数
-				 //                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
-				             slideSpeed: 600, // 缓动速度。单位毫秒
-				             jump: true, //是否支持跳转
-				             callback: function(page) { // 回调函数
-				                 // memberList1(1,page);
-				 				var nature=$('.nature').val()
-								pn=page
-				 				lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
-				             }
-				         })
-			 })
-			 // 时间转换
-			 function getDateDiff(dateTimeStamp){
-			   var result;
-			     var minute = 1000 * 60;
-			     var hour = minute * 60;
-			     var day = hour * 24;
-			     var halfamonth = day * 15;
-			     var month = day * 30;
-			     var now = new Date().getTime();
-			     var diffValue = now - dateTimeStamp;
-			     if(diffValue < 0){
-			     return;
-			   }
-			     var monthC =diffValue/month;
-			     var weekC =diffValue/(7*day);
-			     var dayC =diffValue/day;
-			     var hourC =diffValue/hour;
-			     var minC =diffValue/minute;
-			     if(monthC>=1){
-			     if(monthC<=12)
-			           result="" + parseInt(monthC) + "月前";
-			     else{
-			       result="" + parseInt(monthC/12) + "年前";
-			     }
-			     }
-			     else if(weekC>=1){
-			         result="" + parseInt(weekC) + "周前";
-			     }
-			     else if(dayC>=1){
-			         result=""+ parseInt(dayC) +"天前";
-			     }
-			     else if(hourC>=1){
-			         result=""+ parseInt(hourC) +"小时前";
-			     }
-			     else if(minC>=1){
-			         result=""+ parseInt(minC) +"分钟前";
-			     }else{
-			     result="刚刚";
-			   }
-			     return result;
-			 };
-		
+					initPageNo: 1, // 初始页码
+					totalPages: totalNum, //总页数
+					//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+					slideSpeed: 600, // 缓动速度。单位毫秒
+					jump: true, //是否支持跳转
+					callback: function(page) { // 回调函数
+						pn = page
+						lastPage(page, ps, kw, nature, area1Id, area2Id, area3Id, urgent, level)
+					}
+				})
+			})
+			$('.urgentLevel').change(function() {
+				if ($(this).val() == '') {
+					urgent = ''
+					level = ''
+				} else if ($(this).val() == 0) {
+					urgent = 1
+					level = ''
+				} else {
+					urgent = ''
+					level = $(this).val()
+				}
+
+				lastPageNo()
+				// lastPage(1,ps,kw,nature,area1Id,area2Id,area3Id)
+				$('#box').paging({
+					initPageNo: 1, // 初始页码
+					totalPages: totalNum, //总页数
+					//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+					slideSpeed: 600, // 缓动速度。单位毫秒
+					jump: true, //是否支持跳转
+					callback: function(page) { // 回调函数
+						pn = page
+						lastPage(page, ps, kw, nature, area1Id, area2Id, area3Id, urgent, level)
+					}
+				})
+			})
+
+			$('.nature').change(function() {
+				nature = $(this).val()
+				lastPageNo()
+				// lastPage(1,ps,kw,nature,area1Id,area2Id,area3Id)
+				$('#box').paging({
+					initPageNo: 1, // 初始页码
+					totalPages: totalNum, //总页数
+					//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+					slideSpeed: 600, // 缓动速度。单位毫秒
+					jump: true, //是否支持跳转
+					callback: function(page) { // 回调函数
+						// memberList1(1,page);
+						var nature = $('.nature').val()
+						pn = page
+						lastPage(page, ps, kw, nature, area1Id, area2Id, area3Id, urgent, level)
+					}
+				})
+			})
+
+
+			var provinceList, cityList, townList, cityItem, townItem
+			// 省市区三级联动
+			// TODO 后期待优化
+			$.getJSON("js/area.json", function(res) {
+				provinceList = res
+				// $('.province').html('<option value="">-请选择-</option>')
+				$.each(res, function(i, field) {
+
+					$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
+					// $("span").append(field.name + "," + field.goods);
+				});
+			});
+
+			$('.province').change(function() {
+				provinceText = $(this).val();
+				$.each(provinceList, function(i, item) {
+					if (provinceText == item.value) {
+						cityItem = i;
+					}
+				});
+				cityList = provinceList[cityItem]
+				$('.city').html('<option value="">-请选择-</option>')
+				$('.town').html('<option value="">-请选择-</option>')
+				$.each(cityList.children, function(i, item) {
+					$('.city').append('<option value="' + item.value + '">' + item.label + '</option>')
+				})
+				area1Id = $(this).val()
+				area2Id = ''
+				lastPageNo()
+				// lastPage(1,ps,kw,nature,area1Id,area2Id,area3Id)
+				$('#box').paging({
+					initPageNo: 1, // 初始页码
+					totalPages: totalNum, //总页数
+					//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+					slideSpeed: 600, // 缓动速度。单位毫秒
+					jump: true, //是否支持跳转
+					callback: function(page) { // 回调函数
+						// memberList1(1,page);
+						var nature = $('.nature').val()
+						pn = page
+						lastPage(page, ps, kw, nature, area1Id, area2Id, area3Id, urgent, level)
+					}
+				})
+			})
+			$('.city').change(function() {
+				cityText = $(this).val();
+				$.each(cityList.children, function(i, item) {
+					if (cityText == item.value) {
+						townItem = i;
+					}
+				});
+				townList = cityList.children[townItem]
+				$('.town').html('<option value="">-请选择-</option>')
+				$.each(townList.children, function(i, item) {
+					$('.town').append('<option value="' + item.value + '">' + item.label + '</option>')
+				})
+				area2Id = $(this).val()
+				lastPageNo()
+				// lastPage(1,ps,kw,nature,area1Id,area2Id,area3Id)
+				$('#box').paging({
+					initPageNo: 1, // 初始页码
+					totalPages: totalNum, //总页数
+					//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+					slideSpeed: 600, // 缓动速度。单位毫秒
+					jump: true, //是否支持跳转
+					callback: function(page) { // 回调函数
+						// memberList1(1,page);
+						var nature = $('.nature').val()
+						pn = page
+						lastPage(page, ps, kw, nature, area1Id, area2Id, area3Id, urgent, level)
+					}
+				})
+			})
+			// 清空全部搜索条件
+			$('.refresh').click(function() {
+				$('.keyword').val('')
+				$('.province').val('')
+				$('.city').val('')
+				$('.nature').val('')
+				$('.urgentLevel').val('')
+				kw = ''
+				nature = ''
+				area1Id = ''
+				area2Id = ''
+				urgent = ''
+				level = ''
+				lastPageNo()
+				// lastPage(1,ps,kw,nature,area1Id,area2Id,area3Id)
+				$('#box').paging({
+					initPageNo: 1, // 初始页码
+					totalPages: totalNum, //总页数
+					//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+					slideSpeed: 600, // 缓动速度。单位毫秒
+					jump: true, //是否支持跳转
+					callback: function(page) { // 回调函数
+						// memberList1(1,page);
+						var nature = $('.nature').val()
+						pn = page
+						lastPage(page, ps, kw, nature, area1Id, area2Id, area3Id, urgent, level)
+					}
+				})
+			})
+			// 时间转换
+			function getDateDiff(dateTimeStamp) {
+				var result;
+				var minute = 1000 * 60;
+				var hour = minute * 60;
+				var day = hour * 24;
+				var halfamonth = day * 15;
+				var month = day * 30;
+				var now = new Date().getTime();
+				var diffValue = now - dateTimeStamp;
+				if (diffValue < 0) {
+					return;
+				}
+				var monthC = diffValue / month;
+				var weekC = diffValue / (7 * day);
+				var dayC = diffValue / day;
+				var hourC = diffValue / hour;
+				var minC = diffValue / minute;
+				if (monthC >= 1) {
+					if (monthC <= 12)
+						result = "" + parseInt(monthC) + "月前";
+					else {
+						result = "" + parseInt(monthC / 12) + "年前";
+					}
+				} else if (weekC >= 1) {
+					result = "" + parseInt(weekC) + "周前";
+				} else if (dayC >= 1) {
+					result = "" + parseInt(dayC) + "天前";
+				} else if (hourC >= 1) {
+					result = "" + parseInt(hourC) + "小时前";
+				} else if (minC >= 1) {
+					result = "" + parseInt(minC) + "分钟前";
+				} else {
+					result = "刚刚";
+				}
+				return result;
+			};
 		</script>
 	</body>
 </html>
