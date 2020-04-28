@@ -930,15 +930,15 @@ $('.showTips').on('mouseleave',function(){
 			
 		</script>
 		<script>
-			// $.getJSON("js/area.json", function(res) {
-			// 	provinceList = res
-			// 	// $('.province').html('<option value="">-请选择-</option>')
-			// 	$.each(res, function(i, field) {
+			$.getJSON("js/area.json", function(res) {
+				provinceList = res
+				// $('.province').html('<option value="">-请选择-</option>')
+				$.each(res, function(i, field) {
 			
-			// 		$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
-			// 		// $("span").append(field.name + "," + field.goods);
-			// 	});
-			// });
+					$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
+					// $("span").append(field.name + "," + field.goods);
+				});
+			});
 			
 			$('.province').change(function() {
 				provinceText = $(this).val();
