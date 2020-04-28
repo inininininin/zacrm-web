@@ -1,52 +1,52 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <!-- 让 Bootstrap 兼容 IE 兼容模型 -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- 让 Bootstrap 兼容 国产浏览器的高速模型 -->
-    <meta name="renderer" content="webkit">
-    <!-- 实现响应式的设置 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes"/>
-    <title>登录</title>
-    <link rel="stylesheet" href="css/all.css"/>
-    <link rel="stylesheet" href="css/login.css"/>
-	<link rel="stylesheet" href="layui/css/layui.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <script src="js/jquery-1.11.3.js"></script>
-<script src="layui/layui.js"></script>
-</head>
-<body>
-<div class="logo smargin">
-    <img   src="image/logo.png"   alt=""/>
-    <h2  >忠安客户漏斗管理系统</h2>
-</div>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<!-- 让 Bootstrap 兼容 IE 兼容模型 -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- 让 Bootstrap 兼容 国产浏览器的高速模型 -->
+		<meta name="renderer" content="webkit">
+		<!-- 实现响应式的设置 -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes" />
+		<title>登录</title>
+		<link rel="stylesheet" href="css/all.css" />
+		<link rel="stylesheet" href="css/login.css" />
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<script src="js/jquery-1.11.3.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	<body>
+		<div class="logo smargin">
+			<img src="image/logo.png" alt="" />
+			<h2>忠安客户漏斗管理系统</h2>
+		</div>
 
 
-<div class="number phone">
-    <input class="name" type="text"/>
-    <div>
-        <img src="image/zhanghu.png" alt=""/>
-        <span>账户</span>
-    </div>
-</div>
-<div class="number pwd" style="margin-top: 24px">
-    <input class="password" type="password"/>
-    <div>
-        <img src="image/mima.png" alt=""/>
-        <span>密码</span>
-    </div>
-</div>
-<div class="zdlogin">
-    <div class="lf"><input class="lf" type="checkbox" name="vehicle" value="Car" checked="checked" /><span class="lf">自动登录</span></div>
-    <div class="rt forgetpwd">修改密码</div>
-</div>
-<div class="loginbtn">
-    <button>登录</button>
-</div>
+		<div class="number phone">
+			<input class="name" type="text" />
+			<div>
+				<img src="image/zhanghu.png" alt="" />
+				<span>账户</span>
+			</div>
+		</div>
+		<div class="number pwd" style="margin-top: 24px">
+			<input class="password" type="password" />
+			<div>
+				<img src="image/mima.png" alt="" />
+				<span>密码</span>
+			</div>
+		</div>
+		<div class="zdlogin">
+			<div class="lf"><input class="lf" type="checkbox" name="vehicle" value="Car" checked="checked" /><span class="lf">自动登录</span></div>
+			<div class="rt forgetpwd">修改密码</div>
+		</div>
+		<div class="loginbtn">
+			<button>登录</button>
+		</div>
 
-<!-- <div id='dlgAdd' style="display: none;">
+		<!-- <div id='dlgAdd' style="display: none;">
 	<div>
 		<div class="number phone" style="margin-top: 50px;">
 		    <input class="names" type="text"/>
@@ -74,144 +74,152 @@
 		</div>
 	</div>
 </div> -->
-<div class="zdlogin">
-    <!--<div class="registernow rt">注册账户</div>-->
-</div>
-<script>
-	var layer;
-	layui.use('layer', function() {
-		layer = layui.layer;
-	});
-	
-	$('.forgetpwd').click(function(){
-		layer.open({
-		                title: '修改密码',
-		                type: 1,
-		                area: ['700px', '530px'],
-		                fix: false, //不固定
-		                maxmin: true,
-		                content: '<div><div class="number phone" style="margin-top: 50px;"><input class="names" type="text"/><div><img src="image/zhanghu.png" alt=""/><span>手机号</span> </div></div><div class="number oldpwd" style="margin-top: 24px"><input class="passwords" type="password"/><div><img src="image/mima.png" alt=""/> <span>旧密码</span></div></div><div class="number newpwd" style="margin-top: 24px"><input class="passwords1" type="password"/><div><img src="image/mima.png" alt=""/><span>新密码</span></div></div><div class="pwdbtn" style="margin-top: 50px;"><button onclick="changepwd()">登录</button></div>',
-		                success: function (layero, index) {
-		                },
-		                end: function () {
-		                    var handle_status = $("#handle_status").val();
-		                    if (handle_status == '1') {
-		                        layer.msg('添加成功！', {
-		                            icon: 1,
-		                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
-		                        }, function () {
-		                            history.go(0);
-		                        });
-		                    } else if (handle_status == '2') {
-		                        layer.msg('添加失败！', {
-		                            icon: 2,
-		                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
-		                        }, function () {
-		                            history.go(0);
-		                        });
-		                    }
-		                }
-		            });
-	})
-	// $('.pwdbtn').click(function(){
-	// 	var phone=$('.names').val()
-	// 	var oldpwd=$('.oldpwd').val()
-	// 	var newpwd=$('.newpwd').val()
-	// 	$.ajax({
-	// 		url:'/alter-password-by-phone-old-password',
-	// 		type:'post',
-	// 		data:{
-	// 			phone:phone,
-	// 			oldPassword:oldpwd,
-	// 			newPassword:newPassword,
-	// 		},
-	// 		 async:false,
-	// 		success:function(res){
-	// 			if(res.code==0){
-	// 				window.refresh()
-	// 			}
-	// 		}
-	// 	})
-	// })
-	function changepwd(){
-		var phone=$('.names').val()
-		var oldPassword=$('.passwords').val()
-		var newPassword=$('.passwords1').val()
-		$.ajax({
-			url:'/alter-password-by-phone-old-password',
-			type:'post',
-			data:{
-				phone:phone,
-				oldPassword:oldPassword,
-				newPassword:newPassword,
-			},
-			 async:false,
-			success:function(res){
-				if(res.code==0){
-					window.location.reload()
-				}else{
-					layer.msg(res.codeMsg)
-				}
-			}
-		})
-	}
-    $('.loginbtn').click(function(){
-		var name=$('.name').val()
-		var password=$('.password').val()
-		if(password==''||name==''){
-			alert('请先填写用户名和密码')
-		}else{
-			$.ajax({
-				url:'/login',
-				type:'post',
-				data:{
-					name:name,
-					password:password
-				},
-				 async:false,
-				success:function(res){
-					if(res.code==0){
-						$.ajax({
-						    url:'/login-refresh',
-						    type:'POST',
-						    async:false,
-						    success: function(res) {
-						        if (res.code == 0) {
-									
-						           window.location.href='index.html'
-						        } else {
-						           layer.msg(res.codeMsg)
-						        }
-						    }
-						})
-					}else{
-					layer.msg(res.codeMsg)
-				}
-				}
-			})
-		}
-	
-        // var phone=$('.phone input').val();
-        // var password=$('.pwd input').val();
-        // $.ajax({
-        //     url:'/c/2/useraction/login',
-        //     type:'POST',
-        //     data:"phone="+phone+"&password="+password+"&loginPoint="+3,
-        //     headers:{yccClient:'YCCGX'},
-        //     async:false,
-        //     success: function(data) {
-        //         if (data.code == 0) {
-        //             var token=data.data.token;
-        //             localStorage.setItem('userToken',token)
-        //             location.href='index.html'
-        //         } else {
-        //            alert(data.codeMsg)
-        //         }
-        //     }
-        // })
-    })
+		<div class="zdlogin">
+			<!--<div class="registernow rt">注册账户</div>-->
+		</div>
+		<script>
+			var layer;
+			layui.use('layer', function() {
+				layer = layui.layer;
+			});
 
-</script>
-<script src="js/rem.js"></script>
-</body>
+			$('.forgetpwd').click(function() {
+				layer.open({
+					title: '修改密码',
+					type: 1,
+					area: ['700px', '530px'],
+					fix: false, //不固定
+					maxmin: true,
+					content: '<div><div class="number phone" style="margin-top: 50px;"><input class="names" type="text"/><div><img src="image/zhanghu.png" alt=""/><span>手机号</span> </div></div><div class="number oldpwd" style="margin-top: 24px"><input class="passwords" type="password"/><div><img src="image/mima.png" alt=""/> <span>旧密码</span></div></div><div class="number newpwd" style="margin-top: 24px"><input class="passwords1" type="password"/><div><img src="image/mima.png" alt=""/><span>新密码</span></div></div><div class="pwdbtn" style="margin-top: 50px;"><button onclick="changepwd()">登录</button></div>',
+					success: function(layero, index) {},
+					end: function() {
+						var handle_status = $("#handle_status").val();
+						if (handle_status == '1') {
+							layer.msg('添加成功！', {
+								icon: 1,
+								time: 2000 //2秒关闭（如果不配置，默认是3秒）
+							}, function() {
+								history.go(0);
+							});
+						} else if (handle_status == '2') {
+							layer.msg('添加失败！', {
+								icon: 2,
+								time: 2000 //2秒关闭（如果不配置，默认是3秒）
+							}, function() {
+								history.go(0);
+							});
+						}
+					}
+				});
+			})
+			// $('.pwdbtn').click(function(){
+			// 	var phone=$('.names').val()
+			// 	var oldpwd=$('.oldpwd').val()
+			// 	var newpwd=$('.newpwd').val()
+			// 	$.ajax({
+			// 		url:'/alter-password-by-phone-old-password',
+			// 		type:'post',
+			// 		data:{
+			// 			phone:phone,
+			// 			oldPassword:oldpwd,
+			// 			newPassword:newPassword,
+			// 		},
+			// 		 async:false,
+			// 		success:function(res){
+			// 			if(res.code==0){
+			// 				window.refresh()
+			// 			}
+			// 		}
+			// 	})
+			// })
+			function changepwd() {
+				var phone = $('.names').val()
+				var oldPassword = $('.passwords').val()
+				var newPassword = $('.passwords1').val()
+				$.ajax({
+					url: '/alter-password-by-phone-old-password',
+					type: 'post',
+					data: {
+						phone: phone,
+						oldPassword: oldPassword,
+						newPassword: newPassword,
+					},
+					async: false,
+					success: function(res) {
+						if (res.code == 0) {
+							window.location.reload()
+						} else {
+							layer.msg(res.codeMsg)
+						}
+					}
+				})
+			}
+
+			function login() {
+				var name = $('.name').val()
+				var password = $('.password').val()
+				if (password == '' || name == '') {
+					alert('请先填写用户名和密码')
+				} else {
+					$.ajax({
+						url: '/login',
+						type: 'post',
+						data: {
+							name: name,
+							password: password
+						},
+						async: false,
+						success: function(res) {
+							if (res.code == 0) {
+								$.ajax({
+									url: '/login-refresh',
+									type: 'POST',
+									async: false,
+									success: function(res) {
+										if (res.code == 0) {
+
+											window.location.href = 'index.html'
+										} else {
+											layer.msg(res.codeMsg)
+										}
+									}
+								})
+							} else {
+								layer.msg(res.codeMsg)
+							}
+						}
+					})
+				}
+				}
+				$('.loginbtn').click(function() {
+					login()
+				})
+
+				$(document).keyup(function(event) {
+					if (event.keyCode == 13) {
+						login()
+					}
+				});
+				// var phone=$('.phone input').val();
+				// var password=$('.pwd input').val();
+				// $.ajax({
+				//     url:'/c/2/useraction/login',
+				//     type:'POST',
+				//     data:"phone="+phone+"&password="+password+"&loginPoint="+3,
+				//     headers:{yccClient:'YCCGX'},
+				//     async:false,
+				//     success: function(data) {
+				//         if (data.code == 0) {
+				//             var token=data.data.token;
+				//             localStorage.setItem('userToken',token)
+				//             location.href='index.html'
+				//         } else {
+				//            alert(data.codeMsg)
+				//         }
+				//     }
+				// })
+			// })
+		</script>
+		<script src="js/rem.js"></script>
+	</body>
 </html>

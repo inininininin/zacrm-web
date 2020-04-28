@@ -28,34 +28,37 @@
 		<div class="mainbox">
 			<div class="topselect">
 				<a href="login.html" style="display: block;width: 100%;line-height: 30px;text-align: right;">退出登录</a>
-				<h2 class="peoname"></h2><span class="shuju" style="margin: 0 10px;"></span> <a class="addHos" href="addHos.html" target="_Blank">新增医院</a> <a class="lookBefore" href="historyDetail.html" target="_Blank">查看昨日工作记录</a>
-				<div class="selectOption">
-					<input type="text" class="keyword" placeholder="请输入关键字"/> <button class="searchThis">搜索</button>
-					<select class="urgentLevel">
-						<option value="">全部</option>
-						<option value="0">加急客户</option>
-						<option value="1">暂不感兴趣</option>
-						<option value="2">初步感兴趣</option>
-						<option value="3">非常感兴趣</option>
-						<option value="4">近期可考察</option>
-						<option value="5">线上可签单</option>
-					</select>
-					<select class="address province">
-						<option value="">-请选择省份-</option>
-					</select>
-					<select class="address city">
-						<option value="">-请选择市区-</option>
-					</select>
-					<!-- <select class="address town">
-						<option value="">-请选择-</option>
-					</select> -->
-					<select class="nature">
-						<option value="" selected>全部</option>
-						<option value="1">民营医院</option>
-						<option value="2">公立医院</option>
-					</select>
-					<a  class="refresh" href="javascript:;">搜索全部医院</a>
-					<span class="lastHis">上次浏览记录</span>
+				<div style="width: 100%;height: 80px;">
+					<h2 class="peoname"></h2><span class="shuju" style="margin: 0 10px;"></span> <a class="addHos" href="addHos.html" target="_Blank">新增医院</a> <a class="lookBefore" href="historyDetail.html" target="_Blank">查看昨日工作记录</a>
+					</div>
+					<div class="selectOption" style="width: 100%;height: 80px;">
+						<input type="text" class="keyword" placeholder="请输入关键字"/> <button class="searchThis">搜索</button>
+						<select class="urgentLevel">
+							<option value="">全部</option>
+							<option value="0">加急客户</option>
+							<option value="1">暂不感兴趣</option>
+							<option value="2">初步感兴趣</option>
+							<option value="3">非常感兴趣</option>
+							<option value="4">近期可考察</option>
+							<option value="5">线上可签单</option>
+						</select>
+						<select class="address province">
+							<option value="">-请选择省份-</option>
+						</select>
+						<select class="address city">
+							<option value="">-请选择市区-</option>
+						</select>
+						<!-- <select class="address town">
+							<option value="">-请选择-</option>
+						</select> -->
+						<select class="nature">
+							<option value="" selected>全部</option>
+							<option value="1">民营医院</option>
+							<option value="2">公立医院</option>
+						</select>
+						<a  class="refresh" href="javascript:;">搜索全部医院</a>
+						<span class="lastHis">上次浏览记录</span>
+					
 				</div>
 			</div>
 		
@@ -214,7 +217,7 @@
 				 	url:'/my-customer/customer-list-sum',
 				 	type:'GET',
 				 	data:'kw='+kw+'&level='+level+'&nature='+nature+'&area1Id='+area1Id+'&area2Id='+area2Id+'&area3Id='+area3Id+'&urgent='+urgent,
-				 	async:false,
+				 	async:true,
 				 	success:function(res){
 				 		if(res.code==0){
 				 			totalNum=Math.ceil(res.data.itemCount/ps)

@@ -697,7 +697,7 @@ $('.showTips').on('mouseleave',function(){
 					url: '/my-customer/customer',
 					type: 'GET',
 					data: 'customerId=' + customerId,
-					async: true,
+					async: false,
 					success: function(res) {
 						if (res.code == 0) {
 							$('.hosname').val(res.data.name)
