@@ -214,7 +214,7 @@
 				 	url:'/my-customer/customer-list-sum',
 				 	type:'GET',
 				 	data:'kw='+kw+'&level='+level+'&nature='+nature+'&area1Id='+area1Id+'&area2Id='+area2Id+'&area3Id='+area3Id+'&urgent='+urgent,
-				 	async:false,
+				 	async:true,
 				 	success:function(res){
 				 		if(res.code==0){
 				 			totalNum=Math.ceil(res.data.itemCount/ps)
