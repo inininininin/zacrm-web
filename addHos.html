@@ -167,8 +167,8 @@
 				</div>
 				<div class="tableBoxRt">
 				
-					<div><span class="lookAllTrack" style="float: left;">所有跟踪记录</span>
-						<h2 class="trackName">医院所有跟踪记录</h2>
+					<div><button class="lookAllTrack" style="float: left;height: 35px;line-height: 32px;margin-top: 2px;">查看所有</button>
+						<h2 class="trackName">所有跟踪记录</h2>
 					</div>
 					<div class="trackDetail muti">
 						<!-- <ul>
@@ -864,7 +864,7 @@ $('.showTips').on('mouseleave',function(){
 			trackrelList(customerId,'',1)
 			// 跟踪记录
 			$('.lookAllTrack').click(function(){
-				$('.trackName').html('医院所有跟踪信息')
+				$('.trackName').html('所有跟踪记录')
 				trackrelList(customerId,'',1)
 			})
 			
