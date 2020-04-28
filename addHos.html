@@ -86,7 +86,7 @@
 		<div class="mainbox">
 			<div class="topselect">
 
-				<h2>医院基本信息</h2> <button class="addHos" href="javascript:;">提交信息</button><button style="display: none;" class="modifyHos" href="javascript:;">修改信息</button>
+				<h2 class="title">医院基本信息</h2> <button class="addHos" href="javascript:;">提交信息</button><button style="display: none;" class="modifyHos" href="javascript:;">修改信息</button>
 				<div class="selectOption">
 					<text>医院名称：</text><input class="hosname" type="text" placeholder="请输入医院名称" />
 					 <!-- onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" -->
@@ -707,6 +707,7 @@ $('.showTips').on('mouseleave',function(){
 					async: false,
 					success: function(res) {
 						if (res.code == 0) {
+							document.title=res.data.name +" - " + document.title
 							$('.hosname').val(res.data.name)
 							$('.hosIntro').val(res.data.brief)
 							$('.hostel').val(res.data.tel)
