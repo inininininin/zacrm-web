@@ -273,7 +273,7 @@ ul, li, a {
     -webkit-box-orient: vertical;
 }
 
-@font-face {
+/* @font-face {
     font-family: 'Helvetica';
     src: url('../font/Helvetica-Condensed-Black.otf')
 }
@@ -286,7 +286,7 @@ ul, li, a {
 @font-face {
     font-family: 'STSongTiScBold';
     src: url('../font/STSongTi-Sc-Bold.ttf')
-}
+} */
 
 /*建议底部*/
 .footerEasy {
