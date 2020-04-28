@@ -74,6 +74,7 @@
 		</div>
 	</div>
 </div> -->
+<<<<<<< HEAD
 		<div class="zdlogin">
 			<!--<div class="registernow rt">注册账户</div>-->
 		</div>
@@ -189,6 +190,120 @@
 							}
 						}
 					})
+=======
+<div class="zdlogin">
+    <!--<div class="registernow rt">注册账户</div>-->
+</div>
+<script>
+	var layer;
+	layui.use('layer', function() {
+		layer = layui.layer;
+	});
+	
+	$('.forgetpwd').click(function(){
+		layer.open({
+		                title: '修改密码',
+		                type: 1,
+		                area: ['700px', '530px'],
+		                fix: false, //不固定
+		                maxmin: true,
+		                content: '<div><div class="number phone" style="margin-top: 50px;"><input class="names" type="text"/><div><img src="image/zhanghu.png" alt=""/><span>手机号</span> </div></div><div class="number oldpwd" style="margin-top: 24px"><input class="passwords" type="password"/><div><img src="image/mima.png" alt=""/> <span>旧密码</span></div></div><div class="number newpwd" style="margin-top: 24px"><input class="passwords1" type="password"/><div><img src="image/mima.png" alt=""/><span>新密码</span></div></div><div class="pwdbtn" style="margin-top: 50px;"><button onclick="changepwd()">登录</button></div>',
+		                success: function (layero, index) {
+		                },
+		                end: function () {
+		                    var handle_status = $("#handle_status").val();
+		                    if (handle_status == '1') {
+		                        layer.msg('添加成功！', {
+		                            icon: 1,
+		                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+		                        }, function () {
+		                            history.go(0);
+		                        });
+		                    } else if (handle_status == '2') {
+		                        layer.msg('添加失败！', {
+		                            icon: 2,
+		                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+		                        }, function () {
+		                            history.go(0);
+		                        });
+		                    }
+		                }
+		            });
+	})
+	// $('.pwdbtn').click(function(){
+	// 	var phone=$('.names').val()
+	// 	var oldpwd=$('.oldpwd').val()
+	// 	var newpwd=$('.newpwd').val()
+	// 	$.ajax({
+	// 		url:'/alter-password-by-phone-old-password',
+	// 		type:'post',
+	// 		data:{
+	// 			phone:phone,
+	// 			oldPassword:oldpwd,
+	// 			newPassword:newPassword,
+	// 		},
+	// 		 async:false,
+	// 		success:function(res){
+	// 			if(res.code==0){
+	// 				window.refresh()
+	// 			}
+	// 		}
+	// 	})
+	// })
+	function changepwd(){
+		var phone=$('.names').val()
+		var oldPassword=$('.passwords').val()
+		var newPassword=$('.passwords1').val()
+		$.ajax({
+			url:'/alter-password-by-phone-old-password',
+			type:'post',
+			data:{
+				phone:phone,
+				oldPassword:oldPassword,
+				newPassword:newPassword,
+			},
+			 async:true,
+			success:function(res){
+				if(res.code==0){
+					window.location.reload()
+				}else{
+					layer.msg(res.codeMsg)
+				}
+			}
+		})
+	}
+    $('.loginbtn').click(function(){
+		var name=$('.name').val()
+		var password=$('.password').val()
+		if(password==''||name==''){
+			alert('请先填写用户名和密码')
+		}else{
+			$.ajax({
+				url:'/login',
+				type:'post',
+				data:{
+					name:name,
+					password:password
+				},
+				 async:true,
+				success:function(res){
+					if(res.code==0){
+						$.ajax({
+						    url:'/login-refresh',
+						    type:'POST',
+						    async:true,
+						    success: function(res) {
+						        if (res.code == 0) {
+									
+						           window.location.href='index.html'
+						        } else {
+						           layer.msg(res.codeMsg)
+						        }
+						    }
+						})
+					}else{
+					layer.msg(res.codeMsg)
+>>>>>>> cb8d73445a8f6c9ec8946f17646c5d006fffab9b
 				}
 				}
 				$('.loginbtn').click(function() {

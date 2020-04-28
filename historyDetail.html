@@ -89,7 +89,7 @@
 				url: '/my-customer-worker-trace/customer-worker-trace-list-sum',
 				type: 'GET',
 				// data: 'customerId=' + customerId+'&customerWorkerId='+customerWorkerId+'&pn='+pn+'&ps=15',
-				async: false,
+				async: true,
 				success: function(res) {
 					if (res.code == 0) {
 						totalNum=Math.ceil(res.data.itemCount/20)
