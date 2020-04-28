@@ -35,7 +35,7 @@
 					 <a class="lookBefore" href="historyDetail.html" target="_blank">查看昨日工作记录</a>
 				</div>
 				<div class="selectOption" style="width: 100%;height: 80px;">
-					<input type="text" class="keyword" placeholder="请输入关键字" /> <button class="searchThis">搜索</button>
+					<button class="searchThis">搜索</button><input type="text" class="keyword" placeholder="请输入关键字" /> 
 					<select class="urgentLevel">
 						<option value="">全部</option>
 						<option value="0">加急客户</option>
@@ -69,6 +69,7 @@
 				<table>
 					<thead>
 						<tr>
+							<th>序号</th>
 							<th>医院名称</th>
 							<th>拍板人</th>
 							<th>固定电话</th>
@@ -171,20 +172,7 @@
 			// var totalNum=''
 
 			lastPageNo()
-			$('#box').paging({
-				initPageNo: 1, // 初始页码
-				totalPages: totalNum, //总页数
-				//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
-				slideSpeed: 600, // 缓动速度。单位毫秒
-				jump: true, //是否支持跳转
-				callback: function(page) { // 回调函数
-					// memberList1(1,page);
-					var nature = $('.nature').val()
-					pn = page
-					lastPage(page, ps, kw, nature, area1Id, area2Id, area3Id, urgent, level)
-				}
-			})
-
+			
 			$('table').on('click', 'tr .enterHos', function() {
 				$(this).parent().css('background', 'rgba(229,229,229,0.2)')
 				var param = {
@@ -231,7 +219,7 @@
 							if (res.data.itemList && res.data.itemList.length > 0) {
 
 								for (var i in res.data.itemList) {
-									$('.tbody').append('<tr><td class="enterHos"><a href="addHos.html?id=' + res.data.itemList[i].customerId +
+									$('.tbody').append('<tr><td>'+(parseInt(i)+1+((pn-1)*15))+'</td><td class="enterHos"><a href="addHos.html?id=' + res.data.itemList[i].customerId +
 										'" target="_blank">' + (res.data.itemList[i].name || "") + '</a></td><td>' + (res.data.itemList[i].paiBanCustomerWorkerName ||
 											"") + '</td><td>' + (res.data.itemList[i].tel || "") + '</td><td>' + (res.data.itemList[i].paiBanCustomerWorkerVerifyWay ||
 											"") + '</td><td>' + getDateDiff(res.data.itemList[i].updateTime) + '</td></tr>')
@@ -248,11 +236,25 @@
 					type: 'GET',
 					data: 'kw=' + kw + '&level=' + level + '&nature=' + nature + '&area1Id=' + area1Id + '&area2Id=' + area2Id +
 						'&area3Id=' + area3Id + '&urgent=' + urgent,
-					async: false,
+					async: true,
 					success: function(res) {
 						if (res.code == 0) {
 							totalNum = Math.ceil(res.data.itemCount / ps)
 							$('.shuju').html('( 共' + res.data.itemCount + '条数据 )')
+							$('#box').paging({
+								initPageNo: 1, // 初始页码
+								totalPages: totalNum, //总页数
+								//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+								slideSpeed: 600, // 缓动速度。单位毫秒
+								jump: true, //是否支持跳转
+								callback: function(page) { // 回调函数
+									// memberList1(1,page);
+									var nature = $('.nature').val()
+									pn = page
+									lastPage(page, ps, kw, nature, area1Id, area2Id, area3Id, urgent, level)
+								}
+							})
+							
 						}
 					}
 				})
