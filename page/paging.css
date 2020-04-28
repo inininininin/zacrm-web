@@ -62,11 +62,10 @@
     color: #ffffff;
 }
 .box .jump-text {
-    border-radius: 2px;
-    border: 0;
+  
   /*width: 60px;*/
     width: 48px;
-  height: 32px;
+    height: 25px;
   box-sizing: border-box;
   text-align: center;
   margin: 0 5px;

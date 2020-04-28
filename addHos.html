@@ -167,7 +167,7 @@
 				</div>
 				<div class="tableBoxRt">
 				
-					<div><button class="lookAllTrack" style="float: left;height: 35px;line-height: 32px;margin-top: 2px;">查看所有</button>
+					<div><button class="lookAllTrack "  style="float: left;height: 35px;line-height: 32px;margin-top: 2px;display:none;">查看所有</button>
 						<h2 class="trackName">所有跟踪记录</h2>
 					</div>
 					<div class="trackDetail muti">
@@ -831,6 +831,11 @@ $('.showTips').on('mouseleave',function(){
 			}
 			// 跟踪记录列表
 			function trackrelList(customerId,customerWorkerId,pn) {
+				if(customerWorkerId)
+					$('.lookAllTrack').show()
+				else
+				$('.lookAllTrack').hide()
+
 				$.ajax({
 					url: '/my-customer-worker-trace/customer-worker-trace-list',
 					type: 'GET',
@@ -872,6 +877,7 @@ $('.showTips').on('mouseleave',function(){
 			// 跟踪记录
 			$('.lookAllTrack').click(function(){
 				$('.trackName').html('所有跟踪记录')
+				
 				trackrelList(customerId,'',1)
 			})
 			
