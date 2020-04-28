@@ -324,7 +324,9 @@ $('.showTips').on('mouseleave',function(){
 		// 111111111111111
 			$('.tbodyPaiban').on('dblclick', 'tr td', function() {
 				 clearTimeout(time)
-				
+				if($(this).children().attr('type')&&$(this).children().attr('type')=='text'){
+					
+				}else
 				// $(this).html('<input type="text"  class="modifyThis" onchange="modifyOver('+$(this).parent().attr("relId")+',this)" value="'+$(this).children().html()+'"/>')
 				$(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThisPaiban"  value="' + $(this).children().html() + '"/>')
 				$('.modifyThisPaiban').focus()
@@ -407,6 +409,9 @@ $('.showTips').on('mouseleave',function(){
 				})
 			$('.tbody').on('dblclick', 'tr td', function() {
 				 clearTimeout(time)
+				 if($(this).children().attr('type')&&$(this).children().attr('type')=='text'){
+				 	console.log(1212)
+				 }else
 				// $(this).html('<input type="text"  class="modifyThis" onchange="modifyOver('+$(this).parent().attr("relId")+',this)" value="'+$(this).children().html()+'"/>')
 				$(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThis"  value="' + $(this).children().html() + '"/>')
 				$('.modifyThis').focus()
