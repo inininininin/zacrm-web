@@ -410,7 +410,7 @@ $('.showTips').on('mouseleave',function(){
 			$('.tbody').on('dblclick', 'tr td', function() {
 				 clearTimeout(time)
 				 if($(this).children().attr('type')&&$(this).children().attr('type')=='text'){
-				 	console.log(1212)
+				 	
 				 }else
 				// $(this).html('<input type="text"  class="modifyThis" onchange="modifyOver('+$(this).parent().attr("relId")+',this)" value="'+$(this).children().html()+'"/>')
 				$(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThis"  value="' + $(this).children().html() + '"/>')
@@ -624,7 +624,8 @@ $('.showTips').on('mouseleave',function(){
 						success: function(res) {
 							if (res.code == 0) {
 								layer.msg('操作成功')
-								$('.modifyHos').attr('disabled',"false");
+								
+								$('.modifyHos').attr('disabled',false);
 								// window.history.refresh()
 							}
 						}
