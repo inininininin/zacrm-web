@@ -98,13 +98,11 @@
 .tableBox table tbody tr td{
 	padding: 0 10px;
 	border: 1px solid #e5e5e5;
-	text-align: left;
-}
-.tableBox table tbody tr td:last-child{
-	text-align: center;
+	
 }
 .tableBox table tbody tr td:nth-child(2){
 	cursor: pointer;
+	text-align: left;
 }
 
 /* .selectOption .province,.selectOption  .city,.selectOption  .town{
