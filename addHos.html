@@ -599,11 +599,12 @@ $('.showTips').on('mouseleave',function(){
 				var area2Name = $('.city option:selected').text()
 				var area3Id = $('.town option:selected').val()
 				var area3Name = $('.town option:selected').text()
-				if (area1Id == '' || area2Id == '' || area3Id == '') {
-					layer.msg('请选择医院所在地区')
-				} else if (nature == '') {
-					layer.msg('请选择医院性质')
-				} else if (name == '' || tel == '') {
+				// if (area1Id == '' || area2Id == '' || area3Id == '') {
+				// 	layer.msg('请选择医院所在地区')
+				// } else if (nature == '') {
+				// 	layer.msg('请选择医院性质')
+				// } else 
+				if (name == '') {
 					layer.msg('请填写医院名和固话')
 				} else {
 					$.ajax({

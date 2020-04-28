@@ -85,7 +85,7 @@
 					url:'/cache/get',
 					type:'get',
 					data:'name='+$('.peoname').html(),
-					async:false,
+					async:true,
 					success:function(res){
 						if(res.code==0){
 								console.log(JSON.parse(res.data.value))
@@ -114,7 +114,7 @@
 								            callback: function(page) { // 回调函数
 								                // memberList1(1,page);
 												var nature=$('.nature').val()
-												pn=pn
+												pn=page
 												console.log(pn)
 												lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 								            }
@@ -134,11 +134,11 @@
 			$.ajax({
 			    url:'/login-refresh',
 			    type:'POST',
-			    async:false,
+			    async:true,
 			    success: function(res) {
 			        if (res.code == 0) {
 					
-						$('.peoname').html(res.data.userName)
+						$('.peoname').html(res.data.nickname)
 			   //         window.location.href='index.html'
 			        } else {
 						alert('请登录')
@@ -173,7 +173,7 @@
 					url:'/cache/set',
 					type:'post',
 					data:'name='+$('.peoname').html()+'&value='+JSON.stringify(param),
-					async:false,
+					async:true,
 					success:function(res){
 						if(res.code==0){
 						
