@@ -78,6 +78,54 @@
 			
 		</div>
 		<script>
+			var kw ='',level='',nature='',area1Id='',area2Id='',area3Id='',ps=20,urgent='',pn=1,totalNum=''
+			// 跳转上次最后一条数据
+			$('.lastHis').click(function(){
+				$.ajax({
+					url:'/cache/get',
+					type:'get',
+					data:'name='+$('.peoname').html(),
+					async:false,
+					success:function(res){
+						if(res.code==0){
+								console.log(JSON.parse(res.data.value))
+								var data=JSON.parse(res.data.value)
+								kw=data.kw
+								level=data.level
+								nature=data.nature
+								area1Id=data.area1Id
+								area2Id=data.area2Id
+								urgent=data.urgent
+								pn=data.page
+								totalNum=data.totalNum
+								$('.keyword').val(kw)
+								$('.urgentLevel').val(level||urgent)
+								$('.nature').val(nature)
+								$('.province').val(area1Id)
+								$('.city').val(area2Id)
+								console.log(data.page)
+								// $('.keyword').val(kw)
+								$('#box').paging({
+								            initPageNo: pn, // 初始页码
+								            totalPages: totalNum, //总页数
+								//                totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+								            slideSpeed: 600, // 缓动速度。单位毫秒
+								            jump: true, //是否支持跳转
+								            callback: function(page) { // 回调函数
+								                // memberList1(1,page);
+												var nature=$('.nature').val()
+												pn=pn
+												console.log(pn)
+												lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
+								            }
+								        })
+								
+						}
+					}
+				}) 
+			})
+			
+			
 			var layer;
 			layui.use('layer', function() {
 				layer = layui.layer;
@@ -101,34 +149,7 @@
 			    }
 			})
 			
-			
-			$('table').on('click','tr .enterHos',function(){
-				$(this).parent().css('background','rgba(229,229,229,0.5)')
-				$.ajax({
-					url:'/cache/set',
-					type:'post',
-					data:'name=12312313&value={p:6,id:12123}',
-					async:true,
-					success:function(res){
-						if(res.code==0){
-							
-						}
-					}
-				}) 
-				$.ajax({
-					url:'/cache/get',
-					type:'get',
-					data:'name=1212123132',
-					async:true,
-					success:function(res){
-						if(res.code==0){
-							
-						}
-					}
-				}) 
-			})
-			var kw ='',level='',nature='',area1Id='',area2Id='',area3Id='',ps=20,urgent=''
-			var totalNum=''
+			// var totalNum=''
 			
 			lastPageNo()
 			$('#box').paging({
@@ -140,9 +161,28 @@
 			            callback: function(page) { // 回调函数
 			                // memberList1(1,page);
 							var nature=$('.nature').val()
+							pn=page
 							lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 			            }
 			        })
+			
+			$('table').on('click','tr .enterHos',function(){
+				$(this).parent().css('background','rgba(229,229,229,0.5)')
+				var  param={'page':pn,'level':level,'nature':nature,'kw':kw,'area1Id':area1Id,'area2Id':area2Id,'urgent':urgent,'totalNum':totalNum}
+				$.ajax({
+					url:'/cache/set',
+					type:'post',
+					data:'name='+$('.peoname').html()+'&value='+JSON.stringify(param),
+					async:false,
+					success:function(res){
+						if(res.code==0){
+						
+						}
+					}
+				}) 
+				
+			})
+		
 			//点击进入详情页
 			 // $('body').on('click','tbody .enterHos',function(){
 				//  // self.location.href='login.html'
@@ -196,6 +236,7 @@
 				             slideSpeed: 600, // 缓动速度。单位毫秒
 				             jump: true, //是否支持跳转
 				             callback: function(page) { // 回调函数
+							 pn=page
 				 				lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 				             }
 				         })
@@ -221,6 +262,7 @@
 				              slideSpeed: 600, // 缓动速度。单位毫秒
 				              jump: true, //是否支持跳转
 				              callback: function(page) { // 回调函数
+							  pn=page
 				  				lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 				              }
 				          })
@@ -239,6 +281,7 @@
 				              callback: function(page) { // 回调函数
 				                  // memberList1(1,page);
 				  				var nature=$('.nature').val()
+								pn=page
 				  				lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 				              }
 				          })
@@ -284,6 +327,7 @@
 			 	            callback: function(page) { // 回调函数
 			 	                // memberList1(1,page);
 			 					var nature=$('.nature').val()
+								pn=page
 			 					lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 			 	            }
 			 	        })
@@ -312,6 +356,7 @@
 				            callback: function(page) { // 回调函数
 				                // memberList1(1,page);
 								var nature=$('.nature').val()
+								pn=page
 								lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 				            }
 				        })
@@ -340,6 +385,7 @@
 				             callback: function(page) { // 回调函数
 				                 // memberList1(1,page);
 				 				var nature=$('.nature').val()
+								pn=page
 				 				lastPage(page,ps,kw,nature,area1Id,area2Id,area3Id,urgent,level)
 				             }
 				         })
