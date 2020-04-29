@@ -88,27 +88,27 @@
 
 				<h2 class="title">医院基本信息</h2> <button class="addHos" href="javascript:;">确认新增</button><button style="display: none;" class="modifyHos" href="javascript:;">确认修改</button>
 				<div class="selectOption">
-					<text>医院名称：</text><input class="hosname" type="text" placeholder="请输入医院名称" />
+					<text>医院名称 : </text><input class="hosname" type="text" placeholder="" />
 					 <!-- onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" -->
-					<text>固定电话：</text><input class="hostel" placeholder="请输入医院固话" />
-					<text>医院地址：</text>
+					<text>固定电话 : </text><input class="hostel" placeholder="" />
+					<text>区域 : </text>
 					<select class="address province">
-						<option value="">-请选择-</option>
+						<option value="">-省-</option>
 					</select>
 					<select class="address city">
-						<option value="">-请选择-</option>
+						<option value="">-市-</option>
 					</select>
 					<select class="address town">
-						<option value="">-请选择-</option>
+						<option value="">-区-</option>
 					</select>
-					<text>医院性质：</text>
+					<text>性质 : </text>
 					<select class="hosnature">
 						<option value="1" selected>民营医院</option>
 						<option value="2" >公立医院</option>
 					</select>
 
 					<div class="hosIntroBox">
-						<text>医院简介</text>
+						<text>简介 : </text>
 						<textarea class="hosIntro" rows="3" cols="20"></textarea>
 					</div>
 				</div>
@@ -123,7 +123,7 @@
 							<tr>
 								<th>拍板人</th>
 								<th>职务</th>
-								<th>手机号码</th>
+								<th>手机</th>
 								<th>如何确认</th>
 								<th>固话</th>
 							</tr>
@@ -153,7 +153,7 @@
 							<tr>
 								<th>关联人</th>
 								<th>职务</th>
-								<th>手机号码</th>
+								<th>手机</th>
 								<th>如何确认</th>
 								<th>固话</th>
 							</tr>
@@ -890,8 +890,8 @@ $('.showTips').on('mouseleave',function(){
 									}
 								});
 								cityList = provinceList[cityItem]
-								$('.city').html('<option value="">-请选择-</option>')
-								$('.town').html('<option value="">-请选择-</option>')
+								$('.city').html('<option value="">-市-</option>')
+								$('.town').html('<option value="">-区-</option>')
 								$.each(cityList.children, function(i, item) {
 									// addele(city,item.name)
 									$('.city').append('<option value="' + item.value + '">' + item.label + '</option>')
@@ -905,7 +905,7 @@ $('.showTips').on('mouseleave',function(){
 											}
 										});
 										townList = cityList.children[townItem]
-										$('.town').html('<option value="">-请选择-</option>')
+										$('.town').html('<option value="">-区-</option>')
 										$.each(townList.children, function(i, item) {
 											// addEle(city,item.name)
 											$('.town').append('<option value="' + item.value + '">' + item.label + '</option>')
@@ -1074,8 +1074,8 @@ $('.showTips').on('mouseleave',function(){
 					}
 				});
 				cityList = provinceList[cityItem]
-				$('.city').html('<option value="">-请选择-</option>')
-				$('.town').html('<option value="">-请选择-</option>')
+				$('.city').html('<option value="">-市-</option>')
+				$('.town').html('<option value="">-区-</option>')
 				$.each(cityList.children, function(i, item) {
 					// addele(city,item.name)
 					$('.city').append('<option value="' + item.value + '">' + item.label + '</option>')
@@ -1090,7 +1090,7 @@ $('.showTips').on('mouseleave',function(){
 					}
 				});
 				townList = cityList.children[townItem]
-				$('.town').html('<option value="">-请选择-</option>')
+				$('.town').html('<option value="">-区-</option>')
 				$.each(townList.children, function(i, item) {
 					// addEle(city,item.name)
 					$('.town').append('<option value="' + item.value + '">' + item.label + '</option>')

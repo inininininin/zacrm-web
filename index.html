@@ -36,9 +36,9 @@
 					 <a class="lookBefore" href="historyDetail.html" target="_blank">查看昨日工作记录</a>
 				</div>
 				<div class="selectOption" style="width: 100%;height: 80px;">
-					<button class="searchThis">搜索</button><input type="text" class="keyword" placeholder="请输入关键字" /> 
+					<button class="searchThis">搜索</button><input type="text" class="keyword" placeholder="关键字" /> 
 					<select class="urgentLevel">
-						<option value="">全部</option>
+						<option value="">-级别-</option>
 						<option value="0">加急客户</option>
 						<option value="1">暂不感兴趣</option>
 						<option value="2">初步感兴趣</option>
@@ -47,16 +47,16 @@
 						<option value="5">线上可签单</option>
 					</select>
 					<select class="address province">
-						<option value="">-请选择省份-</option>
+						<option value="">-省-</option>
 					</select>
 					<select class="address city">
-						<option value="">-请选择市区-</option>
+						<option value="">-市-</option>
 					</select>
 					<!-- <select class="address town">
 							<option value="">-请选择-</option>
 						</select> -->
 					<select class="nature">
-						<option value="" selected>全部</option>
+						<option value="" selected>-性质-</option>
 						<option value="1">民营医院</option>
 						<option value="2">公立医院</option>
 					</select>
@@ -350,8 +350,8 @@
 					}
 				});
 				cityList = provinceList[cityItem]
-				$('.city').html('<option value="">-请选择-</option>')
-				$('.town').html('<option value="">-请选择-</option>')
+				$('.city').html('<option value="">-市-</option>')
+				$('.town').html('<option value="">-区-</option>')
 				$.each(cityList.children, function(i, item) {
 					$('.city').append('<option value="' + item.value + '">' + item.label + '</option>')
 				})
@@ -381,7 +381,7 @@
 					}
 				});
 				townList = cityList.children[townItem]
-				$('.town').html('<option value="">-请选择-</option>')
+				$('.town').html('<option value="">-省-</option>')
 				$.each(townList.children, function(i, item) {
 					$('.town').append('<option value="' + item.value + '">' + item.label + '</option>')
 				})
