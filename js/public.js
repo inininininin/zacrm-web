@@ -487,3 +487,26 @@ function fileChange(target) {
         document.getElementById("upfileSubmit").disabled = false;
     }
 }
+
+
+//退出清除缓存
+function loginout(){
+
+	$(window).bind('beforeunload', function () {
+					 // debugger
+					$.ajax({
+						type:"post",
+						url:"/logout",
+						data:"",
+						success:function (data){
+									debugger
+						}
+					})
+	           return '提示：未保存的内容将会丢失。';  //好像这个提示并没什么用
+	       });
+				
+	       // $('#id_submit_button').click(function () {
+	       //     $(window).unbind('beforeunload');//这个是取消提醒
+	       // });
+	
+}

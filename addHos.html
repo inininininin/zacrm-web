@@ -526,7 +526,7 @@ $('.showTips').on('mouseleave',function(){
 			$('tbody').on('click','tr .enterHos',function(){
 				$('.tableBoxLf').find('.enterHos').parent().css('background','#fff')
 				// $(this).parent().parent().parent().parent().find('.enterHos').parent().css('background','#fff')
-				$(this).parent().css('background','rgba(229,229,229,0.2)')
+				$(this).parent().css('background','rgba(229,229,229,0.5)')
 				customerWorkerIdZz=$(this).parent().attr('relId')
 				$('.trackName').html($(this).children().html()+'跟踪信息')
 				trackrelList(customerId,customerWorkerIdZz,1)
