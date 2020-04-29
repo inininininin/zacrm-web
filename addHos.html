@@ -143,7 +143,7 @@
 									<div class="line-1 lookHis" onmouseover="show('')" onmouseleave="showhidden()"></div>
 								</td>
 								<td>
-									<div class="line-1 lookHis" onmouseover="show('')" onmouseleave="showhidden()"></div>
+									<div class="line-1 lookHis showInputBoxTel" onmouseover="show('')" onmouseleave="showhidden()"></div>
 								</td>
 							</tr>
 						</tbody>
@@ -208,13 +208,90 @@
 				
 				
 			</div>
-
+			
 			<div class="showTips" style="display: none;cursor: pointer;">
 				<a href="javascript:;" style="color: #FFFFFF;">历史</a>
 				<div></div>
 			</div>
+			
+			
+			<div class="addphoen" >
+				<i class="layui-icon closeAdd" >&#x1006;</i>
+				<div><text>电话1:</text><input class="phoneInput1" maxlength="11" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
+				<div><text>电话2:</text><input class="phoneInput2"  maxlength="11" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
+				<div><text>电话3:</text><input class="phoneInput3"  maxlength="11" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
+				<span>完成</span>
+			</div>
+			<div class="addphoeShow">
+				<i class="layui-icon closeAdd" >&#x1006;</i>
+				<div><text>电话1:</text><p class="phonep1"></p></div>
+				<div><text>电话2:</text><p class="phonep2"></p></div>
+				<div><text>电话3:</text><p class="phonep3"></p></div>
+				<span>编辑电话</span>
+			</div>
 		</div>
-
+		<script>
+			$('.closeThis').click(function(){
+				$(this).parent().find('input').val('')
+			})
+			$('.addphoen span').click(function(){
+				$('.addphoen').css('display','none')
+				$('.phonep1').html($('.phoneInput1').val())
+				$('.phonep2').html($('.phoneInput2').val())
+				$('.phonep3').html($('.phoneInput3').val())
+				$('.addphoeShow').css('display','block')
+				if($('.phoneInput1').val()!=''&&$('.phoneInput1').val()!=null&&$('.phoneInput1').val()!=undefined){
+					var phoneInput1=$('.phoneInput1').val()
+				}else{
+					var phoneInput1=''
+				}
+				if($('.phoneInput2').val()!=''&&$('.phoneInput2').val()!=null&&$('.phoneInput2').val()!=undefined){
+					var phoneInput2=','+$('.phoneInput2').val()
+				}else{
+					var phoneInput2=''
+				}
+				if($('.phoneInput3').val()!=''&&$('.phoneInput3').val()!=null&&$('.phoneInput3').val()!=undefined){
+					var phoneInput3=','+$('.phoneInput3').val()
+				}else{
+					var phoneInput3=''
+				}
+				var id=$('.addphoeShow').attr('id')
+				var phones=phoneInput1+phoneInput2+phoneInput3	
+				if(id==''||id==null||id==undefined){
+				
+					$('.jsModify').html(phoneInput1+phoneInput2+phoneInput3)
+				}else{
+					$.ajax({
+						url: '/my-customer-worker/update-customer-worker' ,
+						type: 'post',
+						data: 'customerWorkerId=' +id +'&phone='+phones,
+						async: true,
+						success: function(res) {
+							$('.jsModify').html(phoneInput1+phoneInput2+phoneInput3)
+							$('.jsModify').removeClass('jsModify')
+						},
+					})
+				}
+				
+				
+				
+			})
+			$('.addphoeShow span').click(function(){
+				$('.addphoeShow').css('display','none')
+				var s=$('.phonep1').html()
+				$('.phoneInput1').val($('.phonep1').html())
+				$('.phoneInput2').val($('.phonep2').html())
+				$('.phoneInput3').val($('.phonep3').html())
+				$('.addphoen').css('display','block')
+			})
+			$('.closeAdd').click(function(){
+				$('.addphoeShow').css('display','none')
+				$('.addphoen').css('display','none')
+				$('.phonep1').html('')
+				$('.phonep2').html('')
+				$('.phonep3').html('')
+			})
+		</script>
 		<!-- <script src="js/area.json"></script> -->
 		<script>
 			// (".addHos").attr({"disabled":"disabled"})
@@ -323,11 +400,21 @@ $('.showTips').on('mouseleave',function(){
 			
 		// 111111111111111
 			$('.tbodyPaiban').on('dblclick', 'tr td', function() {
+				$('.phonep1').html('')
+				$('.phonep2').html('')
+				$('.phonep3').html('')
 				 clearTimeout(time)
 				if($(this).children().attr('type')&&$(this).children().attr('type')=='text'){
 					
 				} else if($(this).index()==2){
 				 	// 弹出输入框
+					$('.addphoeShow').css('display','block').attr('id',$(this).parent().attr('relId'))
+					// $('table').find('.jsModify').removeClass('jsModify')
+					$(this).children().addClass('jsModify')
+					var phones=$(this).children().html().split(',')
+					for(var i in phones){
+						$('.phonep'+(i+1)).html(phones[i])
+					}
 				 }else{
 					 
 				// $(this).html('<input type="text"  class="modifyThis" onchange="modifyOver('+$(this).parent().attr("relId")+',this)" value="'+$(this).children().html()+'"/>')
@@ -374,7 +461,11 @@ $('.showTips').on('mouseleave',function(){
 											if(res.code==0){
 												if(level==0){
 													_this.parent().html('<div class="line-1" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
-												}else{
+												}else if(level==2){
+											_this.parent().html('<div class="line-1 lookHis showInputBox" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
+										}else if(level==4){
+											_this.parent().html('<div class="line-1 lookHis showInputBoxTel" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
+										}else{
 													_this.parent().html('<div class="line-1 lookHis" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
 												}
 											}else{
@@ -400,6 +491,10 @@ $('.showTips').on('mouseleave',function(){
 									if(res.code==0){
 										if(level==0){
 											_this.parent().html('<div class="line-1" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
+										}else if(level==2){
+											_this.parent().html('<div class="line-1 lookHis showInputBox" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
+										}else if(level==4){
+											_this.parent().html('<div class="line-1 lookHis showInputBoxTel" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
 										}else{
 											_this.parent().html('<div class="line-1 lookHis" onmouseover="' + show + '" onmouseleave="showhidden()">' + _this.val() +'</div>')
 										}										
@@ -412,11 +507,25 @@ $('.showTips').on('mouseleave',function(){
 					
 				})
 			$('.tbody').on('dblclick', 'tr td', function() {
+				$('.phonep1').html('')
+				$('.phonep2').html('')
+				$('.phonep3').html('')
 				 clearTimeout(time)
 				 if($(this).children().attr('type')&&$(this).children().attr('type')=='text'){
 				 	
 				 }else if($(this).index()==2){
 				 	// 弹出输入框
+					$('.addphoeShow').attr('id','')
+					
+					$('.addphoeShow').css('display','block').attr('id',$(this).parent().attr('relId'))
+					$('table').find('.jsModify').removeClass('jsModify')
+					$(this).children().addClass('jsModify')
+					var phones=$(this).children().html().split(',')
+					console.log(phones)
+					for(var i in phones){
+						var num=parseInt(i)+1
+						$('.phonep'+num).html(phones[i])
+					}
 				 }else{
 					 $(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThis"  value="' + $(this).children().html() + '"/>')
 					 $('.modifyThis').focus()
@@ -466,12 +575,15 @@ $('.showTips').on('mouseleave',function(){
 			// }
 			// 新增相关人员
 			$('.addNewRel').click(function() {
+				var show="show('')"
 				$('.tbody').append('<tr>' +
 					'<td class="enterHos"><input type="text"/></td>' +
 					'<td><input type="text"/></td>' +
-					'<td><input type="tel"/></td>' +
+					'<td><div class="line-1 lookHis showInputBox" onmouseover="'+show+'" onmouseleave="showhidden()"></div></td>'+
+					// '<td><input type="tel"/></td>' +
 					'<td><input type="text"/></td>' +
-					'<td><input type="tel"/></td></tr>')
+					'<td><div class="line-1 lookHis showInputBoxTel" onmouseover="'+show+'" onmouseleave="showhidden()"></div></td></tr>')
+					// '<td><input type="tel showInputBoxTel"/></td></tr>')
 				$(this).css('display', 'none')
 				$('.supplyNewRel').css('display', 'block')
 			})
@@ -482,9 +594,11 @@ $('.showTips').on('mouseleave',function(){
 			$('.supplyNewRel').click(function() {
 				var name = $('.tbody').find(':input:eq(0)').val()
 				var post = $('.tbody').find(':input:eq(1)').val()
-				var phone = $('.tbody').find(':input:eq(2)').val()
-				var verifyWay = $('.tbody').find(':input:eq(3)').val()
-				var tel = $('.tbody').find(':input:eq(4)').val()
+				// var phone = $('.tbody').find(':input:eq(2)').val()
+				var phone=$('.tbody').find('.showInputBox').html()
+				var verifyWay = $('.tbody').find(':input:eq(2)').val()
+				var tel=$('.tbody').find('.showInputBoxTel').html()
+				// var tel = $('.tbody').find(':input:eq(3)').val()
 				var paiBan = ''
 				var _this = $(this)
 				if (name == '' ) {
@@ -509,11 +623,11 @@ $('.showTips').on('mouseleave',function(){
 									$('.tbody').children("tr:last-child").remove()
 									$('.tbody').append('<tr relId="'+res.data.customerWorkerId+'"><td class="enterHos"><div class="line-1">' + name + '</div></td>' +
 										'<td><div class="line-1 lookHis">' + post + '</div></td>' +
-										'<td><div class="line-1 lookHis" onmouseover="' + show1 + '" onmouseleave="showhidden()">' + phone +
+										'<td><div class="line-1 lookHis showInputBox" onmouseover="' + show1 + '" onmouseleave="showhidden()">' + phone +
 										'</div></td>' +
 										'<td><div class="line-1 lookHis" onmouseover="' + show2 + '" onmouseleave="showhidden()">' + verifyWay +
 										'</div></td>' +
-										'<td><div class="line-1 lookHis"onmouseover="' + show3 + '" onmouseleave="showhidden()">' + tel +
+										'<td><div class="line-1 lookHis showInputBoxTel"onmouseover="' + show3 + '" onmouseleave="showhidden()">' + tel +
 										'</div></td></tr>')
 									_this.css('display', 'none')
 									$('.addNewRel').css('display', 'block')
@@ -826,11 +940,11 @@ $('.showTips').on('mouseleave',function(){
 										var show3 = "show('" + res.data.itemList[i].tel + "')"
 										$('.tbody').append('<tr relId="'+res.data.itemList[i].customerWorkerId+'"><td class="enterHos"><div class="line-1">' + (res.data.itemList[i].name || "") + '</div></td>' +
 											'<td><div class="line-1 lookHis">' + (res.data.itemList[i].post || "") + '</div></td>' +
-											'<td><div class="line-1 lookHis" onmouseover="' + show1 + '" onmouseleave="showhidden()">' + (res.data.itemList[i].phone ||"") +
+											'<td><div class="line-1 lookHis showInputBox" onmouseover="' + show1 + '" onmouseleave="showhidden()">' + (res.data.itemList[i].phone ||"") +
 											'</div></td>' +
 											'<td><div class="line-1 lookHis" onmouseover="' + show2 + '" onmouseleave="showhidden()">' + (res.data.itemList[i].verifyWay ||"") +
 											'</div></td>' +
-											'<td><div class="line-1 lookHis"onmouseover="' + show3 + '" onmouseleave="showhidden()">' + (res.data.itemList[i].tel||"") +
+											'<td><div class="line-1 lookHis showInputBoxTel"onmouseover="' + show3 + '" onmouseleave="showhidden()">' + (res.data.itemList[i].tel||"") +
 											'</div></td></tr>')
 									}
 																
@@ -982,6 +1096,13 @@ $('.showTips').on('mouseleave',function(){
 					$('.town').append('<option value="' + item.value + '">' + item.label + '</option>')
 				})
 			})
+			
+			
+			
+			// 点击弹出输入密码
+			// $('tbody').on('click','tr .showInputBox',function(){
+			// 	alert(123)
+			// })
 		</script>
 	</body>
 </html>
