@@ -408,12 +408,16 @@ $('.showTips').on('mouseleave',function(){
 					
 				} else if($(this).index()==2){
 				 	// 弹出输入框
+					$('.addphoeShow').attr('id','')
+					
 					$('.addphoeShow').css('display','block').attr('id',$(this).parent().attr('relId'))
-					// $('table').find('.jsModify').removeClass('jsModify')
+					$('table').find('.jsModify').removeClass('jsModify')
 					$(this).children().addClass('jsModify')
 					var phones=$(this).children().html().split(',')
+					
 					for(var i in phones){
-						$('.phonep'+(i+1)).html(phones[i])
+						var num=parseInt(i)+1
+						$('.phonep'+num).html(phones[i])
 					}
 				 }else{
 					 
@@ -521,7 +525,7 @@ $('.showTips').on('mouseleave',function(){
 					$('table').find('.jsModify').removeClass('jsModify')
 					$(this).children().addClass('jsModify')
 					var phones=$(this).children().html().split(',')
-					console.log(phones)
+					
 					for(var i in phones){
 						var num=parseInt(i)+1
 						$('.phonep'+num).html(phones[i])
