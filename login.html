@@ -28,7 +28,7 @@
 			<input class="name" type="text" />
 			<div>
 				<img src="image/zhanghu.png" alt="" />
-				<span>账户</span>
+				<span>用户名</span>
 			</div>
 		</div>
 		<div class="number pwd" style="margin-top: 24px">
@@ -91,7 +91,7 @@
 					area: ['700px', '530px'],
 					fix: false, //不固定
 					maxmin: true,
-					content: '<div><div class="number phone" style="margin-top: 50px;"><input class="names" type="text"/><div><img src="image/zhanghu.png" alt=""/><span>手机号</span> </div></div><div class="number oldpwd" style="margin-top: 24px"><input class="passwords" type="password"/><div><img src="image/mima.png" alt=""/> <span>旧密码</span></div></div><div class="number newpwd" style="margin-top: 24px"><input class="passwords1" type="password"/><div><img src="image/mima.png" alt=""/><span>新密码</span></div></div><div class="pwdbtn" style="margin-top: 50px;"><button onclick="changepwd()">登录</button></div>',
+					content: '<div><div class="number phone" style="margin-top: 50px;"><input class="names" type="text"/><div><img src="image/zhanghu.png" alt=""/><span>用户名</span> </div></div><div class="number oldpwd" style="margin-top: 24px"><input class="passwords" type="password"/><div><img src="image/mima.png" alt=""/> <span>旧密码</span></div></div><div class="number newpwd" style="margin-top: 24px"><input class="passwords1" type="password"/><div><img src="image/mima.png" alt=""/><span>新密码</span></div></div><div class="pwdbtn" style="margin-top: 50px;"><button onclick="changepwd()">确认</button></div>',
 					success: function(layero, index) {},
 					end: function() {
 						var handle_status = $("#handle_status").val();
@@ -134,14 +134,14 @@
 			// 	})
 			// })
 			function changepwd() {
-				var phone = $('.names').val()
+				var name = $('.names').val()
 				var oldPassword = $('.passwords').val()
 				var newPassword = $('.passwords1').val()
 				$.ajax({
-					url: '/alter-password-by-phone-old-password',
+					url: '/alter-password-by-name-old-password',
 					type: 'post',
 					data: {
-						phone: phone,
+						name: name,
 						oldPassword: oldPassword,
 						newPassword: newPassword,
 					},
