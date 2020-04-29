@@ -652,6 +652,7 @@ $('.showTips').on('mouseleave',function(){
 				var area3Name = $('.town option:selected').text()
 				if (name == ''){
 					layer.msg('请填写医院名')
+					$('.addHos').attr('disabled',"false");
 				// }
 				// if (area1Id == '' || area2Id == '' || area3Id == '') {
 				// 	layer.msg('请选择医院所在地区')
