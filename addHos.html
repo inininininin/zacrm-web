@@ -137,7 +137,7 @@
 									<div class="line-1 lookHis"></div>
 								</td>
 								<td>
-									<div class="line-1 lookHis" onmouseover="show('')" onmouseleave="showhidden()"></div>
+									<div class="line-1 lookHis showInputBox" onmouseover="show('')" onmouseleave="showhidden()"></div>
 								</td>
 								<td>
 									<div class="line-1 lookHis" onmouseover="show('')" onmouseleave="showhidden()"></div>
@@ -326,11 +326,15 @@ $('.showTips').on('mouseleave',function(){
 				 clearTimeout(time)
 				if($(this).children().attr('type')&&$(this).children().attr('type')=='text'){
 					
-				}else
+				} else if($(this).index()==2){
+				 	// 弹出输入框
+				 }else{
+					 
 				// $(this).html('<input type="text"  class="modifyThis" onchange="modifyOver('+$(this).parent().attr("relId")+',this)" value="'+$(this).children().html()+'"/>')
 				$(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThisPaiban"  value="' + $(this).children().html() + '"/>')
 				$('.modifyThisPaiban').focus()
 				showhidden()
+				}
 			})
 				$('table').on('blur', 'tr .modifyThisPaiban', function() {
 					var level = $(this).attr('level')
@@ -411,11 +415,15 @@ $('.showTips').on('mouseleave',function(){
 				 clearTimeout(time)
 				 if($(this).children().attr('type')&&$(this).children().attr('type')=='text'){
 				 	
-				 }else
+				 }else if($(this).index()==2){
+				 	// 弹出输入框
+				 }else{
+					 $(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThis"  value="' + $(this).children().html() + '"/>')
+					 $('.modifyThis').focus()
+					 showhidden()
+				 }
 				// $(this).html('<input type="text"  class="modifyThis" onchange="modifyOver('+$(this).parent().attr("relId")+',this)" value="'+$(this).children().html()+'"/>')
-				$(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThis"  value="' + $(this).children().html() + '"/>')
-				$('.modifyThis').focus()
-				showhidden()
+				
 			})
 			$('table').on('blur', 'tr .modifyThis', function() {
 				var level = $(this).attr('level')
