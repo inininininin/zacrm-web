@@ -526,7 +526,7 @@ $('.showTips').on('mouseleave',function(){
 			$('tbody').on('click','tr .enterHos',function(){
 				$('.tableBoxLf').find('.enterHos').parent().css('background','#fff')
 				// $(this).parent().parent().parent().parent().find('.enterHos').parent().css('background','#fff')
-				$(this).parent().css('background','rgba(229,229,229,0.2)')
+				$(this).parent().css('background','rgba(229,229,229,0.5)')
 				customerWorkerIdZz=$(this).parent().attr('relId')
 				$('.trackName').html(`<span style="color:red;">${$(this).children().html()}</span>`+'的跟踪记录')
 				trackrelList(customerId,customerWorkerIdZz,1)
@@ -612,7 +612,8 @@ $('.showTips').on('mouseleave',function(){
 				// 	layer.msg('请选择医院性质')
 				// } else 
 				if (name == '') {
-					layer.msg('请填写医院名和固话')
+					layer.msg('请填写医院名')
+					$('.modifyHos').attr('disabled',false);
 				} else {
 					$.ajax({
 						url: '/my-customer/update-customer',
@@ -651,7 +652,9 @@ $('.showTips').on('mouseleave',function(){
 				var area3Id = $('.town option:selected').val()
 				var area3Name = $('.town option:selected').text()
 				if (name == ''){
+					
 					layer.msg('请填写医院名')
+					$('.addHos').attr('disabled',false);
 				// }
 				// if (area1Id == '' || area2Id == '' || area3Id == '') {
 				// 	layer.msg('请选择医院所在地区')
@@ -673,7 +676,7 @@ $('.showTips').on('mouseleave',function(){
 								debugger
 								location.href='addHos.html?id='+res.data.customerId
 								customerId=res.data.customerId
-								$('.addHos').attr('disabled',"false");
+								$('.addHos').attr('disabled',false);
 								// window.history.refresh()
 							}else{
 								layer.msg(res.codeMsg)

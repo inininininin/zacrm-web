@@ -32,14 +32,14 @@
 			</div>
 		</div>
 		<div class="number pwd" style="margin-top: 24px">
-			<input class="password" type="password" />
+			<input class="password" autocomplete="off"  type="text" onfocus="this.type='password'"  />
 			<div>
 				<img src="image/mima.png" alt="" />
 				<span>密码</span>
 			</div>
 		</div>
 		<div class="zdlogin">
-			<div class="lf"><input class="lf" type="checkbox" name="vehicle" value="Car" checked="checked" /><span class="lf">自动登录</span></div>
+			<!-- <div class="lf"><input class="lf" type="checkbox" name="vehicle" value="Car" checked="checked" /><span class="lf">自动登录</span></div> -->
 			<div class="rt forgetpwd">修改密码</div>
 		</div>
 		<div class="loginbtn">
@@ -91,7 +91,7 @@
 					area: ['700px', '530px'],
 					fix: false, //不固定
 					maxmin: true,
-					content: '<div><div class="number phone" style="margin-top: 50px;"><input class="names" type="text"/><div><img src="image/zhanghu.png" alt=""/><span>用户名</span> </div></div><div class="number oldpwd" style="margin-top: 24px"><input class="passwords" type="password"/><div><img src="image/mima.png" alt=""/> <span>旧密码</span></div></div><div class="number newpwd" style="margin-top: 24px"><input class="passwords1" type="password"/><div><img src="image/mima.png" alt=""/><span>新密码</span></div></div><div class="pwdbtn" style="margin-top: 50px;"><button onclick="changepwd()">确认</button></div>',
+					content: '<div><div class="number phone" style="margin-top: 50px;"><input class="names" type="text"/><div><img src="image/zhanghu.png" alt=""/><span>用户名</span> </div></div><div class="number oldpwd" style="margin-top: 24px"><input class="passwords" autocomplete="off"  type="password"/><div><img src="image/mima.png" alt=""/> <span>旧密码</span></div></div><div class="number newpwd" style="margin-top: 24px"><input autocomplete="off"  class="passwords1" type="password"/><div><img src="image/mima.png" alt=""/><span>新密码</span></div></div><div class="pwdbtn" style="margin-top: 50px;"><button onclick="changepwd()">确认</button></div>',
 					success: function(layero, index) {},
 					end: function() {
 						var handle_status = $("#handle_status").val();
@@ -178,7 +178,7 @@
 									async: true,
 									success: function(res) {
 										if (res.code == 0) {
-
+											$('.password').val('')
 											window.location.href = 'index.html'
 										} else {
 											layer.msg(res.codeMsg)

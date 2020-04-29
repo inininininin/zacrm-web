@@ -22,6 +22,7 @@
 		<script src="js/rem.js"></script>
 		<script src="js/image-file-visible.js"></script>
 		<script src="layui/layui.js"></script>
+		<script src="js/public.js"></script>
 		<link rel="stylesheet" href="layui/css/layui.css">
 	</head>
 	<body>
@@ -88,7 +89,10 @@
 			</div>
 
 		</div>
+	
 		<script>
+			
+			
 			var kw = '',
 				level = '',
 				nature = '',
@@ -174,7 +178,8 @@
 			lastPageNo()
 			
 			$('table').on('click', 'tr .enterHos', function() {
-				$(this).parent().css('background', 'rgba(229,229,229,0.2)')
+				$(this).parent().parent().find('.a29905').addClass('a29902').removeClass('a29905')
+				$(this).parent().addClass('a29905').removeClass('a29902')
 				var param = {
 					'page': pn,
 					'level': level,
@@ -463,6 +468,42 @@
 				}
 				return result;
 			};
-		</script>
+			
+			
+			
+			
+		// window.onbeforeunload = function()
+		// {
+		// //  这是用来设定一个时间, 时间到了, 就会执行一个指定的 method。
+		//     // setTimeout(onunloadcancel, 10);
+		// 	$.ajax({
+		// 		type:"post",
+		// 		url:"/logout",
+		// 		data:"",
+		// 		success:function (data){
+		// 					debugger
+		// 		}
+		// 	})
+		//     return "真的离开?";
+		// }
+		// window.onunloadcancel = function()
+		// {
+		//     alert("取消离开");
+		// }
+			</script>
+			
+			<!-- $(window).bind('beforeunload', function () {
+							 // debugger
+							$.ajax({
+								type:"post",
+								url:"/logout",
+								data:"",
+								success:function (data){
+											debugger
+								}
+							})
+			           return '提示：未保存的内容将会丢失。';  //好像这个提示并没什么用
+			       }); -->
+		<!-- </script> -->
 	</body>
 </html>
