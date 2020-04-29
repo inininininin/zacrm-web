@@ -5,7 +5,7 @@
 }
 .topselect{
 	width: 100%;
-	padding: 0 50px;
+	
 }
 .selectOption{
 	width: 100%;
@@ -20,6 +20,7 @@
 	line-height: 80px;
 	font-size: 30px;
 }
+
 .addHos{
 	width: 100px;
 	height: 40px;
@@ -33,7 +34,8 @@
 	margin-left: 30px;
 	text-align: center;
 	background: #409eff;
-	    color: #FFFFFF;
+		color: #FFFFFF;
+	text-decoration: none;
 }
 .lookBefore{
 	float: right;

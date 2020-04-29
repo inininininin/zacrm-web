@@ -86,7 +86,7 @@
 		<div class="mainbox">
 			<div class="topselect">
 
-				<h2 class="title">医院基本信息</h2> <button class="addHos" href="javascript:;">提交信息</button><button style="display: none;" class="modifyHos" href="javascript:;">修改信息</button>
+				<h2 class="title">医院基本信息</h2> <button class="addHos" href="javascript:;">确认新增</button><button style="display: none;" class="modifyHos" href="javascript:;">确认修改</button>
 				<div class="selectOption">
 					<text>医院名称：</text><input class="hosname" type="text" placeholder="请输入医院名称" />
 					 <!-- onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" -->
@@ -167,8 +167,8 @@
 				</div>
 				<div class="tableBoxRt">
 				
-					<div><span class="lookAllTrack" style="float: left;">所有跟踪记录</span>
-						<h2 class="trackName">医院所有跟踪记录</h2>
+					<div><button class="lookAllTrack "  style="float: left;height: 35px;line-height: 32px;margin-top: 2px;display:none;">查看所有</button>
+						<h2 class="trackName">所有跟踪记录</h2>
 					</div>
 					<div class="trackDetail muti">
 						<!-- <ul>
@@ -528,7 +528,7 @@ $('.showTips').on('mouseleave',function(){
 				// $(this).parent().parent().parent().parent().find('.enterHos').parent().css('background','#fff')
 				$(this).parent().css('background','rgba(229,229,229,0.5)')
 				customerWorkerIdZz=$(this).parent().attr('relId')
-				$('.trackName').html($(this).children().html()+'跟踪信息')
+				$('.trackName').html(`<span style="color:red;">${$(this).children().html()}</span>`+'的跟踪记录')
 				trackrelList(customerId,customerWorkerIdZz,1)
 			})
 			// 提交追踪
@@ -831,6 +831,11 @@ $('.showTips').on('mouseleave',function(){
 			}
 			// 跟踪记录列表
 			function trackrelList(customerId,customerWorkerId,pn) {
+				if(customerWorkerId)
+					$('.lookAllTrack').show()
+				else
+				$('.lookAllTrack').hide()
+
 				$.ajax({
 					url: '/my-customer-worker-trace/customer-worker-trace-list',
 					type: 'GET',
@@ -871,7 +876,8 @@ $('.showTips').on('mouseleave',function(){
 			trackrelList(customerId,'',1)
 			// 跟踪记录
 			$('.lookAllTrack').click(function(){
-				$('.trackName').html('医院所有跟踪信息')
+				$('.trackName').html('所有跟踪记录')
+				
 				trackrelList(customerId,'',1)
 			})
 			
