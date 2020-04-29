@@ -791,7 +791,7 @@ $('.showTips').on('mouseleave',function(){
 											}
 										});
 										townList = cityList.children[townItem]
-										$('.town').html('<option value="">-省-</option>')
+										$('.town').html('<option value="">-区-</option>')
 										$.each(townList.children, function(i, item) {
 											// addEle(city,item.name)
 											$('.town').append('<option value="' + item.value + '">' + item.label + '</option>')
