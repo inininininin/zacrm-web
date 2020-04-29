@@ -32,7 +32,7 @@
 				<div style="width: 100%;height: 80px;">
 					<h2 class="peoname"></h2><span class="shuju" style="margin: 0 10px;"></span> <a class="addHos" href="addHos.html"
 					 target="_blank">新增医院</a> 
-					 <a href="login.html" style="float: right;line-height: 80px;margin-left: 20px;">退出登录</a>
+					 <a href="javascript:;" class="loginout" style="float: right;line-height: 80px;margin-left: 20px;">退出登录</a>
 					 <a class="lookBefore" href="historyDetail.html" target="_blank">查看昨日工作记录</a>
 				</div>
 				<div class="selectOption" style="width: 100%;height: 80px;">
@@ -490,6 +490,17 @@
 		// {
 		//     alert("取消离开");
 		// }
+		$('.loginout').click(function(){
+			$.ajax({
+				type:"post",
+				url:"/logout",
+				data:"",
+				success:function (data){
+							location.href='login.html'
+				}
+			})
+		})
+	
 			</script>
 			
 			<!-- $(window).bind('beforeunload', function () {
