@@ -23,6 +23,10 @@
 		<script src="js/rem.js"></script>
 		<script src="js/image-file-visible.js"></script>
 		<script src="layui/layui.js"></script>
+		
+		<link href="plugin-ok/res.js" rel="stylesheet"/>
+		<script src="plugin-ok/base.js"></script> 
+		<script src="plugin-ok/websocket.js"></script>
 		<script>
 			
 			var provinceList, cityList, townList, cityItem, townItem
@@ -82,6 +86,39 @@
 		</script>
 	</head>
 	<body>
+		<div class="container" style="display: none;">
+		    <div class="page-header">
+		        <h2 style="margin-top:20px;margin-left:20px; text-align:center; ">牛插(PluginOK)中间件在线体验</h2>
+		        <a href=http://local.zorrosoft.com/Files/PluginOK.zip>请先点击下载此程序并安装</a>
+		        <a href=http://local.zorrosoft.com/Files/PluginOK.pdf>产品介绍</a>
+		        <a href=http://local.zorrosoft.com/Files/WrlSDK.zip>插件开发SDK包</a>
+		        <br />
+		        <br />
+		    </div>
+		    <div class="row" style="margin-bottom:20px;">
+		        <div class="col-sm-6 col-md-5 col-lg-4">
+		            <div>
+		                <input type="text" class="form-control" size="80" style="margin-bottom:3px;" id="inp_url" placeholder="连接" value="ws://wrl.zorrosoft.com?sid=123&flag=1" />
+		                <button type="button" id="btn_conn" class="btn btn-primary">连接</button>
+		                <button type="button" id="btn_close" class="btn btn-danger" disabled="disabled">断开</button>
+		                <button type="button" id="btn_clear" class="btn btn-danger">清空消息</button>
+		            </div>
+		            <br />
+		            <div style="margin-bottom:20px;">
+		                <textarea id="inp_send" class="form-control" style="margin-bottom:3px;min-width:700px;min-height:300px;" placeholder="发送的内容"></textarea>
+		                <button type="button" id="btn_send" class="btn btn-info btn-block">发送（ctrl+回车）</button>
+		            </div>
+		        </div>
+		        <div class="col-sm-6 col-md-7 col-lg-8">
+		            <div id="div_msgzone" class="panel panel-default">
+		                <div class="panel-heading">通讯记录</div>
+		                <div id="div_msg" class="panel-body" style="min-height:400px;"></div>
+		            </div>
+		        </div>
+		    </div>
+		
+		</div>
+		
 		<div class="thiscontent" style="display: none;"><div class="contentThis"></div></div>
 		<div class="mainbox">
 			<div class="topselect">
@@ -163,7 +200,7 @@
 						</tbody>
 					</table>
 					<div class="addNewRel">新增<i style="margin-left: 5px;" class="layui-icon">&#xe608;</i></div>
-					<div class="supplyNewRel" style="display: none;">完成<i style="margin-left: 5px;" class="layui-icon">&#x1005;</i></div>
+					<div class="supplyNewRel" style="display: none;"><button style="background: #FFFFFF;width: 100%;height: 100%;border: 0;">完成<i style="margin-left: 5px;" class="layui-icon">&#x1005;</i></button></div>
 				</div>
 				<div class="tableBoxRt">
 				
@@ -224,13 +261,21 @@
 			</div>
 			<div class="addphoeShow">
 				<i class="layui-icon closeAdd" >&#x1006;</i>
-				<div><text>电话1:</text><p class="phonep1"></p></div>
-				<div><text>电话2:</text><p class="phonep2"></p></div>
-				<div><text>电话3:</text><p class="phonep3"></p></div>
+				<div><text>电话1:</text><p class="phoneps phonep1"></p></div>
+				<div><text>电话2:</text><p class="phoneps phonep2"></p></div>
+				<div><text>电话3:</text><p class="phoneps phonep3"></p></div>
 				<span>编辑电话</span>
 			</div>
 		</div>
 		<script>
+			lineFriends('15077822798')
+			$('.phoneps').click(function(){
+				lineFriends($(this).html())
+			})
+			
+			
+			
+			
 			$('.closeThis').click(function(){
 				$(this).parent().find('input').val('')
 			})
@@ -246,12 +291,22 @@
 					var phoneInput1=''
 				}
 				if($('.phoneInput2').val()!=''&&$('.phoneInput2').val()!=null&&$('.phoneInput2').val()!=undefined){
-					var phoneInput2=','+$('.phoneInput2').val()
+					if(phoneInput1==''){
+						var phoneInput2=$('.phoneInput2').val()
+					}else{
+						var phoneInput2=','+$('.phoneInput2').val()
+					}
+					
 				}else{
 					var phoneInput2=''
 				}
 				if($('.phoneInput3').val()!=''&&$('.phoneInput3').val()!=null&&$('.phoneInput3').val()!=undefined){
-					var phoneInput3=','+$('.phoneInput3').val()
+					if(phoneInput1==''&&phoneInput2==''){
+						var phoneInput3=$('.phoneInput3').val()
+					}else{
+						var phoneInput3=','+$('.phoneInput3').val()
+					}
+					
 				}else{
 					var phoneInput3=''
 				}
@@ -260,6 +315,9 @@
 				if(id==''||id==null||id==undefined){
 				
 					$('.jsModify').html(phoneInput1+phoneInput2+phoneInput3)
+					if($('.jsModify').parent().parent().attr('class')=='paibanren'){
+						addpaibanPhone(customerId,phones)
+					}
 				}else{
 					$.ajax({
 						url: '/my-customer-worker/update-customer-worker' ,
@@ -268,7 +326,7 @@
 						async: true,
 						success: function(res) {
 							$('.jsModify').html(phoneInput1+phoneInput2+phoneInput3)
-							$('.jsModify').removeClass('jsModify')
+							// $('.jsModify').removeClass('jsModify')
 						},
 					})
 				}
@@ -408,17 +466,17 @@ $('.showTips').on('mouseleave',function(){
 					
 				} else if($(this).index()==2){
 				 	// 弹出输入框
-					$('.addphoeShow').attr('id','')
+					// $('.addphoeShow').attr('id','')
 					
-					$('.addphoeShow').css('display','block').attr('id',$(this).parent().attr('relId'))
-					$('table').find('.jsModify').removeClass('jsModify')
-					$(this).children().addClass('jsModify')
-					var phones=$(this).children().html().split(',')
+					// $('.addphoeShow').css('display','block').attr('id',$(this).parent().attr('relId'))
+					// $('table').find('.jsModify').removeClass('jsModify')
+					// $(this).children().addClass('jsModify')
+					// var phones=$(this).children().html().split(',')
 					
-					for(var i in phones){
-						var num=parseInt(i)+1
-						$('.phonep'+num).html(phones[i])
-					}
+					// for(var i in phones){
+					// 	var num=parseInt(i)+1
+					// 	$('.phonep'+num).html(phones[i])
+					// }
 				 }else{
 					 
 				// $(this).html('<input type="text"  class="modifyThis" onchange="modifyOver('+$(this).parent().attr("relId")+',this)" value="'+$(this).children().html()+'"/>')
@@ -519,17 +577,17 @@ $('.showTips').on('mouseleave',function(){
 				 	
 				 }else if($(this).index()==2){
 				 	// 弹出输入框
-					$('.addphoeShow').attr('id','')
+					// $('.addphoeShow').attr('id','')
 					
-					$('.addphoeShow').css('display','block').attr('id',$(this).parent().attr('relId'))
-					$('table').find('.jsModify').removeClass('jsModify')
-					$(this).children().addClass('jsModify')
-					var phones=$(this).children().html().split(',')
+					// $('.addphoeShow').css('display','block').attr('id',$(this).parent().attr('relId'))
+					// $('table').find('.jsModify').removeClass('jsModify')
+					// $(this).children().addClass('jsModify')
+					// var phones=$(this).children().html().split(',')
 					
-					for(var i in phones){
-						var num=parseInt(i)+1
-						$('.phonep'+num).html(phones[i])
-					}
+					// for(var i in phones){
+					// 	var num=parseInt(i)+1
+					// 	$('.phonep'+num).html(phones[i])
+					// }
 				 }else{
 					 $(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThis"  value="' + $(this).children().html() + '"/>')
 					 $('.modifyThis').focus()
@@ -595,7 +653,8 @@ $('.showTips').on('mouseleave',function(){
 
 			// TODO 新增相关人员
 
-			$('.supplyNewRel').click(function() {
+			$('.supplyNewRel button').click(function() {
+				$(this).attr('disabled','true')
 				var name = $('.tbody').find(':input:eq(0)').val()
 				var post = $('.tbody').find(':input:eq(1)').val()
 				// var phone = $('.tbody').find(':input:eq(2)').val()
@@ -607,9 +666,11 @@ $('.showTips').on('mouseleave',function(){
 				var _this = $(this)
 				if (name == '' ) {
 					layer.msg('请将相关人员姓名')
+					$('.supplyNewRel button').attr('disabled',false)
 				} else {
 					if (customerId == '' || customerId == null || customerId == undefined) {
 						layer.msg('请先点击医院提交信息按钮')
+						$('.supplyNewRel button').attr('disabled',false)
 					} else {
 						$.ajax({
 							url: '/my-customer-worker/create-customer-worker',
@@ -634,6 +695,7 @@ $('.showTips').on('mouseleave',function(){
 										'<td><div class="line-1 lookHis showInputBoxTel"onmouseover="' + show3 + '" onmouseleave="showhidden()">' + tel +
 										'</div></td></tr>')
 									_this.css('display', 'none')
+									$('.supplyNewRel button').attr('disabled',false)
 									$('.addNewRel').css('display', 'block')
 								}
 							}
@@ -1104,9 +1166,19 @@ $('.showTips').on('mouseleave',function(){
 			
 			
 			// 点击弹出输入密码
-			// $('tbody').on('click','tr .showInputBox',function(){
-			// 	alert(123)
-			// })
+			$('tbody').on('click','tr .showInputBox',function(){
+				$('.addphoeShow').attr('id','')
+				
+				$('.addphoeShow').css('display','block').attr('id',$(this).parent().attr('relId'))
+				$('table').find('.jsModify').removeClass('jsModify')
+				$(this).children().addClass('jsModify')
+				var phones=$(this).children().html().split(',')
+				
+				for(var i in phones){
+					var num=parseInt(i)+1
+					$('.phonep'+num).html(phones[i])
+				}
+			})
 		</script>
 	</body>
 </html>
