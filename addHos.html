@@ -97,7 +97,8 @@
 				<div class="selectOption">
 					<text>医院名称 : </text><input class="hosname" type="text" placeholder="" />
 					<!-- onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" -->
-					<text>固定电话 : </text><input class="hostel" placeholder="" />
+					<text>固定电话 : </text><input class="hostel" placeholder="" type='text'  onkeyup="value=value.replace(/[^\d\-\d]/g,'')" maxlength=20 />
+					<span class="linkHos" style="margin-right: 20px;font-size: 14px;color: #337ab7;cursor: pointer;">联系医院</span>
 					<text>区域 : </text>
 					<select class="address province">
 						<option value="">-省-</option>
@@ -245,6 +246,22 @@
 			</div>
 		</div>
 		<script>
+			if($('.hostel').val()==''||$('.hostel').val()==null||$('.hostel').val()==undefined){
+				$('.linkHos').css('display','none')
+			}else{
+				$('.linkHos').css('display','inline-block')
+			}
+			$('.hostel').change(function(){
+				if($(this).val()!=''){
+					$('.linkHos').css('display','inline-block')
+				}else{
+					$('.linkHos').css('display','none')
+				}
+			})
+			$('.linkHos').click(function(){
+				$('#inp_send').val($('.hostel').val())
+				$('#btn_send').click()
+			})
 			$('.phoneps').click(function() {
 				
 				$('#inp_send').val($(this).html())
@@ -922,6 +939,9 @@
 							$('.hosIntro').val(res.data.brief)
 							$('.hostel').val(res.data.tel)
 							$('.hosnature').val(res.data.nature)
+							if(res.data.tel!=''&&res.data.tel!=null&&res.data.tel!=undefined){
+								$('.linkHos').css('display','inline-block')
+							}
 							paiBanCustomerWorkerId = res.data.paiBanCustomerWorkerId
 							$('.paibanren').attr('relId', res.data.paiBanCustomerWorkerId || '')
 							if (res.data.paiBanCustomerWorkerName) {
@@ -1056,8 +1076,6 @@
 								$('.trackDetail').html('')
 							}
 							if (res.data.itemList && res.data.itemList.length > 0) {
-
-
 								for (var i in res.data.itemList) {
 									if (res.data.itemList[i].level == 1) {
 										interst = '暂不感兴趣'

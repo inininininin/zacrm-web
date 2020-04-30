@@ -532,9 +532,14 @@
 		<script src="plugin-ok/call.js"></script>
 		<script>
 			$('table').on('click','tr td:nth-child(4)',function(){
-				console.log($(this).html())
-				$('#inp_send').val($(this).html())
-				$('#btn_send').click()
+				
+				if($(this).html()==''||$(this).html()==null||$(this).html()==undefined){
+					
+				}else{
+					$('#inp_send').val($(this).html())
+					$('#btn_send').click()
+				}
+				
 			})
 			// $('.peoname').click(function(){
 			// 	$('#inp_send').val(12121)
