@@ -104,6 +104,9 @@
 	cursor: pointer;
 	text-align: left;
 }
+.tableBox table tbody tr td:nth-child(4){
+	cursor: pointer;
+}
 
 /* .selectOption .province,.selectOption  .city,.selectOption  .town{
 	width: 100px;

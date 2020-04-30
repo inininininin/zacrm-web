@@ -24,8 +24,12 @@
 		<script src="layui/layui.js"></script>
 		<script src="js/public.js"></script>
 		<link rel="stylesheet" href="layui/css/layui.css">
+		
 	</head>
 	<body>
+		<input type="" name="" id="inp_send"  hidden="">
+		<button id="btn_send" hidden="">发送</button>
+		
 		<div class="mainbox">
 			<div class="topselect">
 
@@ -34,6 +38,7 @@
 					 target="_blank">新增医院</a> 
 					 <a href="javascript:;" class="loginout" style="float: right;line-height: 80px;margin-left: 20px;">退出登录</a>
 					 <a class="lookBefore" href="historyDetail.html" target="_blank">查看昨日工作记录</a>
+					 <span class="lastHis" style="float: right;line-height: 80px;margin-right: 20px;">上次浏览记录</span>
 				</div>
 				<div class="selectOption" style="width: 100%;height: 80px;">
 					<button class="searchThis">搜索</button><input type="text" class="keyword" placeholder="关键字" /> 
@@ -52,16 +57,16 @@
 					<select class="address city">
 						<option value="">-市-</option>
 					</select>
-					<!-- <select class="address town">
-							<option value="">-请选择-</option>
-						</select> -->
+					<select class="address town">
+						<option value="">-区-</option>
+					</select>
 					<select class="nature">
 						<option value="" selected>-性质-</option>
 						<option value="1">民营医院</option>
 						<option value="2">公立医院</option>
 					</select>
 					<button class="searchThis refresh">重置</button>
-					<span class="lastHis">上次浏览记录</span>
+					
 
 				</div>
 			</div>
@@ -76,7 +81,6 @@
 							<th>固定电话</th>
 							<th>拍板人验证</th>
 							<th>近期跟踪时间</th>
-
 						</tr>
 					</thead>
 					<tbody class="tbody">
@@ -89,7 +93,7 @@
 			</div>
 
 		</div>
-	
+
 		<script>
 			
 			
@@ -381,7 +385,7 @@
 					}
 				});
 				townList = cityList.children[townItem]
-				$('.town').html('<option value="">-省-</option>')
+				$('.town').html('<option value="">-区-</option>')
 				$.each(townList.children, function(i, item) {
 					$('.town').append('<option value="' + item.value + '">' + item.label + '</option>')
 				})
@@ -402,17 +406,22 @@
 					}
 				})
 			})
+			$('.town').change(function(){
+				area3Id = $(this).val()
+			})
 			// 清空全部搜索条件
 			$('.refresh').click(function() {
 				$('.keyword').val('')
 				$('.province').val('')
 				$('.city').val('')
+				$('.town').val('')
 				$('.nature').val('')
 				$('.urgentLevel').val('')
 				kw = ''
 				nature = ''
 				area1Id = ''
 				area2Id = ''
+				area3Id=''
 				urgent = ''
 				level = ''
 				lastPageNo()
@@ -501,6 +510,7 @@
 			})
 		})
 	
+
 			</script>
 			
 			<!-- $(window).bind('beforeunload', function () {
@@ -516,5 +526,22 @@
 			           return '提示：未保存的内容将会丢失。';  //好像这个提示并没什么用
 			       }); -->
 		<!-- </script> -->
+		<!-- <script language="javascript" type="text/javascript" src="plugin-ok/jquery.js"></script>
+		<script language="javascript" type="text/javascript" src="plugin-ok/jquery.base64.js"></script>
+		<script src="plugin-ok/base.js"></script> -->
+		<script src="plugin-ok/call.js"></script>
+		<script>
+			$('table').on('click','tr td:nth-child(4)',function(){
+				console.log($(this).html())
+				$('#inp_send').val($(this).html())
+				$('#btn_send').click()
+			})
+			// $('.peoname').click(function(){
+			// 	$('#inp_send').val(12121)
+			// 	$('#btn_send').click()
+			// })
+		</script>
 	</body>
+	
+	
 </html>

@@ -539,7 +539,37 @@ function addpaibanPhone(customerId,phone){
 				})
 			}else{
 							layer.msg(res.codeMsg)
-						}
+			}
 		}
 	})
 	}
+	function addpaibanTel(customerId,tel){
+		$.ajax({
+			url: '/my-customer-worker/create-customer-worker',
+			type: 'post',
+			data: 'customerId=' + customerId+'&tel='+tel,
+			async: true,
+			success: function(res) {
+				if (res.code == 0) {
+					var id=res.data.customerWorkerId
+					$('.paibanren').attr('relId',res.data.customerWorkerId)
+					// _this.parent().parent().attr('relId',paiBanCustomerWorkerId)
+					$.ajax({
+						url: '/my-customer/update-customer',
+						type: 'post',
+						data: 'customerId=' + customerId+'&paiBanCustomerWorkerId='+id,
+						async: true,
+						success: function(res) {
+							if(res.code==0){
+								
+							}else{
+								layer.msg(res.codeMsg)
+							}
+						}
+					})
+				}else{
+								layer.msg(res.codeMsg)
+				}
+			}
+		})
+		}
