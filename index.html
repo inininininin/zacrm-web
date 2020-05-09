@@ -158,6 +158,8 @@
 			layui.use('layer', function() {
 				layer = layui.layer;
 			});
+			
+				
 			// layer.open(132)
 			$.ajax({
 				url: '/login-refresh',
@@ -165,11 +167,10 @@
 				async: true,
 				success: function(res) {
 					if (res.code == 0) {
-
 						$('.peoname').html(res.data.nickname)
 						//         window.location.href='index.html'
 					} else {
-						alert('请登录')
+						
 						setTimeout(function() {
 							location.href = 'login.html'
 						}, 1000)
@@ -226,11 +227,13 @@
 						if (res.code == 0) {
 							$('.tbody').html('')
 							if (res.data.itemList && res.data.itemList.length > 0) {
-
 								for (var i in res.data.itemList) {
+									if(res.data.itemList[i].tel){
+										var tel=res.data.itemList[i].tel.substring(0, 3) + "****"+res.data.itemList[i].tel.substring(8,res.data.itemList[i].tel.length)
+									}
 									$('.tbody').append('<tr><td>'+(parseInt(i)+1+((pn-1)*15))+'</td><td class="enterHos"><a href="addHos.html?id=' + res.data.itemList[i].customerId +
 										'" target="_blank">' + (res.data.itemList[i].name || "") + '</a></td><td>' + (res.data.itemList[i].paiBanCustomerWorkerName ||
-											"") + '</td><td>' + (res.data.itemList[i].tel || "") + '</td><td>' + (res.data.itemList[i].paiBanCustomerWorkerVerifyWay ||
+											"") + '</td><td tel="'+(res.data.itemList[i].tel || "")+'">' + (tel || "") + '</td><td>' + (res.data.itemList[i].paiBanCustomerWorkerVerifyWay ||
 											"") + '</td><td>' + getDateDiff(res.data.itemList[i].updateTime) + '</td></tr>')
 								}
 							}
@@ -490,7 +493,7 @@
 		// 		url:"/logout",
 		// 		data:"",
 		// 		success:function (data){
-		// 					debugger
+		
 		// 		}
 		// 	})
 		//     return "真的离开?";
@@ -514,13 +517,12 @@
 			</script>
 			
 			<!-- $(window).bind('beforeunload', function () {
-							 // debugger
 							$.ajax({
 								type:"post",
 								url:"/logout",
 								data:"",
 								success:function (data){
-											debugger
+
 								}
 							})
 			           return '提示：未保存的内容将会丢失。';  //好像这个提示并没什么用
@@ -533,11 +535,12 @@
 		<script>
 			$('table').on('click','tr td:nth-child(4)',function(){
 				
-				if($(this).html()==''||$(this).html()==null||$(this).html()==undefined){
+				if($(this).attr('tel')==''||$(this).attr('tel')==null||$(this).attr('tel')==undefined){
 					
 				}else{
-					$('#inp_send').val($(this).html())
+					$('#inp_send').val($(this).attr('tel'))
 					$('#btn_send').click()
+					
 				}
 				
 			})

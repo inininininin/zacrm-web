@@ -160,7 +160,7 @@
 				var name = $('.name').val()
 				var password = $('.password').val()
 				if (password == '' || name == '') {
-					alert('请先填写用户名和密码')
+					layer.msg('请先填写用户名和密码')
 				} else {
 					$.ajax({
 						url: '/login',

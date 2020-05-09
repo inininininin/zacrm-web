@@ -499,7 +499,7 @@ function loginout(){
 						url:"/logout",
 						data:"",
 						success:function (data){
-									debugger
+									// debugger
 						}
 					})
 	           return '提示：未保存的内容将会丢失。';  //好像这个提示并没什么用

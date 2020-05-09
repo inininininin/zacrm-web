@@ -1,7 +1,7 @@
 
-debugger
+// debugger
 (function (window, undefined) {
-	debugger
+	
 	var data = true
 	var socket, $win = $('body');
 	showmessage = function (msg, type) {
@@ -19,7 +19,7 @@ debugger
 	}
 	lianjie()
 	function lianjie(){
-			debugger
+			
 		var url = 'ws://localhost?sid=789&pid=84529FA7-7195-4541-AA38-B22003CCFF4D&flag=1'
 		// 创建一个Socket实例
 		socket = new WebSocket(url);
@@ -27,6 +27,7 @@ debugger
 		console.dir(socket)
 		showmessage('开始连接');
 		// 打开Socket 
+		
 		socket.onopen = function (event) {
 		    // 发送一个初始化消息
 		    showmessage('连接成功');
@@ -60,9 +61,9 @@ debugger
 	}
     $(function () {
 		
-		debugger
+		
          $win.find('#btn_send').click(function () {
-			 debugger
+			 
 			 // console.log('msg')
 			let initMsg = '{"req":"HP_Init","rid":1,"para":{"Para":"0"}}'
 			 data = false
@@ -71,12 +72,14 @@ debugger
 			    showmessage( initMsg, 'send');
 			    $win.find('#inp_send').val('');
 			}
+			 // alert('电话正在拨通中')
+			 layer.msg('电话正在拨通中')
 			 var  msg = $win.find('#inp_send').val();
              msg = '{"req":"HP_StartDial","rid":5,"para":{"Para":"'+msg+'"}}'
 			
 			 if (socket &&  msg) {
 				 
-				 debugger
+				 
 			     socket.send( msg);
 			     showmessage( msg, 'send');
 			     $win.find('#inp_send').val('');
@@ -90,7 +93,7 @@ debugger
             }
         });
         $win.find('#inp_send').keyup(function () {
-			debugger
+			
             if (event.ctrlKey && event.keyCode == 13) {
                 $win.find('#btn_send').trigger('click');
                 console.log('发送成功')
