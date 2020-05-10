@@ -262,6 +262,16 @@
 				<span>编辑电话</span>
 			</div>
 		</div>
+		<div class="phoneNow">
+			<div></div>
+			<div>
+				<p>通话中。。。</p>
+				<div class="phoneEnd" id="btn_close">
+					<img src="image/phoneEnd.png" alt="">
+					<span>挂断电话</span>
+				</div>
+			</div>
+		</div>
 		<script>
 			if ($('.hostel').val() == '' || $('.hostel').val() == null || $('.hostel').val() == undefined) {
 				$('.linkHos').css('display', 'none')
@@ -296,8 +306,10 @@
 				$('.addphoeShow').css('display', 'block')
 				if ($('.phoneInput1').val() != '' && $('.phoneInput1').val() != null && $('.phoneInput1').val() != undefined) {
 					var phoneInput1 = $('.phoneInput1').val()
+					var  phones1=$('.phoneInput1').val()
 				} else {
 					var phoneInput1 = ''
+					var  phones1=''
 				}
 				if ($('.phoneInput2').val() != '' && $('.phoneInput2').val() != null && $('.phoneInput2').val() != undefined) {
 					if (phoneInput1 == '') {
@@ -305,9 +317,10 @@
 					} else {
 						var phoneInput2 = ',' + $('.phoneInput2').val()
 					}
-
+					var  phones2=$('.phoneInput2').val()
 				} else {
 					var phoneInput2 = ''
+						var  phones2=''
 				}
 				if ($('.phoneInput3').val() != '' && $('.phoneInput3').val() != null && $('.phoneInput3').val() != undefined) {
 					if (phoneInput1 == '' && phoneInput2 == '') {
@@ -315,29 +328,42 @@
 					} else {
 						var phoneInput3 = ',' + $('.phoneInput3').val()
 					}
-
+				var  phones3=$('.phoneInput3').val()
 				} else {
 					var phoneInput3 = ''
+					var  phones3=''
 				}
 				var id = $('.addphoeShow').attr('id')
 				var phones = phoneInput1 + phoneInput2 + phoneInput3
 				if (id == '' || id == null || id == undefined) {
-
+					
 					$('.jsModify').html(phoneInput1 + phoneInput2 + phoneInput3)
 					if ($('.jsModify').parent().parent().attr('class') == 'paibanren') {
 						if ($('.addphoeShow').attr('type') == 1) {
-							addpaibanPhone(customerId, phones)
+							$('.jsModify').attr('phone1',(phones1||"")).attr('phone2',(phones2||"")).attr('phone3',(phones3||""))
+							addpaibanPhone(customerId, phones1,phones2,phones3)
 						} else {
-							addpaibanTel(customerId, phones)
+							$('.jsModify').attr('tel1',(phones1||"")).attr('tel2',(phones2||"")).attr('tel3',(phones3||""))
+							addpaibanTel(customerId, phones1,phones2,phones3)
+						}
+					}else{
+						if ($('.addphoeShow').attr('type') == 1) {
+							$('.jsModify').attr('phone1',(phones1||"")).attr('phone2',(phones2||"")).attr('phone3',(phones3||""))
+							// addRelPhone(customerId, phones1,phones2,phones3)
+						} else {
+							$('.jsModify').attr('tel1',(phones1||"")).attr('tel2',(phones2||"")).attr('tel3',(phones3||""))
+							// addRelTel(customerId, phones1,phones2,phones3)
 						}
 					}
 				} else {
 					if ($('.addphoeShow').attr('type') == 1) {
-						var params = '&phone=' + phones
+						var params = '&phone1=' + phones1+'&phone2=' + phones2+'&phone3=' + phones3
+							$('.jsModify').attr('phone1',(phones1||"")).attr('phone2',(phones2||"")).attr('phone3',(phones3||""))
 					} else {
-						var params = '&tel=' + phones
+						
+						var params = '&tel1=' + phones1+'&tel2=' + phones2+'&tel3=' + phones3
+						$('.jsModify').attr('tel1',(phones1||"")).attr('tel2',(phones2||"")).attr('tel3',(phones3||""))
 					}
-
 					$.ajax({
 						url: '/my-customer-worker/update-customer-worker',
 						type: 'post',
@@ -701,6 +727,12 @@
 				var phone = $('.tbody').children('tr:last-child').find('.showInputBox').html()
 				var verifyWay = $('.tbody').find(':input:eq(2)').val()
 				var tel = $('.tbody').children('tr:last-child').find('.showInputBoxTel').html()
+				var phone1=$('.tbody').children('tr:last-child').find('.showInputBox').attr('phone1')||""
+				var phone2=$('.tbody').children('tr:last-child').find('.showInputBox').attr('phone2')||""
+				var phone3=$('.tbody').children('tr:last-child').find('.showInputBox').attr('phone3')||""
+				var tel1 = $('.tbody').children('tr:last-child').find('.showInputBoxTel').attr('tel1')||""
+				var tel2 = $('.tbody').children('tr:last-child').find('.showInputBoxTel').attr('tel2')||""
+				var tel3 = $('.tbody').children('tr:last-child').find('.showInputBoxTel').attr('tel3')||""
 				// var tel = $('.tbody').find(':input:eq(3)').val()
 				var paiBan = ''
 				var _this = $(this)
@@ -715,8 +747,8 @@
 						$.ajax({
 							url: '/my-customer-worker/create-customer-worker',
 							type: 'post',
-							data: 'name=' + name + '&tel=' + tel + '&post=' + post + '&paiBan=' + paiBan + '&verifyWay=' + verifyWay +
-								'&phone=' + phone + '&customerId=' + customerId,
+							data: 'name=' + name + '&tel1=' + tel1+ '&tel2=' + tel2+ '&tel3=' + tel3 + '&post=' + post + '&paiBan=' + paiBan + '&verifyWay=' + verifyWay +
+								'&phone1=' + phone1 +'&phone2=' + phone2 +'&phone3=' + phone3 + '&customerId=' + customerId,
 							async: true,
 							success: function(res) {
 								if (res.code == 0) {
@@ -729,12 +761,12 @@
 									$('.tbody').append('<tr relId="' + res.data.customerWorkerId +
 										'"><td class="enterHos"><div class="line-1">' + name + '</div></td>' +
 										'<td><div class="line-1 lookHis">' + post + '</div></td>' +
-										'<td><div class="line-1 lookHis showInputBox" onmouseover="' + show1 + '" onmouseleave="showhidden()">' +
+										'<td><div class="line-1 lookHis showInputBox" phone1="'+phone1+'"  phone2="'+phone2+'"  phone3="'+phone3+'" onmouseover="' + show1 + '" onmouseleave="showhidden()">' +
 										phone +
 										'</div></td>' +
 										'<td><div class="line-1 lookHis" onmouseover="' + show2 + '" onmouseleave="showhidden()">' + verifyWay +
 										'</div></td>' +
-										'<td><div class="line-1 lookHis showInputBoxTel"onmouseover="' + show3 +
+										'<td><div class="line-1 lookHis showInputBoxTel"  tel1="'+tel1+'"  tel2="'+tel2+'"  tel3="'+tel3+'" onmouseover="' + show3 +
 										'" onmouseleave="showhidden()">' + tel +
 										'</div></td></tr>')
 									_this.parent().css('display', 'none')
@@ -1054,36 +1086,61 @@
 										var show1 = "show('" + res.data.itemList[i].phone + "')"
 										var show2 = "show('" + res.data.itemList[i].verifyWay + "')"
 										var show3 = "show('" + res.data.itemList[i].tel + "')"
-										var phoneAll=''
+										var phoneAll='',telAll=''
 										if(res.data.itemList[i].phone1){
 											if(phoneAll!=''){
 												phoneAll= phoneAll+','+res.data.itemList[i].phone1
+											}else{
+												phoneAll=res.data.itemList[i].phone1
 											}	
 										}
-										console.log(phoneAll)
 										if(res.data.itemList[i].phone2){
 											if(phoneAll!=''){
 											phoneAll= phoneAll+','+res.data.itemList[i].phone2
-											}
+											}else{
+												phoneAll=res.data.itemList[i].phone2
+											}	
 										}
-										console.log(phoneAll)
 										if(res.data.itemList[i].phone3){
 											if(phoneAll!=''){
 											phoneAll= phoneAll+','+res.data.itemList[i].phone3
+											}else{
+												phoneAll=res.data.itemList[i].phone3
+											}	
+										}
+										
+										if(res.data.itemList[i].tel1){
+											if(telAll!=''){
+												telAll= telAll+','+res.data.itemList[i].tel1
+											}else{
+												telAll= res.data.itemList[i].tel1
 											}
 										}
-										console.log(phoneAll)
+										if(res.data.itemList[i].tel2){
+											if(telAll!=''){
+											telAll= telAll+','+res.data.itemList[i].tel2
+											}else{
+												telAll= res.data.itemList[i].tel2
+											}
+										}
+										if(res.data.itemList[i].tel3){
+											if(telAll!=''){
+											telAll= telAll+','+res.data.itemList[i].tel3
+											}else{
+												telAll= res.data.itemList[i].tel3
+											}
+										}
 										$('.tbody').append('<tr relId="' + res.data.itemList[i].customerWorkerId +
 											'"><td class="enterHos"><div class="line-1">' + (res.data.itemList[i].name || "") + '</div></td>' +
 											'<td><div class="line-1 lookHis">' + (res.data.itemList[i].post || "") + '</div></td>' +
-											'<td><div class="line-1 lookHis showInputBox" onmouseover="' + show1 + '" onmouseleave="showhidden()">' +
-											(res.data.itemList[i].phone || "") +
+											'<td><div class="line-1 lookHis showInputBox" phone1="'+(res.data.itemList[i].phone1||"")+'" phone2="'+(res.data.itemList[i].phone2||"")+'" phone3="'+(res.data.itemList[i].phone3||"")+'" >' +
+											// (res.data.itemList[i].phone || "") +
+											phoneAll+
 											'</div></td>' +
-											'<td><div class="line-1 lookHis" onmouseover="' + show2 + '" onmouseleave="showhidden()">' + (res.data.itemList[
+											'<td><div class="line-1 lookHis" onmouseover="' + show2 +'" onmouseleave="showhidden()">' + (res.data.itemList[
 												i].verifyWay || "") +
 											'</div></td>' +
-											'<td><div class="line-1 lookHis showInputBoxTel"onmouseover="' + show3 +
-											'" onmouseleave="showhidden()">' + (res.data.itemList[i].tel || "") +
+											'<td><div class="line-1 lookHis showInputBoxTel" tel1="'+(res.data.itemList[i].tel1||"")+'" tel2="'+(res.data.itemList[i].tel2||"")+'" tel3="'+(res.data.itemList[i].tel3||"")+'">'+telAll+// + (res.data.itemList[i].tel || "") +
 											'</div></td></tr>')
 									}
 
@@ -1195,6 +1252,9 @@
 		</script>
 		<script>
 			function closePopWindow() {
+				$('.phonep1').html('')
+				$('.phonep2').html('')
+				$('.phonep3').html('')
 				$('.addphoeShow').css('display', 'none')
 				$('.addphoen').css('display', 'none')
 			}
@@ -1257,11 +1317,14 @@
 						$('table').find('.jsModify').removeClass('jsModify')
 						_this_.addClass('jsModify')
 						// if()
-						var phones = thisHtml.split(',')
-						for (var i in phones) {
-							var num = parseInt(i) + 1
-							$('.phonep' + num).html(phones[i])
-						}
+						// var phones = thisHtml.split(',')
+						// for (var i in phones) {
+						// 	var num = parseInt(i) + 1
+						// 	$('.phonep' + num).html(phones[i])
+						// }
+						$('.phonep1').html(_this_.attr('phone1')||'')
+						$('.phonep2').html(_this_.attr('phone2')||'')
+						$('.phonep3').html(_this_.attr('phone3')||'')
 					}
 				}, 300)
 			})
@@ -1281,11 +1344,14 @@
 					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 1)
 					$('table').find('.jsModify').removeClass('jsModify')
 					_this_.addClass('jsModify')
-					var phones = thisHtml.split(',')
-					for (var i in phones) {
-						var num = parseInt(i) + 1
-						$('.phonep' + num).html(phones[i])
-					}
+					// var phones = thisHtml.split(',')
+					// for (var i in phones) {
+					// 	var num = parseInt(i) + 1
+					// 	$('.phonep' + num).html(phones[i])
+					// }
+					$('.phonep1').html(_this_.attr('phone1')||'')
+					$('.phonep2').html(_this_.attr('phone2')||'')
+					$('.phonep3').html(_this_.attr('phone3')||'')
 				}
 			})
 
@@ -1304,11 +1370,16 @@
 						$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 2)
 						$('table').find('.jsModify').removeClass('jsModify')
 						_this_.addClass('jsModify')
-						var phones = thisHtml.split(',')
-						for (var i in phones) {
-							var num = parseInt(i) + 1
-							$('.phonep' + num).html(phones[i])
-						}
+						// var phones = thisHtml.split(',')
+						// for (var i in phones) {
+						// 	var num = parseInt(i) + 1
+						// 	$('.phonep' + num).html(phones[i])
+						// }
+						
+						$('.phonep1').html(_this_.attr('tel1')||'')
+						$('.phonep2').html(_this_.attr('tel2')||'')
+						$('.phonep3').html(_this_.attr('tel3')||'')
+						// alert(_this_.attr('tel1'))
 					}
 				}, 300)
 			})
@@ -1322,17 +1393,20 @@
 					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 2)
 					$('table').find('.jsModify').removeClass('jsModify')
 					_this_.addClass('jsModify')
-					$('.phonep1').html(thisHtml)
+					$('.phonep1').html(_this_.attr('tel1'))
 				} else {
 					$('.addphoeShow').attr('id', '')
 					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 1)
 					$('table').find('.jsModify').removeClass('jsModify')
 					_this_.addClass('jsModify')
-					var phones = thisHtml.split(',')
-					for (var i in phones) {
-						var num = parseInt(i) + 1
-						$('.phonep' + num).html(phones[i])
-					}
+					// var phones = thisHtml.split(',')
+					// for (var i in phones) {
+					// 	var num = parseInt(i) + 1
+					// 	$('.phonep' + num).html(phones[i])
+					// }
+					$('.phonep1').html(_this_.attr('tel1')||'')
+					$('.phonep2').html(_this_.attr('tel2')||'')
+					$('.phonep3').html(_this_.attr('tel3')||'')
 				}
 			})
 		</script>

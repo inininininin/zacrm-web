@@ -513,11 +513,11 @@ function loginout(){
 
 
 // 新增拍板人为电话的时候
-function addpaibanPhone(customerId,phone){
+function addpaibanPhone(customerId,phone1,phone2,phone3){
 	$.ajax({
 		url: '/my-customer-worker/create-customer-worker',
 		type: 'post',
-		data: 'customerId=' + customerId+'&phone='+phone,
+		data: 'customerId=' + customerId+'&phone1='+phone1+'&phone2='+phone2+'&phone3='+phone3,
 		async: true,
 		success: function(res) {
 			if (res.code == 0) {
@@ -543,11 +543,11 @@ function addpaibanPhone(customerId,phone){
 		}
 	})
 	}
-	function addpaibanTel(customerId,tel){
+	function addpaibanTel(customerId,tel1,tel2,tel3){
 		$.ajax({
 			url: '/my-customer-worker/create-customer-worker',
 			type: 'post',
-			data: 'customerId=' + customerId+'&tel='+tel,
+			data: 'customerId=' + customerId+'&tel1='+tel1+'&tel2='+tel2+'&tel3='+tel3,
 			async: true,
 			success: function(res) {
 				if (res.code == 0) {
@@ -572,4 +572,41 @@ function addpaibanPhone(customerId,phone){
 				}
 			}
 		})
+	}
+	
+	function addRelPhone(customerId,phone1,phone2,phone3){
+		$.ajax({
+			url: '/my-customer-worker/create-customer-worker',
+			type: 'post',
+			data: 'customerId=' + customerId+'&phone1='+phone1+'&phone2='+phone2+'&phone3='+phone3,
+			async: true,
+			success: function(res) {
+				if (res.code == 0) {
+					var id=res.data.customerWorkerId
+					$('.paibanren').attr('relId',res.data.customerWorkerId)
+					// _this.parent().parent().attr('relId',paiBanCustomerWorkerId)
+					
+				}else{
+								layer.msg(res.codeMsg)
+				}
+			}
+		})
 		}
+		function addRelTel(customerId,tel1,tel2,tel3){
+			$.ajax({
+				url: '/my-customer-worker/create-customer-worker',
+				type: 'post',
+				data: 'customerId=' + customerId+'&tel1='+tel1+'&tel2='+tel2+'&tel3='+tel3,
+				async: true,
+				success: function(res) {
+					if (res.code == 0) {
+						var id=res.data.customerWorkerId
+						$('.paibanren').attr('relId',res.data.customerWorkerId)
+						// _this.parent().parent().attr('relId',paiBanCustomerWorkerId)
+						
+					}else{
+									layer.msg(res.codeMsg)
+					}
+				}
+			})
+			}
