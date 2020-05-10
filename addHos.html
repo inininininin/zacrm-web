@@ -265,7 +265,7 @@
 		<div class="phoneNow">
 			<div></div>
 			<div>
-				<p>通话中。。。</p>
+				<p>正在通话中. . .</p>
 				<div class="phoneEnd" id="btn_close">
 					<img src="image/phoneEnd.png" alt="">
 					<span>挂断电话</span>
@@ -1082,54 +1082,56 @@
 							if (res.data.itemList && res.data.itemList.length > 0) {
 								$('.tbody').html('')
 								for (var i in res.data.itemList) {
+									var phoneAll='',telAll=''
+									if(res.data.itemList[i].phone1){
+										if(phoneAll!=''){
+											phoneAll= phoneAll+','+res.data.itemList[i].phone1
+										}else{
+											phoneAll=res.data.itemList[i].phone1
+										}	
+									}
+									if(res.data.itemList[i].phone2){
+										if(phoneAll!=''){
+										phoneAll= phoneAll+','+res.data.itemList[i].phone2
+										}else{
+											phoneAll=res.data.itemList[i].phone2
+										}	
+									}
+									if(res.data.itemList[i].phone3){
+										if(phoneAll!=''){
+										phoneAll= phoneAll+','+res.data.itemList[i].phone3
+										}else{
+											phoneAll=res.data.itemList[i].phone3
+										}	
+									}
+									
+									if(res.data.itemList[i].tel1){
+										if(telAll!=''){
+											telAll= telAll+','+res.data.itemList[i].tel1
+										}else{
+											telAll= res.data.itemList[i].tel1
+										}
+									}
+									if(res.data.itemList[i].tel2){
+										if(telAll!=''){
+										telAll= telAll+','+res.data.itemList[i].tel2
+										}else{
+											telAll= res.data.itemList[i].tel2
+										}
+									}
+									if(res.data.itemList[i].tel3){
+										if(telAll!=''){
+										telAll= telAll+','+res.data.itemList[i].tel3
+										}else{
+											telAll= res.data.itemList[i].tel3
+										}
+									}
 									if (res.data.itemList[i].customerWorkerId != paiBanCustomerWorkerId) {
 										var show1 = "show('" + res.data.itemList[i].phone + "')"
 										var show2 = "show('" + res.data.itemList[i].verifyWay + "')"
 										var show3 = "show('" + res.data.itemList[i].tel + "')"
-										var phoneAll='',telAll=''
-										if(res.data.itemList[i].phone1){
-											if(phoneAll!=''){
-												phoneAll= phoneAll+','+res.data.itemList[i].phone1
-											}else{
-												phoneAll=res.data.itemList[i].phone1
-											}	
-										}
-										if(res.data.itemList[i].phone2){
-											if(phoneAll!=''){
-											phoneAll= phoneAll+','+res.data.itemList[i].phone2
-											}else{
-												phoneAll=res.data.itemList[i].phone2
-											}	
-										}
-										if(res.data.itemList[i].phone3){
-											if(phoneAll!=''){
-											phoneAll= phoneAll+','+res.data.itemList[i].phone3
-											}else{
-												phoneAll=res.data.itemList[i].phone3
-											}	
-										}
 										
-										if(res.data.itemList[i].tel1){
-											if(telAll!=''){
-												telAll= telAll+','+res.data.itemList[i].tel1
-											}else{
-												telAll= res.data.itemList[i].tel1
-											}
-										}
-										if(res.data.itemList[i].tel2){
-											if(telAll!=''){
-											telAll= telAll+','+res.data.itemList[i].tel2
-											}else{
-												telAll= res.data.itemList[i].tel2
-											}
-										}
-										if(res.data.itemList[i].tel3){
-											if(telAll!=''){
-											telAll= telAll+','+res.data.itemList[i].tel3
-											}else{
-												telAll= res.data.itemList[i].tel3
-											}
-										}
+										
 										$('.tbody').append('<tr relId="' + res.data.itemList[i].customerWorkerId +
 											'"><td class="enterHos"><div class="line-1">' + (res.data.itemList[i].name || "") + '</div></td>' +
 											'<td><div class="line-1 lookHis">' + (res.data.itemList[i].post || "") + '</div></td>' +
@@ -1142,6 +1144,9 @@
 											'</div></td>' +
 											'<td><div class="line-1 lookHis showInputBoxTel" tel1="'+(res.data.itemList[i].tel1||"")+'" tel2="'+(res.data.itemList[i].tel2||"")+'" tel3="'+(res.data.itemList[i].tel3||"")+'">'+telAll+// + (res.data.itemList[i].tel || "") +
 											'</div></td></tr>')
+									}else{
+										$('.paibanren .showInputBox').html(phoneAll).attr('phone1',(res.data.itemList[i].phone1||"")).attr('phone2',(res.data.itemList[i].phone2||"")).attr('phone3',(res.data.itemList[i].phone3||""))
+									$('.paibanren .showInputBoxTel').html(telAll).attr('tel1',(res.data.itemList[i].tel1||"")).attr('tel2',(res.data.itemList[i].tel2||"")).attr('tel3',(res.data.itemList[i].tel3||""))
 									}
 
 								}
