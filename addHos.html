@@ -1131,7 +1131,12 @@
 										var show2 = "show('" + res.data.itemList[i].verifyWay + "')"
 										var show3 = "show('" + res.data.itemList[i].tel + "')"
 										
-										
+										if(phoneAll){
+											var phoneAll=phoneAll.substring(0, 3) + "****"+phoneAll.substring(8,phoneAll.length)
+										}
+										if(telAll){
+											var telAll=telAll.substring(0, 3) + "****"+telAll.substring(8,telAll.length)
+										}
 										$('.tbody').append('<tr relId="' + res.data.itemList[i].customerWorkerId +
 											'"><td class="enterHos"><div class="line-1">' + (res.data.itemList[i].name || "") + '</div></td>' +
 											'<td><div class="line-1 lookHis">' + (res.data.itemList[i].post || "") + '</div></td>' +
@@ -1145,8 +1150,14 @@
 											'<td><div class="line-1 lookHis showInputBoxTel" tel1="'+(res.data.itemList[i].tel1||"")+'" tel2="'+(res.data.itemList[i].tel2||"")+'" tel3="'+(res.data.itemList[i].tel3||"")+'">'+telAll+// + (res.data.itemList[i].tel || "") +
 											'</div></td></tr>')
 									}else{
+										if(phoneAll){
+											var phoneAll=phoneAll.substring(0, 3) + "****"+phoneAll.substring(8,phoneAll.length)
+										}
+										if(telAll){
+											var telAll=telAll.substring(0, 3) + "****"+telAll.substring(8,telAll.length)
+										}
 										$('.paibanren .showInputBox').html(phoneAll).attr('phone1',(res.data.itemList[i].phone1||"")).attr('phone2',(res.data.itemList[i].phone2||"")).attr('phone3',(res.data.itemList[i].phone3||""))
-									$('.paibanren .showInputBoxTel').html(telAll).attr('tel1',(res.data.itemList[i].tel1||"")).attr('tel2',(res.data.itemList[i].tel2||"")).attr('tel3',(res.data.itemList[i].tel3||""))
+										$('.paibanren .showInputBoxTel').html(telAll).attr('tel1',(res.data.itemList[i].tel1||"")).attr('tel2',(res.data.itemList[i].tel2||"")).attr('tel3',(res.data.itemList[i].tel3||""))
 									}
 
 								}
