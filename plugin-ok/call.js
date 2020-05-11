@@ -37,16 +37,19 @@
 		};
 		// 监听消息
 		socket.onmessage = function (eve) {
+			console.log(1213213213213)
 		    showmessage(eve.data, 'receive');
 			var data=JSON.parse(eve.data)
+			console.log(data)
 			if(data.type==707){
+				
 				$('.phoneNow').css('display','block') 
 			}
 		};
 		// 监听Socket的关闭
 		socket.onclose = function (event) {
 		    showmessage('断开连接');
-			debugger
+			//debugger
 		    $win.find('#btn_conn').attr('disabled', false);
 		    $win.find('#btn_close').attr('disabled', true);
 		};
@@ -67,10 +70,21 @@
 		 });
 		
 	}
-	$(window).bind('beforeunload', function () {
-		console.log(121212)
-					socket.close();
-	       });
+	$(window).bind('beforeunload', function (){
+//debugger
+		
+//alert(123)
+//return false;
+//var  initMsg='{"req":"HP_HangUpCtrl","rid":4,"para":{}}'
+//if(socket) {
+		//debugger
+				$('.phoneNow').css('display','none')
+		socket.send('{"req":"HP_HangUpCtrl","rid":4,"para":{}}');
+		        socket.close();
+		//return false;
+//}
+		
+	});
     $(function () {
 		
 		

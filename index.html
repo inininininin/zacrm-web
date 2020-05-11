@@ -24,13 +24,17 @@
 		<script src="layui/layui.js"></script>
 		<script src="js/public.js"></script>
 		<link rel="stylesheet" href="layui/css/layui.css">
-		
+		 <link href="plugin-ok/res.js" rel="stylesheet"/>
+    <script src="plugin-ok/base.js"></script> 
+    <script src="plugin-ok/websocket.js"></script>
+
 	</head>
 	<body>
+		<a class="aClose" href="Webshell://hello" style="padding: 10px 20px;">重启话机</a>
 		<input type="" name="" id="inp_send"  hidden="">
-		<button id="btn_send" hidden="">发送</button>
-		
+		<button id="btn_conn" hidden="">发送</button>
 		<div class="mainbox">
+			
 			<div class="topselect">
 
 				<div style="width: 100%;height: 80px;">
@@ -84,7 +88,12 @@
 						</tr>
 					</thead>
 					<tbody class="tbody">
-
+						<!--<td></td>
+						<td></td>
+						<td></td>
+						<td tel='15077822798'>15077822798</td
+						<td></td>
+						<td></td>-->
 					</tbody>
 				</table>
 				<div class="box rt" id="box"></div>
@@ -93,7 +102,17 @@
 			</div>
 
 		</div>
-
+<div class="phoneNow">
+			<div></div>
+			<div>
+				
+				<p><span class="phoneNumber"></span>正在通话中. . .</p>
+				<div class="phoneEnd" id="btn_close">
+					<img src="image/phoneEnd.png" alt="">
+					<span>挂断电话</span>
+				</div>
+			</div>
+		</div>
 		<script>
 			
 			
@@ -532,77 +551,20 @@
 		<!-- <script language="javascript" type="text/javascript" src="plugin-ok/jquery.js"></script>
 		<script language="javascript" type="text/javascript" src="plugin-ok/jquery.base64.js"></script>
 		<script src="plugin-ok/base.js"></script> -->
-		<script src="plugin-ok/call.js"></script>
+		<!--<script src="plugin-ok/call.js"></script>-->
 		<script>
-			var socket, $win = $('body');
-			function lianjie(val){
-					// if(socket)
-				var url = 'ws://localhost?sid=789&pid=84529FA7-7195-4541-AA38-B22003CCFF4D&flag=1'
-				// 创建一个Socket实例
-				socket = new WebSocket(url);
-				
-				console.dir(socket)
-				showmessage('开始连接');
-				// 打开Socket 
-				
-				socket.onopen = function (event) {
-				    // 发送一个初始化消息
-				    showmessage('连接成功');
-				};
-				// 监听消息
-				socket.onmessage = function (eve) {
-				    showmessage(eve.data, 'receive');
-					var data=JSON.parse(eve.data)
-					if(data.type==707){
-						$('.phoneNow').css('display','block') 
-					}
-				};
-				// 监听Socket的关闭
-				socket.onclose = function (event) {
-				    showmessage('断开连接');
-					debugger
-				    $win.find('#btn_conn').attr('disabled', false);
-				    $win.find('#btn_close').attr('disabled', true);
-				};
-				let initMsg = '{"req":"HP_Init","rid":1,"para":{"Para":"0"}}'
-				 $(function () {
-					 if (socket &&  initMsg) {
-						let a = setInterval(()=>{
-							if(socket.readyState == 1 ){
-								data = true
-								socket.send( initMsg);
-								clearInterval(a)
-								var  msg =val //$win.find('#inp_send').val();
-								msg = '{"req":"HP_StartDial","rid":5,"para":{"Para":"'+msg+'"}}'
-											console.log(msg)	
-								if (socket &&  msg) {
-												 
-												 
-								    socket.send( msg);
-								    showmessage( msg, 'send');
-								    $win.find('#inp_send').val('');
-								
-								}
-							}
-						},500)
-					     
-					     // showmessage( initMsg, 'send');
-					     // $win.find('#inp_send').val('');
-						 
-					 }
-				 });
-				
-			}
+			
 			$('table').on('click','tr td:nth-child(4)',function(){
 				
 				if($(this).attr('tel')==''||$(this).attr('tel')==null||$(this).attr('tel')==undefined){
 					
 				}else{
-					lianjie($(this).attr('tel'))
-					// setTimeout(function(){
-					// 	$('#inp_send').val($(this).attr('tel'))
-					// 	$('#btn_send').click()
-					// },2000)
+					//anjie($(this).attr('tel'))
+					 //tTimeout(function(){
+					 	$('#inp_send').val($(this).attr('tel'))
+					 	$('.phoneNumber').html($(this).html())
+					 	$('#btn_conn').click()
+					 //2000)
 					
 				}
 				

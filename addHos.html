@@ -23,7 +23,9 @@
 		<script src="js/rem.js"></script>
 		<script src="js/image-file-visible.js"></script>
 		<script src="layui/layui.js"></script>
-
+<link href="plugin-ok/res.js" rel="stylesheet"/>
+    <script src="plugin-ok/base.js"></script> 
+    <script src="plugin-ok/websocket.js"></script>
 		<script>
 
 			var provinceList, cityList, townList, cityItem, townItem
@@ -97,8 +99,9 @@
 		</script>
 	</head>
 	<body>
+		<a class="aClose" href="Webshell://hello" style="padding: 10px 20px;">重启话机</a>
 		<input type="" name="" id="inp_send" hidden="">
-		<button id="btn_send" hidden="">发送</button>
+		<button id="btn_conn" hidden="">发送</button>
 
 		<div class="thiscontent" style="display: none;">
 			<div class="contentThis"></div>
@@ -287,12 +290,12 @@
 			})
 			$('.linkHos').click(function() {
 				$('#inp_send').val($('.hostel').val())
-				$('#btn_send').click()
+				$('#btn_conn').click()
 			})
 			$('.phoneps').click(function() {
 
 				$('#inp_send').val($(this).html())
-				$('#btn_send').click()
+				$('#btn_conn').click()
 				// lineFriends($(this).html())
 			})
 			$('.closeThis').click(function() {
@@ -1326,7 +1329,7 @@
 				timeIs = setTimeout(function() {
 					if (thisHtml && thisHtml.split(',').length == 1) {
 						$('#inp_send').val(thisHtml)
-						$('#btn_send').click()
+						$('#btn_conn').click()
 					} else {
 						$('.addphoeShow').attr('id', '')
 						$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 1)
@@ -1380,7 +1383,7 @@
 					if (thisHtml && thisHtml.split(',').length == 1) {
 						// lineFriends($(this).html())		
 						$('#inp_send').val(thisHtml)
-						$('#btn_send').click()
+						$('#btn_conn').click()
 					} else {
 						$('.addphoeShow').attr('id', '')
 						$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 2)
