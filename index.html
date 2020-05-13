@@ -24,13 +24,17 @@
 		<script src="layui/layui.js"></script>
 		<script src="js/public.js"></script>
 		<link rel="stylesheet" href="layui/css/layui.css">
-		
+		 <link href="plugin-ok/res.js" rel="stylesheet"/>
+    <script src="plugin-ok/base.js"></script> 
+    <script src="plugin-ok/websocket.js"></script>
+
 	</head>
 	<body>
+		<a class="aClose" href="Webshell://hello" style="padding: 10px 20px;">重启话机</a>
 		<input type="" name="" id="inp_send"  hidden="">
-		<button id="btn_send" hidden="">发送</button>
-		
+		<button id="btn_conn" hidden="">发送</button>
 		<div class="mainbox">
+			
 			<div class="topselect">
 
 				<div style="width: 100%;height: 80px;">
@@ -84,7 +88,12 @@
 						</tr>
 					</thead>
 					<tbody class="tbody">
-
+						<!--<td></td>
+						<td></td>
+						<td></td>
+						<td tel='15077822798'>15077822798</td
+						<td></td>
+						<td></td>-->
 					</tbody>
 				</table>
 				<div class="box rt" id="box"></div>
@@ -93,7 +102,17 @@
 			</div>
 
 		</div>
-
+<div class="phoneNow">
+			<div></div>
+			<div>
+				
+				<p><span class="phoneNumber"></span>正在通话中. . .</p>
+				<div class="phoneEnd" id="btn_close">
+					<img src="image/phoneEnd.png" alt="">
+					<span>挂断电话</span>
+				</div>
+			</div>
+		</div>
 		<script>
 			
 			
@@ -158,6 +177,8 @@
 			layui.use('layer', function() {
 				layer = layui.layer;
 			});
+			
+				
 			// layer.open(132)
 			$.ajax({
 				url: '/login-refresh',
@@ -165,11 +186,10 @@
 				async: true,
 				success: function(res) {
 					if (res.code == 0) {
-
 						$('.peoname').html(res.data.nickname)
 						//         window.location.href='index.html'
 					} else {
-						alert('请登录')
+						
 						setTimeout(function() {
 							location.href = 'login.html'
 						}, 1000)
@@ -226,11 +246,14 @@
 						if (res.code == 0) {
 							$('.tbody').html('')
 							if (res.data.itemList && res.data.itemList.length > 0) {
-
 								for (var i in res.data.itemList) {
+									var tel=''
+									if(res.data.itemList[i].tel){
+										tel=res.data.itemList[i].tel.substring(0, 3) + "****"+res.data.itemList[i].tel.substring(8,res.data.itemList[i].tel.length)
+									}
 									$('.tbody').append('<tr><td>'+(parseInt(i)+1+((pn-1)*15))+'</td><td class="enterHos"><a href="addHos.html?id=' + res.data.itemList[i].customerId +
 										'" target="_blank">' + (res.data.itemList[i].name || "") + '</a></td><td>' + (res.data.itemList[i].paiBanCustomerWorkerName ||
-											"") + '</td><td>' + (res.data.itemList[i].tel || "") + '</td><td>' + (res.data.itemList[i].paiBanCustomerWorkerVerifyWay ||
+											"") + '</td><td tel="'+(res.data.itemList[i].tel || "")+'">' + (tel || "") + '</td><td>' + (res.data.itemList[i].paiBanCustomerWorkerVerifyWay ||
 											"") + '</td><td>' + getDateDiff(res.data.itemList[i].updateTime) + '</td></tr>')
 								}
 							}
@@ -490,7 +513,7 @@
 		// 		url:"/logout",
 		// 		data:"",
 		// 		success:function (data){
-		// 					debugger
+		
 		// 		}
 		// 	})
 		//     return "真的离开?";
@@ -514,13 +537,12 @@
 			</script>
 			
 			<!-- $(window).bind('beforeunload', function () {
-							 // debugger
 							$.ajax({
 								type:"post",
 								url:"/logout",
 								data:"",
 								success:function (data){
-											debugger
+
 								}
 							})
 			           return '提示：未保存的内容将会丢失。';  //好像这个提示并没什么用
@@ -529,15 +551,21 @@
 		<!-- <script language="javascript" type="text/javascript" src="plugin-ok/jquery.js"></script>
 		<script language="javascript" type="text/javascript" src="plugin-ok/jquery.base64.js"></script>
 		<script src="plugin-ok/base.js"></script> -->
-		<script src="plugin-ok/call.js"></script>
+		<!--<script src="plugin-ok/call.js"></script>-->
 		<script>
+			
 			$('table').on('click','tr td:nth-child(4)',function(){
 				
-				if($(this).html()==''||$(this).html()==null||$(this).html()==undefined){
+				if($(this).attr('tel')==''||$(this).attr('tel')==null||$(this).attr('tel')==undefined){
 					
 				}else{
-					$('#inp_send').val($(this).html())
-					$('#btn_send').click()
+					//anjie($(this).attr('tel'))
+					 //tTimeout(function(){
+					 	$('#inp_send').val($(this).attr('tel'))
+					 	$('.phoneNumber').html($(this).html())
+					 	$('#btn_conn').click()
+					 //2000)
+					
 				}
 				
 			})

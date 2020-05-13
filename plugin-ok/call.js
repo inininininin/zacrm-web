@@ -1,25 +1,28 @@
 
-debugger
+// debugger
 (function (window, undefined) {
-	debugger
+	
 	var data = true
 	var socket, $win = $('body');
 	showmessage = function (msg, type) {
 	    var datetime = new Date();
 	    var tiemstr = datetime.getHours() + ':' + datetime.getMinutes() + ':' + datetime.getSeconds() + '.' + datetime.getMilliseconds();
-		console.log(msg)
+		console.log(msg,type)
+		
+		
 		if (type) {
-			console.log('开始了')
+			
 	        var $p = $('<div>').appendTo($win.find('#div_msg'));
 	        var $type = $('<span>').text('[' + tiemstr + ']' + type + '：').appendTo($p);
 	        var $msg = $('<span>').addClass('thumbnail').css({ 'margin-bottom': '5px' }).text(msg).appendTo($p);
-	    } else {
+	    $('.phoneNow').css('display','none')
+		} else {
 	        var $center = $('<center>').text(msg + '(' + tiemstr + ')').css({ 'font-size': '12px' }).appendTo($win.find('#div_msg'));
 	    }
 	}
 	lianjie()
 	function lianjie(){
-			debugger
+			
 		var url = 'ws://localhost?sid=789&pid=84529FA7-7195-4541-AA38-B22003CCFF4D&flag=1'
 		// 创建一个Socket实例
 		socket = new WebSocket(url);
@@ -27,17 +30,26 @@ debugger
 		console.dir(socket)
 		showmessage('开始连接');
 		// 打开Socket 
+		
 		socket.onopen = function (event) {
 		    // 发送一个初始化消息
 		    showmessage('连接成功');
 		};
 		// 监听消息
 		socket.onmessage = function (eve) {
+			console.log(1213213213213)
 		    showmessage(eve.data, 'receive');
+			var data=JSON.parse(eve.data)
+			console.log(data)
+			if(data.type==707){
+				
+				$('.phoneNow').css('display','block') 
+			}
 		};
 		// 监听Socket的关闭
 		socket.onclose = function (event) {
 		    showmessage('断开连接');
+			//debugger
 		    $win.find('#btn_conn').attr('disabled', false);
 		    $win.find('#btn_close').attr('disabled', true);
 		};
@@ -58,25 +70,46 @@ debugger
 		 });
 		
 	}
+	$(window).bind('beforeunload', function (){
+//debugger
+		
+//alert(123)
+//return false;
+//var  initMsg='{"req":"HP_HangUpCtrl","rid":4,"para":{}}'
+//if(socket) {
+		//debugger
+				$('.phoneNow').css('display','none')
+		socket.send('{"req":"HP_HangUpCtrl","rid":4,"para":{}}');
+		        socket.close();
+		//return false;
+//}
+		
+	});
     $(function () {
 		
-		debugger
+		
          $win.find('#btn_send').click(function () {
-			 debugger
+			  //lianjie()
 			 // console.log('msg')
 			let initMsg = '{"req":"HP_Init","rid":1,"para":{"Para":"0"}}'
 			 data = false
 			if (socket &&  initMsg) {
+			
 			    socket.send( initMsg);
 			    showmessage( initMsg, 'send');
-			    $win.find('#inp_send').val('');
+			    // $win.find('#inp_send').val('');
 			}
+			 // alert('电话正在拨通中')
+			 //layer.msg('电话正在拨通中')
+			 //setTimeout(function(){
+				//$('.phoneNow').css('display','block') 
+			 //},3000)
 			 var  msg = $win.find('#inp_send').val();
              msg = '{"req":"HP_StartDial","rid":5,"para":{"Para":"'+msg+'"}}'
 			
 			 if (socket &&  msg) {
 				 
-				 debugger
+				 
 			     socket.send( msg);
 			     showmessage( msg, 'send');
 			     $win.find('#inp_send').val('');
@@ -90,12 +123,20 @@ debugger
             }
         });
         $win.find('#inp_send').keyup(function () {
-			debugger
             if (event.ctrlKey && event.keyCode == 13) {
                 $win.find('#btn_send').trigger('click');
                 console.log('发送成功')
             }
         });
+		
+		$win.find('#btn_close').click(function () {
+			$('.phoneNow').css('display','none')
+			var  initMsg='{"req":"HP_HangUpCtrl","rid":4,"para":{}}'
+		    if (socket) {
+				socket.send( initMsg);
+		        //socket.close();
+		    }
+		});
     });
 })(window);
 

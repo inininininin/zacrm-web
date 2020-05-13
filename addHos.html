@@ -23,7 +23,9 @@
 		<script src="js/rem.js"></script>
 		<script src="js/image-file-visible.js"></script>
 		<script src="layui/layui.js"></script>
-
+<link href="plugin-ok/res.js" rel="stylesheet"/>
+    <script src="plugin-ok/base.js"></script> 
+    <script src="plugin-ok/websocket.js"></script>
 		<script>
 
 			var provinceList, cityList, townList, cityItem, townItem
@@ -64,6 +66,20 @@
 					// addele(city,item.name)
 					$('.city').append('<option value="' + item.value + '">' + item.label + '</option>')
 				})
+				// todo 要改的
+				// $.ajax({
+				// 	url: '/alter-my-info',
+				// 	type: 'get',
+				// 	async: false,
+				// 	success: function(res) {
+				// 		provinceList = res
+				// 		$.each(res, function(i, field) {
+				// 			$('.province').append('<option value="' + field.value + '">' + field.label + '</option>')
+				// 		});
+				// 	}
+				// })
+				
+				
 			})
 			$('.city').change(function() {
 				cityText = $(this).val();
@@ -83,8 +99,9 @@
 		</script>
 	</head>
 	<body>
-		<input type="" name="" id="inp_send"  hidden="">
-		<button id="btn_send" hidden="">发送</button>
+		<a class="aClose" href="Webshell://hello" style="padding: 10px 20px;">重启话机</a>
+		<input type="" name="" id="inp_send" hidden="">
+		<button id="btn_conn" hidden="">发送</button>
 
 		<div class="thiscontent" style="display: none;">
 			<div class="contentThis"></div>
@@ -97,8 +114,11 @@
 				<div class="selectOption">
 					<text>医院名称 : </text><input class="hosname" type="text" placeholder="" />
 					<!-- onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" -->
-					<text>固定电话 : </text><input class="hostel" placeholder="" type='text'  onkeyup="value=value.replace(/[^\d\-\d]/g,'')" maxlength=20 />
-					<span class="linkHos" style="margin-right: 20px;font-size: 14px;color: #337ab7;cursor: pointer;">联系医院</span>
+					<text>固定电话 : </text><input class="hostel" placeholder="" type='text' onkeyup="value=value.replace(/[^\d\-\d]/g,'')"
+					 maxlength=20 />
+					<!-- <i class="linkHos" style="margin-right: 15px;margin-left: -10px;display: none;cursor: pointer;" class="layui-icon">&#xe678;</i> -->
+					<img src="image/connent.png" class="linkHos" style="margin-right: 15px;margin-left: -20px;display: none;cursor: pointer;width: 20px;height: 20px;">
+					<!-- <span class="linkHos" style="margin-right: 20px;font-size: 14px;color: #337ab7;cursor: pointer;">联系医院</span> -->
 					<text>区域 : </text>
 					<select class="address province">
 						<option value="">-省-</option>
@@ -226,9 +246,9 @@
 
 			<div class="addphoen">
 				<i class="layui-icon closeAdd">&#x1006;</i>
-				<div><text>电话1:</text><input class="phoneInput1" maxlength="11" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
-				<div><text>电话2:</text><input class="phoneInput2" maxlength="11" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
-				<div><text>电话3:</text><input class="phoneInput3" maxlength="11" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
+				<div><text>电话1:</text><input class="phoneInput1" maxlength="13" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
+				<div><text>电话2:</text><input class="phoneInput2" maxlength="13" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
+				<div><text>电话3:</text><input class="phoneInput3" maxlength="13" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
 				<span>完成</span>
 			</div>
 			<div class="addphoeShow">
@@ -245,27 +265,37 @@
 				<span>编辑电话</span>
 			</div>
 		</div>
+		<div class="phoneNow">
+			<div></div>
+			<div>
+				<p>正在通话中. . .</p>
+				<div class="phoneEnd" id="btn_close">
+					<img src="image/phoneEnd.png" alt="">
+					<span>挂断电话</span>
+				</div>
+			</div>
+		</div>
 		<script>
-			if($('.hostel').val()==''||$('.hostel').val()==null||$('.hostel').val()==undefined){
-				$('.linkHos').css('display','none')
-			}else{
-				$('.linkHos').css('display','inline-block')
+			if ($('.hostel').val() == '' || $('.hostel').val() == null || $('.hostel').val() == undefined) {
+				$('.linkHos').css('display', 'none')
+			} else {
+				$('.linkHos').css('display', 'inline-block')
 			}
-			$('.hostel').change(function(){
-				if($(this).val()!=''){
-					$('.linkHos').css('display','inline-block')
-				}else{
-					$('.linkHos').css('display','none')
+			$('.hostel').change(function() {
+				if ($(this).val() != '') {
+					$('.linkHos').css('display', 'inline-block')
+				} else {
+					$('.linkHos').css('display', 'none')
 				}
 			})
-			$('.linkHos').click(function(){
+			$('.linkHos').click(function() {
 				$('#inp_send').val($('.hostel').val())
-				$('#btn_send').click()
+				$('#btn_conn').click()
 			})
 			$('.phoneps').click(function() {
-				
+
 				$('#inp_send').val($(this).html())
-				$('#btn_send').click()
+				$('#btn_conn').click()
 				// lineFriends($(this).html())
 			})
 			$('.closeThis').click(function() {
@@ -279,8 +309,10 @@
 				$('.addphoeShow').css('display', 'block')
 				if ($('.phoneInput1').val() != '' && $('.phoneInput1').val() != null && $('.phoneInput1').val() != undefined) {
 					var phoneInput1 = $('.phoneInput1').val()
+					var  phones1=$('.phoneInput1').val()
 				} else {
 					var phoneInput1 = ''
+					var  phones1=''
 				}
 				if ($('.phoneInput2').val() != '' && $('.phoneInput2').val() != null && $('.phoneInput2').val() != undefined) {
 					if (phoneInput1 == '') {
@@ -288,9 +320,10 @@
 					} else {
 						var phoneInput2 = ',' + $('.phoneInput2').val()
 					}
-
+					var  phones2=$('.phoneInput2').val()
 				} else {
 					var phoneInput2 = ''
+						var  phones2=''
 				}
 				if ($('.phoneInput3').val() != '' && $('.phoneInput3').val() != null && $('.phoneInput3').val() != undefined) {
 					if (phoneInput1 == '' && phoneInput2 == '') {
@@ -298,29 +331,42 @@
 					} else {
 						var phoneInput3 = ',' + $('.phoneInput3').val()
 					}
-
+				var  phones3=$('.phoneInput3').val()
 				} else {
 					var phoneInput3 = ''
+					var  phones3=''
 				}
 				var id = $('.addphoeShow').attr('id')
 				var phones = phoneInput1 + phoneInput2 + phoneInput3
 				if (id == '' || id == null || id == undefined) {
-
+					
 					$('.jsModify').html(phoneInput1 + phoneInput2 + phoneInput3)
 					if ($('.jsModify').parent().parent().attr('class') == 'paibanren') {
-						if( $('.addphoeShow').attr('type')==1){
-							addpaibanPhone(customerId, phones)
-						}else{
-							addpaibanTel(customerId, phones)
-						}	
+						if ($('.addphoeShow').attr('type') == 1) {
+							$('.jsModify').attr('phone1',(phones1||"")).attr('phone2',(phones2||"")).attr('phone3',(phones3||""))
+							addpaibanPhone(customerId, phones1,phones2,phones3)
+						} else {
+							$('.jsModify').attr('tel1',(phones1||"")).attr('tel2',(phones2||"")).attr('tel3',(phones3||""))
+							addpaibanTel(customerId, phones1,phones2,phones3)
+						}
+					}else{
+						if ($('.addphoeShow').attr('type') == 1) {
+							$('.jsModify').attr('phone1',(phones1||"")).attr('phone2',(phones2||"")).attr('phone3',(phones3||""))
+							// addRelPhone(customerId, phones1,phones2,phones3)
+						} else {
+							$('.jsModify').attr('tel1',(phones1||"")).attr('tel2',(phones2||"")).attr('tel3',(phones3||""))
+							// addRelTel(customerId, phones1,phones2,phones3)
+						}
 					}
 				} else {
-					if( $('.addphoeShow').attr('type')==1){
-						var params='&phone=' + phones
-					}else{
-						var params='&tel=' + phones
+					if ($('.addphoeShow').attr('type') == 1) {
+						var params = '&phone1=' + phones1+'&phone2=' + phones2+'&phone3=' + phones3
+							$('.jsModify').attr('phone1',(phones1||"")).attr('phone2',(phones2||"")).attr('phone3',(phones3||""))
+					} else {
+						
+						var params = '&tel1=' + phones1+'&tel2=' + phones2+'&tel3=' + phones3
+						$('.jsModify').attr('tel1',(phones1||"")).attr('tel2',(phones2||"")).attr('tel3',(phones3||""))
 					}
-					
 					$.ajax({
 						url: '/my-customer-worker/update-customer-worker',
 						type: 'post',
@@ -361,7 +407,6 @@
 			layui.use('layer', function() {
 				layer = layui.layer;
 			});
-
 			var customerId = GetQueryString('id')
 			if (GetQueryString('id')) {
 				hosDetail(GetQueryString('id'))
@@ -442,17 +487,7 @@
 				// }
 				// $('.showTips').html(val).css('display', 'block')	
 			}
-			$('tbody').on('mouseover', 'tr td', function() {
-				//  levelLs=$(this).parent().index()
-				//  customerWorkerIdLs=$(this).parent().attr('relId')
 
-				// clearTimeout(timerMove)
-				// if($(this).children().html()!=''&&$(this).children().html()!=null&&$(this).children().html()!=undefined){
-				// 	$('.showTips  div').html($(this).children().html())
-				// 	$('.showTips').css('display', 'block').css('left',$(this).offset().left).css('top',$(this).offset().top-380)
-				// }
-
-			})
 
 			function showhidden() {
 				timerMove = setTimeout(function() {
@@ -467,13 +502,14 @@
 
 			// 111111111111111
 			$('.tbodyPaiban').on('dblclick', 'tr td', function() {
-				$('.phonep1').html('')
-				$('.phonep2').html('')
-				$('.phonep3').html('')
-				clearTimeout(time)
-				if ($(this).children().attr('type') && $(this).children().attr('type') == 'text') {
 
-				} else if ($(this).index() == 2||$(this).index() == 4) {
+				if ($(this).children().attr('type') && $(this).children().attr('type') == 'text') {
+					closePopWindow()
+					$('.phonep1').html('')
+					$('.phonep2').html('')
+					$('.phonep3').html('')
+					clearTimeout(time)
+				} else if ($(this).index() == 2 || $(this).index() == 4) {
 					// 弹出输入框
 					// $('.addphoeShow').attr('id','')
 
@@ -487,7 +523,11 @@
 					// 	$('.phonep'+num).html(phones[i])
 					// }
 				} else {
-
+					closePopWindow()
+					$('.phonep1').html('')
+					$('.phonep2').html('')
+					$('.phonep3').html('')
+					clearTimeout(time)
 					// $(this).html('<input type="text"  class="modifyThis" onchange="modifyOver('+$(this).parent().attr("relId")+',this)" value="'+$(this).children().html()+'"/>')
 					$(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThisPaiban"  value="' + $(this).children()
 						.html() + '"/>')
@@ -587,13 +627,14 @@
 
 			})
 			$('.tbody').on('dblclick', 'tr td', function() {
-				$('.phonep1').html('')
-				$('.phonep2').html('')
-				$('.phonep3').html('')
-				clearTimeout(time)
-				if ($(this).children().attr('type') && $(this).children().attr('type') == 'text') {
 
-				} else if ($(this).index() == 2||$(this).index() == 4) {
+				if ($(this).children().attr('type') && $(this).children().attr('type') == 'text') {
+					closePopWindow()
+					$('.phonep1').html('')
+					$('.phonep2').html('')
+					$('.phonep3').html('')
+					clearTimeout(time)
+				} else if ($(this).index() == 2 || $(this).index() == 4) {
 					// 弹出输入框
 					// $('.addphoeShow').attr('id','')
 
@@ -607,6 +648,11 @@
 					// 	$('.phonep'+num).html(phones[i])
 					// }
 				} else {
+					closePopWindow()
+					$('.phonep1').html('')
+					$('.phonep2').html('')
+					$('.phonep3').html('')
+					clearTimeout(time)
 					$(this).html('<input type="text" level="' + $(this).index() + '"  class="modifyThis"  value="' + $(this).children()
 						.html() + '"/>')
 					$('.modifyThis').focus()
@@ -684,6 +730,12 @@
 				var phone = $('.tbody').children('tr:last-child').find('.showInputBox').html()
 				var verifyWay = $('.tbody').find(':input:eq(2)').val()
 				var tel = $('.tbody').children('tr:last-child').find('.showInputBoxTel').html()
+				var phone1=$('.tbody').children('tr:last-child').find('.showInputBox').attr('phone1')||""
+				var phone2=$('.tbody').children('tr:last-child').find('.showInputBox').attr('phone2')||""
+				var phone3=$('.tbody').children('tr:last-child').find('.showInputBox').attr('phone3')||""
+				var tel1 = $('.tbody').children('tr:last-child').find('.showInputBoxTel').attr('tel1')||""
+				var tel2 = $('.tbody').children('tr:last-child').find('.showInputBoxTel').attr('tel2')||""
+				var tel3 = $('.tbody').children('tr:last-child').find('.showInputBoxTel').attr('tel3')||""
 				// var tel = $('.tbody').find(':input:eq(3)').val()
 				var paiBan = ''
 				var _this = $(this)
@@ -698,8 +750,8 @@
 						$.ajax({
 							url: '/my-customer-worker/create-customer-worker',
 							type: 'post',
-							data: 'name=' + name + '&tel=' + tel + '&post=' + post + '&paiBan=' + paiBan + '&verifyWay=' + verifyWay +
-								'&phone=' + phone + '&customerId=' + customerId,
+							data: 'name=' + name + '&tel1=' + tel1+ '&tel2=' + tel2+ '&tel3=' + tel3 + '&post=' + post + '&paiBan=' + paiBan + '&verifyWay=' + verifyWay +
+								'&phone1=' + phone1 +'&phone2=' + phone2 +'&phone3=' + phone3 + '&customerId=' + customerId,
 							async: true,
 							success: function(res) {
 								if (res.code == 0) {
@@ -712,12 +764,12 @@
 									$('.tbody').append('<tr relId="' + res.data.customerWorkerId +
 										'"><td class="enterHos"><div class="line-1">' + name + '</div></td>' +
 										'<td><div class="line-1 lookHis">' + post + '</div></td>' +
-										'<td><div class="line-1 lookHis showInputBox" onmouseover="' + show1 + '" onmouseleave="showhidden()">' +
+										'<td><div class="line-1 lookHis showInputBox" phone1="'+phone1+'"  phone2="'+phone2+'"  phone3="'+phone3+'" onmouseover="' + show1 + '" onmouseleave="showhidden()">' +
 										phone +
 										'</div></td>' +
 										'<td><div class="line-1 lookHis" onmouseover="' + show2 + '" onmouseleave="showhidden()">' + verifyWay +
 										'</div></td>' +
-										'<td><div class="line-1 lookHis showInputBoxTel"onmouseover="' + show3 +
+										'<td><div class="line-1 lookHis showInputBoxTel"  tel1="'+tel1+'"  tel2="'+tel2+'"  tel3="'+tel3+'" onmouseover="' + show3 +
 										'" onmouseleave="showhidden()">' + tel +
 										'</div></td></tr>')
 									_this.parent().css('display', 'none')
@@ -789,7 +841,8 @@
 						success: function(res) {
 							if (res.code == 0) {
 								$('.trackDetail').append('<ul>' +
-									'<li><span>' + interstName + '</span><span>' + changeDateFormat(nowtime) + '</span></li>' +
+									'<li><span>' + $('.trackName span').html() + '</span><span>' + interstName + '</span><span>' +
+									changeDateFormat(nowtime) + '</span></li>' +
 									'<li>' + content + '</li>' +
 									'</ul>')
 								$('.trackDetail').scrollTop($('.trackDetail')[0].scrollHeight);
@@ -891,7 +944,7 @@
 						success: function(res) {
 							if (res.code == 0) {
 								layer.msg('操作成功')
-								debugger
+
 								location.href = 'addHos.html?id=' + res.data.customerId
 								customerId = res.data.customerId
 								$('.addHos').attr('disabled', false);
@@ -939,8 +992,8 @@
 							$('.hosIntro').val(res.data.brief)
 							$('.hostel').val(res.data.tel)
 							$('.hosnature').val(res.data.nature)
-							if(res.data.tel!=''&&res.data.tel!=null&&res.data.tel!=undefined){
-								$('.linkHos').css('display','inline-block')
+							if (res.data.tel != '' && res.data.tel != null && res.data.tel != undefined) {
+								$('.linkHos').css('display', 'inline-block')
 							}
 							paiBanCustomerWorkerId = res.data.paiBanCustomerWorkerId
 							$('.paibanren').attr('relId', res.data.paiBanCustomerWorkerId || '')
@@ -960,7 +1013,6 @@
 							if (res.data.paiBanCustomerWorkerTel) {
 								$('.paibanren').children().eq(4).children().html(res.data.paiBanCustomerWorkerTel)
 							}
-							// debugger
 							// TODO 后期待优化
 							$.ajax({
 								url: 'js/area.json',
@@ -1033,22 +1085,82 @@
 							if (res.data.itemList && res.data.itemList.length > 0) {
 								$('.tbody').html('')
 								for (var i in res.data.itemList) {
+									var phoneAll='',telAll=''
+									if(res.data.itemList[i].phone1){
+										if(phoneAll!=''){
+											phoneAll= phoneAll+','+res.data.itemList[i].phone1
+										}else{
+											phoneAll=res.data.itemList[i].phone1
+										}	
+									}
+									if(res.data.itemList[i].phone2){
+										if(phoneAll!=''){
+										phoneAll= phoneAll+','+res.data.itemList[i].phone2
+										}else{
+											phoneAll=res.data.itemList[i].phone2
+										}	
+									}
+									if(res.data.itemList[i].phone3){
+										if(phoneAll!=''){
+										phoneAll= phoneAll+','+res.data.itemList[i].phone3
+										}else{
+											phoneAll=res.data.itemList[i].phone3
+										}	
+									}
+									
+									if(res.data.itemList[i].tel1){
+										if(telAll!=''){
+											telAll= telAll+','+res.data.itemList[i].tel1
+										}else{
+											telAll= res.data.itemList[i].tel1
+										}
+									}
+									if(res.data.itemList[i].tel2){
+										if(telAll!=''){
+										telAll= telAll+','+res.data.itemList[i].tel2
+										}else{
+											telAll= res.data.itemList[i].tel2
+										}
+									}
+									if(res.data.itemList[i].tel3){
+										if(telAll!=''){
+										telAll= telAll+','+res.data.itemList[i].tel3
+										}else{
+											telAll= res.data.itemList[i].tel3
+										}
+									}
 									if (res.data.itemList[i].customerWorkerId != paiBanCustomerWorkerId) {
 										var show1 = "show('" + res.data.itemList[i].phone + "')"
 										var show2 = "show('" + res.data.itemList[i].verifyWay + "')"
 										var show3 = "show('" + res.data.itemList[i].tel + "')"
+										
+										if(phoneAll){
+											var phoneAll=phoneAll.substring(0, 3) + "****"+phoneAll.substring(8,phoneAll.length)
+										}
+										if(telAll){
+											var telAll=telAll.substring(0, 3) + "****"+telAll.substring(8,telAll.length)
+										}
 										$('.tbody').append('<tr relId="' + res.data.itemList[i].customerWorkerId +
 											'"><td class="enterHos"><div class="line-1">' + (res.data.itemList[i].name || "") + '</div></td>' +
 											'<td><div class="line-1 lookHis">' + (res.data.itemList[i].post || "") + '</div></td>' +
-											'<td><div class="line-1 lookHis showInputBox" onmouseover="' + show1 + '" onmouseleave="showhidden()">' +
-											(res.data.itemList[i].phone || "") +
+											'<td><div class="line-1 lookHis showInputBox" phone1="'+(res.data.itemList[i].phone1||"")+'" phone2="'+(res.data.itemList[i].phone2||"")+'" phone3="'+(res.data.itemList[i].phone3||"")+'" >' +
+											// (res.data.itemList[i].phone || "") +
+											phoneAll+
 											'</div></td>' +
-											'<td><div class="line-1 lookHis" onmouseover="' + show2 + '" onmouseleave="showhidden()">' + (res.data.itemList[
+											'<td><div class="line-1 lookHis" onmouseover="' + show2 +'" onmouseleave="showhidden()">' + (res.data.itemList[
 												i].verifyWay || "") +
 											'</div></td>' +
-											'<td><div class="line-1 lookHis showInputBoxTel"onmouseover="' + show3 +
-											'" onmouseleave="showhidden()">' + (res.data.itemList[i].tel || "") +
+											'<td><div class="line-1 lookHis showInputBoxTel" tel1="'+(res.data.itemList[i].tel1||"")+'" tel2="'+(res.data.itemList[i].tel2||"")+'" tel3="'+(res.data.itemList[i].tel3||"")+'">'+telAll+// + (res.data.itemList[i].tel || "") +
 											'</div></td></tr>')
+									}else{
+										if(phoneAll){
+											var phoneAll=phoneAll.substring(0, 3) + "****"+phoneAll.substring(8,phoneAll.length)
+										}
+										if(telAll){
+											var telAll=telAll.substring(0, 3) + "****"+telAll.substring(8,telAll.length)
+										}
+										$('.paibanren .showInputBox').html(phoneAll).attr('phone1',(res.data.itemList[i].phone1||"")).attr('phone2',(res.data.itemList[i].phone2||"")).attr('phone3',(res.data.itemList[i].phone3||""))
+										$('.paibanren .showInputBoxTel').html(telAll).attr('tel1',(res.data.itemList[i].tel1||"")).attr('tel2',(res.data.itemList[i].tel2||"")).attr('tel3',(res.data.itemList[i].tel3||""))
 									}
 
 								}
@@ -1059,11 +1171,11 @@
 			}
 			// 跟踪记录列表
 			function trackrelList(customerId, customerWorkerId, pn) {
-				if (customerWorkerId)
+				if (customerWorkerId){
 					$('.lookAllTrack').show()
-				else
+				}else{
 					$('.lookAllTrack').hide()
-
+				}
 				$.ajax({
 					url: '/my-customer-worker-trace/customer-worker-trace-list',
 					type: 'GET',
@@ -1089,7 +1201,8 @@
 										interst = '线上可签单'
 									}
 									$('.trackDetail').append('<ul>' +
-										'<li><span>' + interst + '</span><span>' + changeDateFormat(res.data.itemList[i].createTime) +
+										'<li><span>' + res.data.itemList[i].customerWorkerName + '</span><span>' + interst + '</span><span>' +
+										changeDateFormat(res.data.itemList[i].createTime) +
 										'</span></li>' +
 										'<li>' + res.data.itemList[i].content + '</li>' +
 										'</ul>')
@@ -1103,10 +1216,18 @@
 			trackrelList(customerId, '', 1)
 			// 跟踪记录
 			$('.lookAllTrack').click(function() {
+				
 				$('.trackName').html('所有人的跟踪记录')
-
 				trackrelList(customerId, '', 1)
 			})
+			
+			// $('body').click(function(e){
+			// 	console.log(e.target.id)
+			// 	if (e.target.id.length) {
+			// 	                closePopWindow()
+			// 	            }
+				
+			// })
 		</script>
 
 		<script>
@@ -1149,6 +1270,13 @@
 			};
 		</script>
 		<script>
+			function closePopWindow() {
+				$('.phonep1').html('')
+				$('.phonep2').html('')
+				$('.phonep3').html('')
+				$('.addphoeShow').css('display', 'none')
+				$('.addphoen').css('display', 'none')
+			}
 			$.getJSON("js/area.json", function(res) {
 				provinceList = res
 				// $('.province').html('<option value="">-请选择-</option>')
@@ -1191,50 +1319,121 @@
 				})
 			})
 
-
-
-			// 点击弹出输入密码
-			$('tbody').on('click', 'tr .showInputBox', function() {
-				if($(this).html()&&$(this).html().split(',').length==1){
-					$('#inp_send').val($(this).html())
-					$('#btn_send').click()
-					// lineFriends($(this).html())			
-				}				
-					$('.addphoeShow').attr('id', '')					
-					$('.addphoeShow').css('display', 'block').attr('id', $(this).parent().parent().attr('relId')).attr('type', 1)
-					$('table').find('.jsModify').removeClass('jsModify')
-					$(this).addClass('jsModify')
-					var phones = $(this).html().split(',')					
-					for (var i in phones) {
-						var num = parseInt(i) + 1
-						$('.phonep' + num).html(phones[i])
+			// 点击弹出修改号码
+			var timeIs = ''
+			$('tbody').on('click', 'tr .showInputBox', function(){
+				clearTimeout(timeIs)
+				var thisHtml = $(this).html()
+				var _this_=$(this)
+				closePopWindow()
+				timeIs = setTimeout(function() {
+					if (thisHtml && thisHtml.split(',').length == 1) {
+						$('#inp_send').val(thisHtml)
+						$('#btn_conn').click()
+					} else {
+						$('.addphoeShow').attr('id', '')
+						$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 1)
+						$('table').find('.jsModify').removeClass('jsModify')
+						_this_.addClass('jsModify')
+						// if()
+						// var phones = thisHtml.split(',')
+						// for (var i in phones) {
+						// 	var num = parseInt(i) + 1
+						// 	$('.phonep' + num).html(phones[i])
+						// }
+						$('.phonep1').html(_this_.attr('phone1')||'')
+						$('.phonep2').html(_this_.attr('phone2')||'')
+						$('.phonep3').html(_this_.attr('phone3')||'')
 					}
-					
+				}, 300)
 			})
-			
-			$('tbody').on('click', 'tr .showInputBoxTel', function() {
-				if($(this).html()&&$(this).html().split(',').length==1){
-					// lineFriends($(this).html())		
-						$('#inp_send').val($(this).html())
-						$('#btn_send').click()
-				}					
-					$('.addphoeShow').attr('id', '')					
-					$('.addphoeShow').css('display', 'block').attr('id', $(this).parent().parent().attr('relId')).attr('type', 2)
+			$('tbody').on('dblclick', 'tr .showInputBox', function() {
+				clearTimeout(timeIs)
+				var thisHtml = $(this).html()
+				var _this_=$(this)
+				closePopWindow()
+				if (thisHtml && thisHtml.split(',').length == 1) {
+					$('.addphoeShow').attr('id', '')
+					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 1)
 					$('table').find('.jsModify').removeClass('jsModify')
-					$(this).addClass('jsModify')
-					var phones = $(this).html().split(',')					
-					for (var i in phones) {
-						var num = parseInt(i) + 1
-						$('.phonep' + num).html(phones[i])
+					_this_.addClass('jsModify')
+					$('.phonep1').html(thisHtml)
+				} else {
+					$('.addphoeShow').attr('id', '')
+					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 1)
+					$('table').find('.jsModify').removeClass('jsModify')
+					_this_.addClass('jsModify')
+					// var phones = thisHtml.split(',')
+					// for (var i in phones) {
+					// 	var num = parseInt(i) + 1
+					// 	$('.phonep' + num).html(phones[i])
+					// }
+					$('.phonep1').html(_this_.attr('phone1')||'')
+					$('.phonep2').html(_this_.attr('phone2')||'')
+					$('.phonep3').html(_this_.attr('phone3')||'')
+				}
+			})
+
+			$('tbody').on('click', 'tr .showInputBoxTel', function() {
+				closePopWindow()
+				var thisHtml = $(this).html()
+				var _this_=$(this)
+				clearTimeout(timeIs)
+				timeIs = setTimeout(function() {
+					if (thisHtml && thisHtml.split(',').length == 1) {
+						// lineFriends($(this).html())		
+						$('#inp_send').val(thisHtml)
+						$('#btn_conn').click()
+					} else {
+						$('.addphoeShow').attr('id', '')
+						$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 2)
+						$('table').find('.jsModify').removeClass('jsModify')
+						_this_.addClass('jsModify')
+						// var phones = thisHtml.split(',')
+						// for (var i in phones) {
+						// 	var num = parseInt(i) + 1
+						// 	$('.phonep' + num).html(phones[i])
+						// }
+						
+						$('.phonep1').html(_this_.attr('tel1')||'')
+						$('.phonep2').html(_this_.attr('tel2')||'')
+						$('.phonep3').html(_this_.attr('tel3')||'')
+						// alert(_this_.attr('tel1'))
 					}
-				
+				}, 300)
+			})
+			$('tbody').on('dblclick', 'tr .showInputBoxTel', function() {
+				clearTimeout(timeIs)
+				closePopWindow()
+				var _this_=$(this)
+				var thisHtml = $(this).html()
+				if (thisHtml && thisHtml.split(',').length == 1) {
+					$('.addphoeShow').attr('id', '')
+					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 2)
+					$('table').find('.jsModify').removeClass('jsModify')
+					_this_.addClass('jsModify')
+					$('.phonep1').html(_this_.attr('tel1'))
+				} else {
+					$('.addphoeShow').attr('id', '')
+					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 1)
+					$('table').find('.jsModify').removeClass('jsModify')
+					_this_.addClass('jsModify')
+					// var phones = thisHtml.split(',')
+					// for (var i in phones) {
+					// 	var num = parseInt(i) + 1
+					// 	$('.phonep' + num).html(phones[i])
+					// }
+					$('.phonep1').html(_this_.attr('tel1')||'')
+					$('.phonep2').html(_this_.attr('tel2')||'')
+					$('.phonep3').html(_this_.attr('tel3')||'')
+				}
 			})
 		</script>
-		
-		
+
+
 		<script language="javascript" type="text/javascript" src="plugin-ok/jquery.js"></script>
 		<script language="javascript" type="text/javascript" src="plugin-ok/jquery.base64.js"></script>
-		<script src="plugin-ok/base.js"></script> 
+		<script src="plugin-ok/base.js"></script>
 		<script src="plugin-ok/call.js"></script>
 	</body>
 </html>
