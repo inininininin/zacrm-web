@@ -1328,7 +1328,8 @@
 				closePopWindow()
 				timeIs = setTimeout(function() {
 					if (thisHtml && thisHtml.split(',').length == 1) {
-						$('#inp_send').val(thisHtml)
+						$('#inp_send').val(_this_.attr('phone1')||_this_.attr('phone2')||_this_.attr('phone3')||"")
+						// $('#inp_send').val(thisHtml)
 						$('#btn_conn').click()
 					} else {
 						$('.addphoeShow').attr('id', '')
@@ -1357,7 +1358,7 @@
 					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 1)
 					$('table').find('.jsModify').removeClass('jsModify')
 					_this_.addClass('jsModify')
-					$('.phonep1').html(thisHtml)
+					$('.phonep1').html(_this_.attr('phone1')||_this_.attr('phone2')||_this_.attr('phone3')||'')
 				} else {
 					$('.addphoeShow').attr('id', '')
 					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 1)
@@ -1377,12 +1378,13 @@
 			$('tbody').on('click', 'tr .showInputBoxTel', function() {
 				closePopWindow()
 				var thisHtml = $(this).html()
+				
 				var _this_=$(this)
 				clearTimeout(timeIs)
 				timeIs = setTimeout(function() {
 					if (thisHtml && thisHtml.split(',').length == 1) {
 						// lineFriends($(this).html())		
-						$('#inp_send').val(thisHtml)
+						$('#inp_send').val(_this_.attr('tel1')||_this_.attr('tel2')||_this_.attr('tel3')||"")
 						$('#btn_conn').click()
 					} else {
 						$('.addphoeShow').attr('id', '')
@@ -1412,10 +1414,10 @@
 					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 2)
 					$('table').find('.jsModify').removeClass('jsModify')
 					_this_.addClass('jsModify')
-					$('.phonep1').html(_this_.attr('tel1'))
+					$('.phonep1').html(_this_.attr('tel1')||_this_.attr('tel2')||_this_.attr('tel3')||"")
 				} else {
 					$('.addphoeShow').attr('id', '')
-					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 1)
+					$('.addphoeShow').css('display', 'block').attr('id', _this_.parent().parent().attr('relId')).attr('type', 2)
 					$('table').find('.jsModify').removeClass('jsModify')
 					_this_.addClass('jsModify')
 					// var phones = thisHtml.split(',')
@@ -1431,9 +1433,9 @@
 		</script>
 
 
-		<script language="javascript" type="text/javascript" src="plugin-ok/jquery.js"></script>
+		<!-- <script language="javascript" type="text/javascript" src="plugin-ok/jquery.js"></script>
 		<script language="javascript" type="text/javascript" src="plugin-ok/jquery.base64.js"></script>
 		<script src="plugin-ok/base.js"></script>
-		<script src="plugin-ok/call.js"></script>
+		<script src="plugin-ok/call.js"></script> -->
 	</body>
 </html>

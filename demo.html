@@ -1,32 +1,21 @@
 <HTML>
  <HEAD>
   <TITLE> 判断页面是关闭还是刷新 </TITLE> 
-  
+  <script src="js/jquery-1.11.3.js"></script>
  </HEAD>
 
 <body οnunlοad="fclose();" οnlοad="fload();" οnbefοreunlοad="bfunload();"> 
-  
+ <input type="text" id="inp_send" value="15077822798"> 
  </body>
  <script language="javascript">
- var s = "test"; 
- 
- function fclose() 
- { 
- 	   
-    if(s=="no") 
- 	  
-       alert("unload me!="+s+"这是刷新页面！"); 
-    else 
-       alert("这是关闭页面"); 
- } 
- function fload() 
- { 
-    alert("load me!="+s); 
- } 
- function bfunload() 
- { 
-    s = "no";
+ // var phoneNum=$('#inp_send').val()
+ console.log($('#inp_send').val())
+var phoneNum=$('#inp_send').val()
+ console.log(phoneNum,phoneNum.substring(0,1))
+ if(phoneNum&&phoneNum.substring(0,1)==1){
+ 	phoneNum='0'+phoneNum
  }
+ console.log(phoneNum)
  </script>
  
 </HTML>
