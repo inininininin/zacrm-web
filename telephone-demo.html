@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
 	<head>
 
-		<script src="page/jquery-1.11.1.min.js"></script>
+		<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 		
 	</head>
 	<body>
@@ -10,45 +10,68 @@
 			debugger
 			$.get('/receive',function(res){
 					debugger
-					$('#receive').append('<br/>'+res.data.value)
+					$('#receive').prepend('<br/>'+(res.data.value||''))
 			})
-		})">send</button><br/>
+		})">初始化</button><br/>
 		<input id="message2" style="width:500px" value='{"req":"HP_HangUpCtrl","rid":4,"para":{}}'> <button onclick="$.post('/send',{message:$('#message2').val()},function(){
 			$.get('/receive',function(res){
-					$('#receive').append('<br/>'+res.data.value)
+					$('#receive').prepend('<br/>'+(res.data.value||''))
 			})
-		})">send</button><br/>
+		})">挂机</button><br/>
 		<input id="message3" style="width:500px" value='{"req":"HP_StartDial","rid":5,"para":{"Para":"123456789"}}'> <button onclick="$.post('/send',{message:$('#message3').val()},function(){
 			$.get('/receive',function(res){
-					$('#receive').append('<br/>'+res.data.value)
+					$('#receive').prepend('<br/>'+(res.data.value||''))
 			})
-		})">send</button><br/>
-		<input id="message4" style="width:500px" value='{"req":"HP_HangUpCtrl","rid":4,"para":{}}'> <button onclick="$.post('/send',{message:$('#message4').val()},function(){
+		})">拨号</button><br/>
+		<input id="message4" style="width:500px" value='{"req":"HP_QueryPhoneStatus","rid":8,"para":{}}'> <button onclick="$.post('/send',{message:$('#message4').val()},function(){
 			$.get('/receive',function(res){
-					$('#receive').append('<br/>'+res.data.value)
+					$('#receive').prepend('<br/>'+(res.data.value||''))
 			})
-		})">send</button><br/>
+		})">话机状态</button><br/>
+<input id="message5" style="width:500px" value=''> <button onclick="$.post('/send',{message:$('#message5').val()},function(){
+	$.get('/receive',function(res){
+			$('#receive').prepend('<br/>'+(res.data.value||''))
+	})
+})">发送</button><br/>
+
+<input id="message6" style="width:500px" value=''> <button onclick="$.post('/send',{message:$('#message6').val()},function(){
+	$.get('/receive',function(res){
+			$('#receive').prepend('<br/>'+(res.data.value||''))
+	})
+})">发送</button><br/>
+
+<input id="message7" style="width:500px" value=''> <button onclick="$.post('/send',{message:$('#message7').val()},function(){
+	$.get('/receive',function(res){
+			$('#receive').prepend('<br/>'+(res.data.value||''))
+	})
+})">发送</button><br/>
+
+<input id="message8" style="width:500px" value=''> <button onclick="$.post('/send',{message:$('#message8').val()},function(){
+	$.get('/receive',function(res){
+			$('#receive').prepend('<br/>'+(res.data.value||''))
+	})
+})">发送</button><br/>
 
 		<button onclick="$.post('/send',{message:$('#message1').val()},function(){
 			$.get('/receive',function(res){
-					$('#receive').append('<br/>'+res.data.value)
+					$('#receive').prepend('<br/>'+(res.data.value||''))
 				})
 			$.post('/send',{message:$('#message2').val()},function(){
 				$.get('/receive',function(res){
-					$('#receive').append('<br/>'+res.data.value)
+					$('#receive').prepend('<br/>'+(res.data.value||''))
 				})
 				$.post('/send',{message:$('#message3').val()},function(){
 					$.get('/receive',function(res){
-						$('#receive').append('<br/>'+res.data.value)
+						$('#receive').prepend('<br/>'+(res.data.value||''))
 					})
 					$.post('/send',{message:$('#message4').val()},function(){
 						$.get('/receive',function(res){
-							$('#receive').append('<br/>'+res.data.value)
+							$('#receive').prepend('<br/>'+(res.data.value||''))
 						})
 					})
 				})
 			})
-		})">send all</button><br/>
+		})">发送全部</button><br/>
 
 		<div id="receive"></div>
 	</body>
