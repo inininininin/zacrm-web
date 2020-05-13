@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+	<head>
+
+		<script src="page/jquery-1.11.1.min.js"></script>
+		
+	</head>
+	<body>
+		<input id="message1" style="width:500px" value='{"req":"HP_Init","rid":1,"para":{"Para":"0"}}'> <button onclick="$.post('/send',{message:$('#message1').val()},function(){
+			debugger
+			$.get('/receive',function(res){
+					debugger
+					$('#receive').append('<br/>'+res.data.value)
+			})
+		})">send</button><br/>
+		<input id="message2" style="width:500px" value='{"req":"HP_HangUpCtrl","rid":4,"para":{}}'> <button onclick="$.post('/send',{message:$('#message2').val()},function(){
+			$.get('/receive',function(res){
+					$('#receive').append('<br/>'+res.data.value)
+			})
+		})">send</button><br/>
+		<input id="message3" style="width:500px" value='{"req":"HP_StartDial","rid":5,"para":{"Para":"123456789"}}'> <button onclick="$.post('/send',{message:$('#message3').val()},function(){
+			$.get('/receive',function(res){
+					$('#receive').append('<br/>'+res.data.value)
+			})
+		})">send</button><br/>
+		<input id="message4" style="width:500px" value='{"req":"HP_HangUpCtrl","rid":4,"para":{}}'> <button onclick="$.post('/send',{message:$('#message4').val()},function(){
+			$.get('/receive',function(res){
+					$('#receive').append('<br/>'+res.data.value)
+			})
+		})">send</button><br/>
+
+		<button onclick="$.post('/send',{message:$('#message1').val()},function(){
+			$.get('/receive',function(res){
+					$('#receive').append('<br/>'+res.data.value)
+				})
+			$.post('/send',{message:$('#message2').val()},function(){
+				$.get('/receive',function(res){
+					$('#receive').append('<br/>'+res.data.value)
+				})
+				$.post('/send',{message:$('#message3').val()},function(){
+					$.get('/receive',function(res){
+						$('#receive').append('<br/>'+res.data.value)
+					})
+					$.post('/send',{message:$('#message4').val()},function(){
+						$.get('/receive',function(res){
+							$('#receive').append('<br/>'+res.data.value)
+						})
+					})
+				})
+			})
+		})">send all</button><br/>
+
+		<div id="receive"></div>
+	</body>
+	
+</html>
