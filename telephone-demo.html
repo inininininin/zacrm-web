@@ -6,66 +6,66 @@
 		
 	</head>
 	<body>
-		<input id="message1" style="width:500px" value='{"req":"HP_Init","rid":1,"para":{"Para":"0"}}'> <button onclick="$.post('/send',{message:$('#message1').val()},function(){
+		<input id="message1" style="width:500px" value='{"req":"HP_Init","rid":1,"para":{"Para":"0"}}'> <button onclick="$.post('/my-dialog/send',{message:$('#message1').val()},function(){
 			debugger
-			$.get('/receive',function(res){
+			$.get('/my-dialog/receive',function(res){
 					debugger
 					$('#receive').prepend('<br/>'+(res.data.value||''))
 			})
 		})">初始化</button><br/>
-		<input id="message2" style="width:500px" value='{"req":"HP_HangUpCtrl","rid":4,"para":{}}'> <button onclick="$.post('/send',{message:$('#message2').val()},function(){
-			$.get('/receive',function(res){
+		<input id="message2" style="width:500px" value='{"req":"HP_HangUpCtrl","rid":4,"para":{}}'> <button onclick="$.post('/my-dialog/send',{message:$('#message2').val()},function(){
+			$.get('/my-dialog/receive',function(res){
 					$('#receive').prepend('<br/>'+(res.data.value||''))
 			})
 		})">挂机</button><br/>
-		<input id="message3" style="width:500px" value='{"req":"HP_StartDial","rid":5,"para":{"Para":"123456789"}}'> <button onclick="$.post('/send',{message:$('#message3').val()},function(){
-			$.get('/receive',function(res){
+		<input id="message3" style="width:500px" value='{"req":"HP_StartDial","rid":5,"para":{"Para":"123456789"}}'> <button onclick="$.post('/my-dialog/send',{message:$('#message3').val()},function(){
+			$.get('/my-dialog/receive',function(res){
 					$('#receive').prepend('<br/>'+(res.data.value||''))
 			})
 		})">拨号</button><br/>
-		<input id="message4" style="width:500px" value='{"req":"HP_QueryPhoneStatus","rid":8,"para":{}}'> <button onclick="$.post('/send',{message:$('#message4').val()},function(){
-			$.get('/receive',function(res){
+		<input id="message4" style="width:500px" value='{"req":"HP_QueryPhoneStatus","rid":8,"para":{}}'> <button onclick="$.post('/my-dialog/send',{message:$('#message4').val()},function(){
+			$.get('/my-dialog/receive',function(res){
 					$('#receive').prepend('<br/>'+(res.data.value||''))
 			})
 		})">话机状态</button><br/>
-<input id="message5" style="width:500px" value=''> <button onclick="$.post('/send',{message:$('#message5').val()},function(){
-	$.get('/receive',function(res){
+<input id="message5" style="width:500px" value=''> <button onclick="$.post('/my-dialog/send',{message:$('#message5').val()},function(){
+	$.get('/my-dialog/receive',function(res){
 			$('#receive').prepend('<br/>'+(res.data.value||''))
 	})
 })">发送</button><br/>
 
-<input id="message6" style="width:500px" value=''> <button onclick="$.post('/send',{message:$('#message6').val()},function(){
-	$.get('/receive',function(res){
+<input id="message6" style="width:500px" value=''> <button onclick="$.post('/my-dialog/send',{message:$('#message6').val()},function(){
+	$.get('/my-dialog/receive',function(res){
 			$('#receive').prepend('<br/>'+(res.data.value||''))
 	})
 })">发送</button><br/>
 
-<input id="message7" style="width:500px" value=''> <button onclick="$.post('/send',{message:$('#message7').val()},function(){
-	$.get('/receive',function(res){
+<input id="message7" style="width:500px" value=''> <button onclick="$.post('/my-dialog/send',{message:$('#message7').val()},function(){
+	$.get('/my-dialog/receive',function(res){
 			$('#receive').prepend('<br/>'+(res.data.value||''))
 	})
 })">发送</button><br/>
 
-<input id="message8" style="width:500px" value=''> <button onclick="$.post('/send',{message:$('#message8').val()},function(){
-	$.get('/receive',function(res){
+<input id="message8" style="width:500px" value=''> <button onclick="$.post('/my-dialog/send',{message:$('#message8').val()},function(){
+	$.get('/my-dialog/receive',function(res){
 			$('#receive').prepend('<br/>'+(res.data.value||''))
 	})
 })">发送</button><br/>
 
-		<button onclick="$.post('/send',{message:$('#message1').val()},function(){
-			$.get('/receive',function(res){
+		<button onclick="$.post('/my-dialog/send',{message:$('#message1').val()},function(){
+			$.get('/my-dialog/receive',function(res){
 					$('#receive').prepend('<br/>'+(res.data.value||''))
 				})
-			$.post('/send',{message:$('#message2').val()},function(){
-				$.get('/receive',function(res){
+			$.post('/my-dialog/send',{message:$('#message2').val()},function(){
+				$.get('/my-dialog/receive',function(res){
 					$('#receive').prepend('<br/>'+(res.data.value||''))
 				})
-				$.post('/send',{message:$('#message3').val()},function(){
-					$.get('/receive',function(res){
+				$.post('/my-dialog/send',{message:$('#message3').val()},function(){
+					$.get('/my-dialog/receive',function(res){
 						$('#receive').prepend('<br/>'+(res.data.value||''))
 					})
-					$.post('/send',{message:$('#message4').val()},function(){
-						$.get('/receive',function(res){
+					$.post('/my-dialog/send',{message:$('#message4').val()},function(){
+						$.get('/my-dialog/receive',function(res){
 							$('#receive').prepend('<br/>'+(res.data.value||''))
 						})
 					})
