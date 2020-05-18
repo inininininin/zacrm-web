@@ -449,3 +449,34 @@
 	border-radius: 5px;
 	background: #ffffff;
 }
+
+/* 动态添加科室电话 */
+.linePhoneList>div{
+	display: inline-block;
+	/* width: 350px; */
+	margin-right: 20px;
+	line-height: 60px;
+	padding-right: 30px;
+	border-right:1px solid #e5e5e5;
+	color: #666666;
+}
+.linePhoneList>div span{
+	display: inline-block;
+	margin-right: 15px;
+}
+.linePhoneList img{
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	margin-right: 10px;
+}
+.addNewTel{
+	width: 60px;
+	height: 30px !important;
+	line-height: 30px !important;
+	font-size: 14px;
+	border-radius: 5px;
+	border: 1px solid #e5e5e5;
+	display: none;
+	/* background: #EEEEEE !important; */
+}

@@ -125,9 +125,9 @@
 			   							interst='线上可签单'
 			   						}
 			   						$('.trackDetail').append('<ul>' +
-										'<li><span>' + res.data.itemList[i].customerName + '</span><span>' + res.data.itemList[i].customerWorkerName + '</span></li>' +
+										'<li><span>' + (res.data.itemList[i].customerName||'') + '</span><span>' + (res.data.itemList[i].customerWorkerName||'') + '</span></li>' +
 			   							'<li><span>' + interst + '</span><span>' + changeDateFormat(res.data.itemList[i].createTime) + '</span></li>' +
-			   							'<li>' + res.data.itemList[i].content + '</li>' +
+			   							'<li>' + (res.data.itemList[i].content||'') + '</li>' +
 			   							'</ul>')
 			   							$('.trackDetail').scrollTop($('.trackDetail')[0].scrollHeight);						
 			   					}

@@ -116,6 +116,8 @@
 					<!-- onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" -->
 					<text>固定电话 : </text><input class="hostel" placeholder="" type='text' onkeyup="value=value.replace(/[^\d\-\d]/g,'')"
 					 maxlength=20 />
+					 
+					 
 					<!-- <i class="linkHos" style="margin-right: 15px;margin-left: -10px;display: none;cursor: pointer;" class="layui-icon">&#xe678;</i> -->
 					<img src="image/connent.png" class="linkHos" style="margin-right: 15px;margin-left: -20px;display: none;cursor: pointer;width: 20px;height: 20px;">
 					<!-- <span class="linkHos" style="margin-right: 20px;font-size: 14px;color: #337ab7;cursor: pointer;">联系医院</span> -->
@@ -134,7 +136,11 @@
 						<option value="1" selected>民营医院</option>
 						<option value="2">公立医院</option>
 					</select>
-
+					<button class="addNewTel">新增电话</button>
+					<div class="linePhoneList">
+						
+						
+					</div>
 					<div class="hosIntroBox">
 						<text>简介 : </text>
 						<textarea class="hosIntro" rows="3" cols="20"></textarea>
@@ -223,7 +229,7 @@
 					</div>
 					<textarea class="talkShow" rows="" cols="" placeholder="请输入追踪记录"></textarea>
 					<div class="selectQuick">
-						<div><label><input type="checkbox" class="quickIs" name="quick" value="1">加急</label></div>
+						<div><label><input type="checkbox" id="quickIs" name="quick" >加急</label></div>
 						<div><label><input type="radio" name="interst" value="1">暂不感兴趣</label>
 							<label><input type="radio" name="interst" value="2">初步感兴趣</label>
 							<label><input type="radio" name="interst" value="3">非常感兴趣</label>
@@ -275,7 +281,115 @@
 				</div>
 			</div>
 		</div>
+		<div class="addNewTelBox">
+			<div></div>
+			<div id="addNewTelMid">
+				<div><p>新增/修改号码</p><i class="layui-icon closeAddThis">&#x1006;</i></div>
+				<div class='divBox'><span>名称备注:</span><input class="telName" type="text"></div>
+				<div class='divBox'><span>电话号码:</span><input class="telValue" type="text"></div>
+				<button type="button" id='submit_newTel' typeId=''>提交</button>
+			</div>
+		</div>
 		<script>
+			var layer;
+			layui.use('layer', function() {
+				layer = layui.layer;
+			});
+			function modifyHosTel(telNameTitle,telName,telValueTitle,telValue,type){
+				var param=telNameTitle+'='+telName+'&'+telValueTitle+'='+ telValue
+				console.log(param)
+				$.ajax({
+					url: '/my-customer/update-customer',
+					type: 'post',
+					data: param+ '&customerId=' + customerId,
+					async: true,
+					success: function(res) {
+						if (res.code == 0) {
+							layer.msg('操作成功')
+							if(type==0){
+								$('.linePhoneList').append('<div typeId='+telNameTitle+'>'+
+								'<span>'+telName+':</span>'+
+								'<span>'+telValue+'</span>'+
+								'<img class="phoneThisTel"  src="./image/connent.png" alt="">'+
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">'+
+								// '<img src="./image/delete.svg" alt="">'+
+								'</div>')
+							}else{
+								$('.linePhoneList').children().eq(type-1).html('<span>'+telName+':</span>'+
+								'<span>'+telValue+'</span>'+
+								'<img class="phoneThisTel"  src="./image/connent.png" alt="">'+
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">').attr('typeId',telNameTitle)
+								
+								// html('<div typeId='+telNameTitle+'>'+
+								// '<span>'+telName+':</span>'+
+								// '<span>'+telValue+'</span>'+
+								// '<img class="phoneThisTel"  src="./image/connent.png" alt="">'+
+								// '<img class="modifyThisTel" src="./image/edit.svg" alt="">'+
+								// // '<img src="./image/delete.svg" alt="">'+
+								// '</div>')
+							}
+							
+							// window.history.refresh()
+						}
+					}
+				})
+			}
+			function removeTel(){
+				$('.telName').val('')
+				$('.telValue').val('')
+				$('.submit_newTel').attr('typeId','')
+				$('.addNewTelBox').css('display','none')
+			}
+			// 新增医院电话
+			$('.addNewTel').click(function(){
+				$('.addNewTelBox').css('display','block')
+			})
+			$('#submit_newTel').click(function(){
+				var telName=$('.telName').val()
+				var telValue=$('.telValue').val()
+				if($(this).attr('typeId')==''){
+					var numberSec=$('.linePhoneList').children().length;
+					if(numberSec>=9){
+						layer.msg('当前最多新增9个号码！如有更多需求！请联系软件部')
+						return
+					}else{
+						var telNameTitle='tel'+(numberSec+1)+'Remark';
+						var telValueTitle='tel'+(numberSec+1);
+						modifyHosTel(telNameTitle,telName,telValueTitle,telValue,0)
+						removeTel()
+					}
+					
+				}else{
+					var telNameTitle=$(this).attr('typeId')+'Remark';
+					var telValueTitle=$(this).attr('typeId');
+					var type=telValueTitle.substring(telValueTitle.length-1,telValueTitle.length)
+					console.log(type)
+					$('#submit_newTel').attr('typeId','')
+					modifyHosTel(telNameTitle,telName,telValueTitle,telValue,type)
+					removeTel()
+				}
+			})
+			$('.linePhoneList').on('click','div .modifyThisTel',function(){
+				$('.addNewTelBox').css('display','block')
+				$('.telName').val($(this).parent().children().eq(0).html().substring(0,$(this).parent().children().eq(0).html().length-1)||'')
+				$('.telValue').val($(this).parent().children().eq(1).html()||'')
+				var telNameTitle=$(this).parent().attr('typeId')+'Remark';
+				var telValueTitle=$(this).parent().attr('typeId');
+				$('#submit_newTel').attr('typeId',telValueTitle)
+			})
+			$('.closeAddThis').click(function(){
+				$('.addNewTelBox').css('display','none')
+				removeTel()
+			})
+			//打电话
+			$('.linePhoneList').on('click','div .phoneThisTel',function(){
+				$('#inp_send').val($(this).parent().children().eq(1).html()||'')
+				$('#btn_conn').click()
+			})
+			
+			
+			
+			
 			if ($('.hostel').val() == '' || $('.hostel').val() == null || $('.hostel').val() == undefined) {
 				$('.linkHos').css('display', 'none')
 			} else {
@@ -402,13 +516,11 @@
 		<script>
 			// (".addHos").attr({"disabled":"disabled"})
 			var paiBanCustomerWorkerId = '' //拍板人ID
-			var layer;
 			var timerMove = ''
-			layui.use('layer', function() {
-				layer = layui.layer;
-			});
+			
 			var customerId = GetQueryString('id')
 			if (GetQueryString('id')) {
+				$('.addNewTel').css('display','inline-block')
 				hosDetail(GetQueryString('id'))
 				relList(GetQueryString('id'))
 				$('.addHos').css('display', 'none')
@@ -813,7 +925,13 @@
 				}
 				var nowtime = Date.parse(new Date())
 				var content = $('.talkShow').val()
-				var quickIs = $('.quickIs').val()
+				var quickIs = $("#quickIs").is(":checked")
+				if(quickIs===true){
+					quickIs=1
+				}else{
+					quickIs=0
+				}
+				console.log($("#quickIs").is(":checked"))
 				if (customerWorkerIdZz == '' || customerWorkerIdZz == null || customerWorkerIdZz == undefined) {
 					layer.msg('请选择追踪人员')
 				} else if (interst == '' || interst == null || interst == undefined) {
@@ -826,7 +944,7 @@
 						async: true,
 						success: function(res) {
 							if (res.code == 0) {
-
+								$("#quickIs").attr('checked',false)
 							} else {
 								layer.msg(res.codeMsg)
 							}
@@ -841,7 +959,7 @@
 						success: function(res) {
 							if (res.code == 0) {
 								$('.trackDetail').append('<ul>' +
-									'<li><span>' + $('.trackName span').html() + '</span><span>' + interstName + '</span><span>' +
+									'<li><span>' + ($('.trackName span').html()||"") + '</span><span>' + interstName + '</span><span>' +
 									changeDateFormat(nowtime) + '</span></li>' +
 									'<li>' + content + '</li>' +
 									'</ul>')
@@ -1012,6 +1130,87 @@
 							}
 							if (res.data.paiBanCustomerWorkerTel) {
 								$('.paibanren').children().eq(4).children().html(res.data.paiBanCustomerWorkerTel)
+							}
+							if(res.data.tel1){
+								$('.linePhoneList').append('<div typeId="tel1">'+
+								'<span>'+res.data.tel1Remark+':</span>'+
+								'<span>'+res.data.tel1+'</span>'+
+								'<img class="phoneThisTel" src="./image/connent.png" alt="">'+
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">'+
+								// '<img src="./image/delete.svg" alt="">'+
+								'</div>')
+							}
+							if(res.data.tel2){
+								$('.linePhoneList').append('<div typeId="tel2">'+
+								'<span>'+res.data.tel2Remark+':</span>'+
+								'<span>'+res.data.tel2+'</span>'+
+								'<img class="phoneThisTel" src="./image/connent.png" alt="">'+
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">'+
+								// '<img src="./image/delete.svg" alt="">'+
+								'</div>')
+							}
+							if(res.data.tel3){
+								$('.linePhoneList').append('<div typeId="tel3">'+
+								'<span>'+res.data.tel3Remark+':</span>'+
+								'<span>'+res.data.tel3+'</span>'+
+								'<img class="phoneThisTel" src="./image/connent.png" alt="">'+
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">'+
+								// '<img src="./image/delete.svg" alt="">'+
+								'</div>')
+							}
+							if(res.data.tel4){
+								$('.linePhoneList').append('<div typeId="tel4">'+
+								'<span>'+res.data.tel4Remark+':</span>'+
+								'<span>'+res.data.tel4+'</span>'+
+								'<img class="phoneThisTel" src="./image/connent.png" alt="">'+
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">'+
+								// '<img src="./image/delete.svg" alt="">'+
+								'</div>')
+							}
+							if(res.data.tel5){
+								$('.linePhoneList').append('<div typeId="tel5">'+
+								'<span>'+res.data.tel5Remark+':</span>'+
+								'<span>'+res.data.tel5+'</span>'+
+								'<img class="phoneThisTel" src="./image/connent.png" alt="">'+
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">'+
+								// '<img src="./image/delete.svg" alt="">'+
+								'</div>')
+							}
+							if(res.data.tel6){
+								$('.linePhoneList').append('<div typeId="tel6">'+
+								'<span>'+res.data.tel6Remark+':</span>'+
+								'<span>'+res.data.tel6+'</span>'+
+								'<img class="phoneThisTel" src="./image/connent.png" alt="">'+
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">'+
+								// '<img src="./image/delete.svg" alt="">'+
+								'</div>')
+							}
+							if(res.data.tel7){
+								$('.linePhoneList').append('<div typeId="tel7">'+
+								'<span>'+res.data.tel7Remark+':</span>'+
+								'<span>'+res.data.tel7+'</span>'+
+								'<img class="phoneThisTel" src="./image/connent.png" alt="">'+
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">'+
+								// '<img src="./image/delete.svg" alt="">'+
+								'</div>')
+							}
+							if(res.data.tel8){
+								$('.linePhoneList').append('<div typeId="tel8">'+
+								'<span>'+res.data.tel8Remark+':</span>'+
+								'<span>'+res.data.tel8+'</span>'+
+								'<img class="phoneThisTel" src="./image/connent.png" alt="">'+
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">'+
+								// '<img src="./image/delete.svg" alt="">'+
+								'</div>')
+							}
+							if(res.data.tel9){
+								$('.linePhoneList').append('<div typeId="tel9">'+
+								'<span>'+res.data.tel9Remark+':</span>'+
+								'<span>'+res.data.tel9+'</span>'+
+								'<img class="phoneThisTel" src="./image/connent.png" alt="">'+
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">'+
+								// '<img src="./image/delete.svg" alt="">'+
+								'</div>')
 							}
 							// TODO 后期待优化
 							$.ajax({
@@ -1201,7 +1400,7 @@
 										interst = '线上可签单'
 									}
 									$('.trackDetail').append('<ul>' +
-										'<li><span>' + res.data.itemList[i].customerWorkerName + '</span><span>' + interst + '</span><span>' +
+										'<li><span>' + (res.data.itemList[i].customerWorkerName||"") + '</span><span>' + interst + '</span><span>' +
 										changeDateFormat(res.data.itemList[i].createTime) +
 										'</span></li>' +
 										'<li>' + res.data.itemList[i].content + '</li>' +

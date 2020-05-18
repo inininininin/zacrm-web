@@ -2,20 +2,101 @@
  <HEAD>
   <TITLE> 判断页面是关闭还是刷新 </TITLE> 
   <script src="js/jquery-1.11.3.js"></script>
+  <link href="plugin-ok/res.js" rel="stylesheet"/>
+      <script src="plugin-ok/base.js"></script> 
+      <script src="plugin-ok/websocket.js"></script>
+	  <style>
+		  .phoneNow{
+		  	width: 100%;
+		  	height: 100%;
+		  	position: fixed;
+		  	top: 0;
+		  	left: 0;
+		  	z-index: 9;
+		  	display: none;
+		  	/* background: rgba(0,0,0,0.2); */
+		  	/* background: #000000; */
+		  	/* opacity: 0.2; */
+		  }
+		  .phoneNow>div:nth-child(1){
+		  	width: 100%;
+		  	height: 100%;
+		  	background: rgba(0,0,0,0.6);
+		  }
+		  .phoneNow p{
+		  	position: fixed;
+		  	z-index: 10;
+		  	width: 100%;
+		  	font-size: 18px;
+		  	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+		  	text-align: center;
+		  	top: 35%;
+		  	color: #fff;
+		  	
+		  }
+		  .phoneNow .phoneEnd{
+		  	position: fixed;
+		  	width: 250px;
+		  	height: 60px;
+		  	background: #ffffff;
+		  	border-radius: 5px;
+		  	color: #bd0000;
+		  	font-size: 20px;
+		  	z-index: 10;
+		  	top: 42%;
+		  	left: 50%;
+		  	margin-left: -125px;
+		  	text-align: center;
+		  	cursor: pointer;
+		  	line-height: 60px;
+		  	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+		  }
+		  .phoneNow .phoneEnd img{
+		  	width: 24px;
+		  	height: 24px;
+		  }
+		  .phoneNow .phoneEnd span{
+		  	color: #E2403F;
+		  	margin-left:5px;
+		  	font-size: 22px;
+		  	line-height: 40px;
+		  	cursor: pointer;
+		  	display: inline-block;
+		  	width: 100px;
+		  	height: 40px;
+		  	border: 1px solid #fff;
+		  	border-radius: 5px;
+		  	background: #ffffff;
+		  }
+	  </style>
  </HEAD>
 
-<body οnunlοad="fclose();" οnlοad="fload();" οnbefοreunlοad="bfunload();"> 
- <input type="text" id="inp_send" value="15077822798"> 
+<body > 
+<input type="text" id="userName" value="xuxk-Td">
+		<a class="aClose" href="Webshell://hello" style="padding: 10px 20px;">重启话机</a>
+		<input type="" name="" value="15077822798" id="inp_send" hidden="">
+		<button id="btn_conn" hidden="">发送</button>
+		<button id='luyin1'>开启录音模式</button>
+		<button id='luyin2'>开始录音</button>
+		<button id='luyin3'>结束录音</button>
+		<button id='luyin4'>关闭录音模式</button>
+		<button id='btn_close'>挂机</button>
+		
+		
+		
+		<div class="phoneNow">
+			<div></div>
+			<div>
+				<p>正在通话中. . .</p>
+				<div class="phoneEnd" id="btn_close">
+					<img src="image/phoneEnd.png" alt="">
+					<span>挂断电话</span>
+				</div>
+			</div>
+		</div>
  </body>
  <script language="javascript">
- // var phoneNum=$('#inp_send').val()
- console.log($('#inp_send').val())
-var phoneNum=$('#inp_send').val()
- console.log(phoneNum,phoneNum.substring(0,1))
- if(phoneNum&&phoneNum.substring(0,1)==1){
- 	phoneNum='0'+phoneNum
- }
- console.log(phoneNum)
+
  </script>
  
 </HTML>
