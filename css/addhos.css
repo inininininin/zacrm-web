@@ -74,7 +74,7 @@
 	display: inline-block;
 	margin-right: 30px;
 }
-.hosIntroBox text{
+.hosIntroBox span{
 	display: block;
 }
 .hosIntroBox textarea{
@@ -89,10 +89,10 @@
 	font-size: 16px;
 	line-height: 30px;
 	padding: 0 15px;
-	resize: none;
+	/* resize: none; */
 }
 
-.selectOption text{
+.selectOption span{
 	line-height: 60px;
 }
 .addPeople{
@@ -352,7 +352,7 @@
 	margin-left: 220px;
 	cursor: pointer;
 }
-.addphoen text,.addphoeShow text{
+.addphoen span,.addphoeShow span{
 	display: inline-block;
 	margin: 0 10px;
 }
@@ -369,7 +369,7 @@
 	padding: 0 10px;
 	font-size: 14px;
 }
-.addphoen span,.addphoeShow span{
+.addphoen span:last-child,.addphoeShow span:last-child{
 	display: block;
 	width: 70px;
 	height: 30px;

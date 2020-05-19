@@ -30,13 +30,15 @@
 
 	</head>
 	<body>
+		<input type='' id='userName' hidden=''>
+		<span class="record1" hidden=""></span>
+		<span class="record2" hidden=""></span>
+		<span class="record3" hidden=""></span>
 		<a class="aClose" href="Webshell://hello" style="padding: 10px 20px;">重启话机</a>
 		<input type="" name="" id="inp_send"  hidden="">
 		<button id="btn_conn" hidden="">发送</button>
 		<div class="mainbox">
-			
 			<div class="topselect">
-
 				<div style="width: 100%;height: 80px;">
 					<h2 class="peoname"></h2><span class="shuju" style="margin: 0 10px;"></span> <a class="addHos" href="addHos.html"
 					 target="_blank">新增医院</a> 
@@ -70,8 +72,6 @@
 						<option value="2">公立医院</option>
 					</select>
 					<button class="searchThis refresh">重置</button>
-					
-
 				</div>
 			</div>
 
@@ -186,7 +186,9 @@
 				async: true,
 				success: function(res) {
 					if (res.code == 0) {
+						localStorage.setItem('nickname',res.data.nickname)
 						$('.peoname').html(res.data.nickname)
+						$('#userName').val(res.data.nickname)
 						//         window.location.href='index.html'
 					} else {
 						

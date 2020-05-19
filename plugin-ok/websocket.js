@@ -42,7 +42,7 @@
 			var m = myDate.getMinutes(); //获取当前分钟数(0-59)
 			var s = myDate.getSeconds();
 
-			var now = year + '-' + getNow(month) + "-" + getNow(date) + " " + getNow(h) + ':' + getNow(m) + ":" + getNow(s);
+			var now = year + '-' + getNow(month) + "-" + getNow(date) + "-" + getNow(h) + '-' + getNow(m) + "-" + getNow(s);
 			console.log(now)
 			return now
 		}
@@ -54,7 +54,6 @@
 			// 打开Socket 
 			socket.onopen = function(event) {
 				// 发送一个初始化消息
-				// socket.send('{"req":"HP_HangUpCtrl","rid":4,"para":{}}')
 				var msg = '{"req":"HP_Init","rid":1,"para":{"Para":"0"}}';
 				if (socket && msg) {
 					socket.send(msg);
@@ -68,19 +67,39 @@
 					console.log(3 + msg)
 					if (socket && msg) {
 						socket.send(msg);
-						var kgmsg='{"req":"HP_SetLocalRecord","rid":9,"para":{"Para":"1"}}'
-						if(kgmsg){
-							 socket.send(kgmsg)
-							 var musicName=$('#userName').val()+shijian()
-							socket.send('{"req":"HP_StartRecordFile","rid":16,"para":{"Para":"C:\\\\record\\\\'+musicName+'.wav"}}')
+						socket.send('{"req":"HP_SetLocalRecord","rid":9,"para":{"Para":"1"}}')
+						var int=window.setInterval(setTimeOut,500);
+						function setTimeOut(){					
+							if(socket&&$win.find('.record1').attr('sendType')=='{"ret":0,"rid":9,"data":{"Ret":"0"}}'){
+								window.clearInterval(int)
+								$win.find('.record1').attr('sendType','')
+									 var musicName=$('#userName').val()+shijian()
+									 console.log('{"req":"HP_StartRecordFile","rid":16,"para":{"Para":"E:\\\\record\\\\'+musicName+'.wav"}}')
+									socket.send('{"req":"HP_StartRecordFile","rid":16,"para":{"Para":"E:\\\\record\\\\'+musicName+'.wav"}}')
+							}
 						}
 					}
 				}
 			};
 			// 监听消息
 			socket.onmessage = function(eve) {
-				var data = JSON.parse(eve.data)
-				console.log(data)
+				console.log(eve.data)
+				if(eve.data){
+					var data = JSON.parse(eve.data)
+					console.log(data)
+				}
+				if(eve.data=='{"ret":0,"rid":9,"data":{"Ret":"0"}}'){
+					$(".record1").attr('sendType',eve.data)
+				}
+				if(eve.data=='{"ret":0,"rid":16,"data":{"Ret":"0"}}'){
+					$(".record2").attr('sendType',eve.data)
+				}
+				if(eve.data=='{"ret":0,"rid":17,"data":{"Ret":"0"}}'){
+					$(".record3").attr('sendType',eve.data)
+				}
+				if(eve.data=='{"ret":0,"rid":9,"data":{"Ret":"0"}}'){
+					$(".record4").attr('sendType',eve.data)
+				}
 				if (data.type == 704) {
 					$('.phoneNow').css('display', 'none').attr('sendType',data.type)
 					socket.send('{"req":"HP_HangUpCtrl","rid":4,"para":{}}');
@@ -106,50 +125,54 @@
 		});
 
 
-		$win.find('#luyin1').click(function() {
-			var msg = '{"req":"HP_SetLocalRecord","rid":9,"para":{"Para":"1"}}';
-			socket.send(msg);
-			console.log(msg)
-		});
-		$win.find('#luyin2').click(function() {
-			var musicName = $('#userName').val() + shijian()
-			var msg = '{"req":"HP_StartRecordFile","rid":16,"para":{"Para":"C:\\record\\' + musicName + '.wav"}}';
-			socket.send(msg);
-			console.log(msg)
-		});
-		$win.find('#luyin3').click(function() {
-			var msg = '{"req":"HP_StopRecordFile","rid":17,"para":{}}';
-			socket.send(msg);
-			console.log(msg)
-		});
-		$win.find('#luyin4').click(function() {
-			var msg = '{"req":"HP_SetLocalRecord","rid":9,"para":{"Para":"0"}}';
-			socket.send(msg);
-			console.log(msg)
-		});
+		// $win.find('#luyin1').click(function() {
+		// 	var msg = '{"req":"HP_SetLocalRecord","rid":9,"para":{"Para":"1"}}';
+		// 	socket.send(msg);
+		// 	console.log(msg)
+		// });
+		// $win.find('#luyin2').click(function() {
+		// 	var musicName = $('#userName').val() + shijian()
+		// 	var msg = '{"req":"HP_StartRecordFile","rid":16,"para":{"Para":"F:\\\\record\\\\' + musicName + '.wav"}}';
+		// 	socket.send(msg);
+		// 	console.log(msg)
+		// });
+		// $win.find('#luyin3').click(function() {
+		// 	var msg = '{"req":"HP_StopRecordFile","rid":17,"para":{}}';
+		// 	socket.send(msg);
+		// 	console.log(msg)
+		// });
+		// $win.find('#luyin4').click(function() {
+		// 	var msg = '{"req":"HP_SetLocalRecord","rid":9,"para":{"Para":"0"}}';
+		// 	socket.send(msg);
+		// 	console.log(msg)
+		// });
 		
 		$win.find('#btn_close').click(function() {
-		
-				socket.send('{"req":"HP_StopRecordFile","rid":17,"para":{}}')
-				socket.send(' {"req":"HP_SetLocalRecord","rid":9,"para":{"Para":"0"}}')
-	
 			$('.phoneNow').css('display', 'none')
-			// 上传视频接口
-			// $.ajax({
-			//  url:'/upload-file',
-			//  type:'post',
-			// })
-			// }
+			
 			var initMsg = '{"req":"HP_HangUpCtrl","rid":4,"para":{}}'
 			if(socket&&initMsg){
 				socket.send(initMsg);
-				
+				socket.send('{"req":"HP_StopRecordFile","rid":17,"para":{}}')
+				$(".record1").attr('sendType','')
 				var int=window.setInterval(setTimeOut,500);
 				function setTimeOut(){					
-					if(socket&&$win.find('.phoneNow').attr('sendType')==704){
+					if(socket&&$win.find('.record3').attr('sendType')=='{"ret":0,"rid":17,"data":{"Ret":"0"}}'){
+						
 						window.clearInterval(int)
+						// 上传视频接口
+						// $.ajax({
+						//  url:'/my-dialog/create-dialog',
+						//  type:'post',
+						// })
+						// }
+						socket.send(' {"req":"HP_SetLocalRecord","rid":9,"para":{"Para":"0"}}')
 						$win.find('.phoneNow').attr('sendType','')
+						$win.find('.recore1').attr('sendType','')
+						$win.find('.recore2').attr('sendType','')
+						$win.find('.recore3').attr('sendType','')
 						socket.close();
+					
 					}
 				}
 			}

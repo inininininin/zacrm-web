@@ -99,10 +99,13 @@
 		</script>
 	</head>
 	<body>
+		<input type='' id='userName' hidden=''>
+		<span class="record1" hidden=""></span>
+		<span class="record2" hidden=""></span>
+		<span class="record3" hidden=""></span>
 		<a class="aClose" href="Webshell://hello" style="padding: 10px 20px;">重启话机</a>
 		<input type="" name="" id="inp_send" hidden="">
 		<button id="btn_conn" hidden="">发送</button>
-
 		<div class="thiscontent" style="display: none;">
 			<div class="contentThis"></div>
 		</div>
@@ -112,16 +115,16 @@
 				<h2 class="title">医院基本信息</h2> <button class="addHos" href="javascript:;">确认新增</button><button style="display: none;"
 				 class="modifyHos" href="javascript:;">确认修改</button>
 				<div class="selectOption">
-					<text>医院名称 : </text><input class="hosname" type="text" placeholder="" />
+					<span>医院名称 : </span><input class="hosname" type="text" placeholder="" />
 					<!-- onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" -->
-					<text>固定电话 : </text><input class="hostel" placeholder="" type='text' onkeyup="value=value.replace(/[^\d\-\d]/g,'')"
+					<span>固定电话 : </span><input class="hostel" placeholder="" type='text' onkeyup="value=value.replace(/[^\d\-\d]/g,'')"
 					 maxlength=20 />
 					 
 					 
 					<!-- <i class="linkHos" style="margin-right: 15px;margin-left: -10px;display: none;cursor: pointer;" class="layui-icon">&#xe678;</i> -->
 					<img src="image/connent.png" class="linkHos" style="margin-right: 15px;margin-left: -20px;display: none;cursor: pointer;width: 20px;height: 20px;">
 					<!-- <span class="linkHos" style="margin-right: 20px;font-size: 14px;color: #337ab7;cursor: pointer;">联系医院</span> -->
-					<text>区域 : </text>
+					<span>区域 : </span>
 					<select class="address province">
 						<option value="">-省-</option>
 					</select>
@@ -131,7 +134,7 @@
 					<select class="address town">
 						<option value="">-区-</option>
 					</select>
-					<text>性质 : </text>
+					<span>性质 : </span>
 					<select class="hosnature">
 						<option value="1" selected>民营医院</option>
 						<option value="2">公立医院</option>
@@ -142,7 +145,7 @@
 						
 					</div>
 					<div class="hosIntroBox">
-						<text>简介 : </text>
+						<span>简介 : </span>
 						<textarea class="hosIntro" rows="3" cols="20"></textarea>
 					</div>
 				</div>
@@ -252,20 +255,20 @@
 
 			<div class="addphoen">
 				<i class="layui-icon closeAdd">&#x1006;</i>
-				<div><text>电话1:</text><input class="phoneInput1" maxlength="13" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
-				<div><text>电话2:</text><input class="phoneInput2" maxlength="13" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
-				<div><text>电话3:</text><input class="phoneInput3" maxlength="13" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
+				<div><span>电话1:</span><input class="phoneInput1" maxlength="13" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
+				<div><span>电话2:</span><input class="phoneInput2" maxlength="13" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
+				<div><span>电话3:</span><input class="phoneInput3" maxlength="13" type="text"><i class="layui-icon closeThis">&#xe640;</i></div>
 				<span>完成</span>
 			</div>
 			<div class="addphoeShow">
 				<i class="layui-icon closeAdd">&#x1006;</i>
-				<div><text>电话1:</text>
+				<div><span>电话1:</span>
 					<p class="phoneps phonep1"></p>
 				</div>
-				<div><text>电话2:</text>
+				<div><span>电话2:</span>
 					<p class="phoneps phonep2"></p>
 				</div>
-				<div><text>电话3:</text>
+				<div><span>电话3:</span>
 					<p class="phoneps phonep3"></p>
 				</div>
 				<span>编辑电话</span>
@@ -295,6 +298,8 @@
 			layui.use('layer', function() {
 				layer = layui.layer;
 			});
+			var nickname=localStorage.getItem('nickname')
+			$('#userName').val(nickname)
 			function modifyHosTel(telNameTitle,telName,telValueTitle,telValue,type){
 				var param=telNameTitle+'='+telName+'&'+telValueTitle+'='+ telValue
 				console.log(param)
@@ -307,7 +312,7 @@
 						if (res.code == 0) {
 							layer.msg('操作成功')
 							if(type==0){
-								$('.linePhoneList').append('<div typeId='+telNameTitle+'>'+
+								$('.linePhoneList').append('<div typeId='+telValueTitle+'>'+
 								'<span>'+telName+':</span>'+
 								'<span>'+telValue+'</span>'+
 								'<img class="phoneThisTel"  src="./image/connent.png" alt="">'+
@@ -318,7 +323,7 @@
 								$('.linePhoneList').children().eq(type-1).html('<span>'+telName+':</span>'+
 								'<span>'+telValue+'</span>'+
 								'<img class="phoneThisTel"  src="./image/connent.png" alt="">'+
-								'<img class="modifyThisTel" src="./image/edit.svg" alt="">').attr('typeId',telNameTitle)
+								'<img class="modifyThisTel" src="./image/edit.svg" alt="">').attr('typeId',telValueTitle)
 								
 								// html('<div typeId='+telNameTitle+'>'+
 								// '<span>'+telName+':</span>'+
@@ -360,10 +365,17 @@
 					}
 					
 				}else{
+					// if($(this).attr('typeId')&&$(this).attr('typeId').split('Remark')){
+					// 	var telNameTitle=$(this).attr('typeId');
+					// 	var telValueTitle=$(this).attr('typeId').split('Remark')[0];
+					// }else{
+					// 	var telNameTitle=$(this).attr('typeId')+'Remark';
+					// 	var telValueTitle=$(this).attr('typeId');
+					// }
 					var telNameTitle=$(this).attr('typeId')+'Remark';
 					var telValueTitle=$(this).attr('typeId');
 					var type=telValueTitle.substring(telValueTitle.length-1,telValueTitle.length)
-					console.log(type)
+					console.log(telNameTitle,telValueTitle,type)
 					$('#submit_newTel').attr('typeId','')
 					modifyHosTel(telNameTitle,telName,telValueTitle,telValue,type)
 					removeTel()
