@@ -70,12 +70,12 @@
 						socket.send('{"req":"HP_SetLocalRecord","rid":9,"para":{"Para":"1"}}')
 						var int=window.setInterval(setTimeOut,500);
 						function setTimeOut(){					
-							if(socket&&$win.find('.record1').attr('sendType')=='{"ret":0,"rid":9,"data":{"Ret":"0"}}'){
+							if(socket&&$win.find('.record1').attr('sendType')==9){
 								window.clearInterval(int)
 								$win.find('.record1').attr('sendType','')
 									 var musicName=$('#userName').val()+shijian()
-									 console.log('{"req":"HP_StartRecordFile","rid":16,"para":{"Para":"E:\\\\record\\\\'+musicName+'.wav"}}')
-									socket.send('{"req":"HP_StartRecordFile","rid":16,"para":{"Para":"E:\\\\record\\\\'+musicName+'.wav"}}')
+									 console.log('{"req":"HP_StartRecordFile","rid":16,"para":{"Para":"D:\\\\record\\\\'+musicName+'.wav"}}')
+									socket.send('{"req":"HP_StartRecordFile","rid":16,"para":{"Para":"D:\\\\record\\\\'+musicName+'.wav"}}')
 							}
 						}
 					}
@@ -87,24 +87,25 @@
 				if(eve.data){
 					var data = JSON.parse(eve.data)
 					console.log(data)
+					if(data.rid==9){
+						$(".record1").attr('sendType',data.rid)
+					}
+					if(data.rid==16){
+						$(".record2").attr('sendType',data.rid)
+					}
+					if(data.rid==17){
+						$(".record3").attr('sendType',data.rid)
+					}
+					// if(eve.data=='{"ret":0,"rid":9,"data":{"Ret":"0"}}'){
+					// 	$(".record4").attr('sendType',eve.data)
+					// }
+					if (data.type == 704) {
+						$('.phoneNow').css('display', 'none').attr('sendType',data.type)
+						socket.send('{"req":"HP_HangUpCtrl","rid":4,"para":{}}');
+						socket.close();
+					}
 				}
-				if(eve.data=='{"ret":0,"rid":9,"data":{"Ret":"0"}}'){
-					$(".record1").attr('sendType',eve.data)
-				}
-				if(eve.data=='{"ret":0,"rid":16,"data":{"Ret":"0"}}'){
-					$(".record2").attr('sendType',eve.data)
-				}
-				if(eve.data=='{"ret":0,"rid":17,"data":{"Ret":"0"}}'){
-					$(".record3").attr('sendType',eve.data)
-				}
-				if(eve.data=='{"ret":0,"rid":9,"data":{"Ret":"0"}}'){
-					$(".record4").attr('sendType',eve.data)
-				}
-				if (data.type == 704) {
-					$('.phoneNow').css('display', 'none').attr('sendType',data.type)
-					socket.send('{"req":"HP_HangUpCtrl","rid":4,"para":{}}');
-					socket.close();
-				}
+				
 			};
 			// 监听Socket的关闭
 			socket.onclose = function(event) {
@@ -157,7 +158,7 @@
 				$(".record1").attr('sendType','')
 				var int=window.setInterval(setTimeOut,500);
 				function setTimeOut(){					
-					if(socket&&$win.find('.record3').attr('sendType')=='{"ret":0,"rid":17,"data":{"Ret":"0"}}'){
+					if(socket&&$win.find('.record3').attr('sendType')==17){
 						
 						window.clearInterval(int)
 						// 上传视频接口
