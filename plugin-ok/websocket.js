@@ -88,22 +88,22 @@
 					var data = JSON.parse(eve.data)
 					console.log(data)
 					if(data.rid==9){
-						$(".record1").attr('sendType',data.rid)
-					}
-					if(data.rid==16){
-						$(".record2").attr('sendType',data.rid)
-					}
-					if(data.rid==17){
-						$(".record3").attr('sendType',data.rid)
-					}
-					// if(eve.data=='{"ret":0,"rid":9,"data":{"Ret":"0"}}'){
-					// 	$(".record4").attr('sendType',eve.data)
-					// }
-					if (data.type == 704) {
-						$('.phoneNow').css('display', 'none').attr('sendType',data.type)
-						socket.send('{"req":"HP_HangUpCtrl","rid":4,"para":{}}');
-						socket.close();
-					}
+					$(".record1").attr('sendType',data.rid)
+				}
+				if(data.rid==16){
+					$(".record2").attr('sendType',data.rid)
+				}
+				if(data.rid==17){
+					$(".record3").attr('sendType',data.rid)
+				}
+				//if(data.rid==9){
+					//$(".record4").attr('sendType',eve.data)
+				//}
+				if (data.type == 704) {
+					$('.phoneNow').css('display', 'none').attr('sendType',data.type)
+					socket.send('{"req":"HP_HangUpCtrl","rid":4,"para":{}}');
+					socket.close();
+				}
 				}
 				
 			};
